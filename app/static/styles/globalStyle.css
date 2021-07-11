@@ -1,0 +1,125 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+    
+}
+
+@font-face {
+    font-family: quest;
+    src: url('/static/quest_font.ttf');
+}
+
+body {
+    font-family: quest;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 0px !important;
+}
+
+#header_and_logo {
+    min-height: 100px;
+    text-align: center;
+    padding: 25px;
+    font-size: 30px;
+}
+#navbar {
+    min-height: 50px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #c2c2c2;
+    margin: 0 20px;
+}
+#navbar_link_holder {
+    display: none;
+}
+
+.navbar_link {
+    display: block;
+    padding: 15px;
+    cursor: pointer;
+}
+
+a:link, a:visited, a:hover, a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+.page_content {
+ flex-grow: 2;
+}
+
+#slide_show_container {
+    padding: 25px 20px 75px 20px;
+    display: flex;
+    justify-content: center;
+
+}
+
+#picture_carousel {
+
+}
+
+.ss_picture {
+    width: 70vw;
+    border-radius: 10px;
+}
+
+
+#instagram_container {
+    display: flex;
+    justify-content: center;
+}
+#ig_link {
+    display: flex;
+    flex-direction: column;
+}
+#ig_profile {
+    width: 166px;
+    border-radius: 50%;
+    border: #dfdfdf 2px solid;
+    padding: 3px;
+    cursor: pointer;
+}
+#ig_logo {
+    width: 166px;
+}
+
+#footer {
+    align-self: center;
+    padding: 15px;
+}
+
+
+/* less than 600px */
+@media only screen and (max-width: 600px) {
+
+#header_and_logo {
+    margin-top:50px;
+}
+
+#navbar {
+    flex-direction: column;
+
+    position: absolute;
+    width: 90vw;
+    background-color: white;
+}
+
+#navbar_link_holder {
+    display: block;
+    padding: 25px 0 0 0;
+    font-size: 20px;
+}
+
+.navbar_link {
+    display:none;
+    padding: 30px 0 0 0;
+    font-size: 30px;
+}
+
+.navbar_link.show {
+    display: block;
+}
+
+}

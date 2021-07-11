@@ -3,7 +3,7 @@
 {% extends "baseblocks.html" %}
 
 
-{% block title %}Page Title{% endblock title %} <!-- title is usually in head? -->
+{% block title %}thecrazyp{% endblock title %} <!-- title is usually in head? -->
 
 
 {% block head %}
@@ -21,6 +21,23 @@
 
 {% block navbar %}
 
+<div id='header_and_logo'>
+    thecrazyp
+</div>
+
+<div id='navbar'>
+    
+    <a class='navbar_link' href='/' > Home </a>
+    <a class='navbar_link' > Products </a>
+    <a class='navbar_link' > Inventory</a>
+    <a class='navbar_link'> Additional</a>
+    <a class='navbar_link'> Blog? </a>
+    <a class='navbar_link'> Contact </a>
+    <div id='navbar_link_holder'>
+        Menu
+    </div>
+
+</div>
 
 {% endblock navbar %}
 
@@ -31,7 +48,9 @@
 
 {% block footer %}
 
-
+<div id='footer'>
+    &copy; thecrazyp
+</div>
 
 {% endblock %}
 
