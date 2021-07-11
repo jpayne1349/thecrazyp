@@ -1,0 +1,37 @@
+<!-- This will store our NAVBAR and FOOTER -->
+
+{% extends "baseblocks.html" %}
+
+
+{% block title %}Page Title{% endblock title %} <!-- title is usually in head? -->
+
+
+{% block head %}
+
+
+{{super()}} 
+
+<link rel="icon" type="image/x-icon" href="{{ url_for('static' , filename='ic.ico') }}">
+
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/globalStyle.css') }}">
+
+
+{% endblock %}
+
+
+{% block navbar %}
+
+
+{% endblock navbar %}
+
+
+{% block content %}{% endblock %}
+
+
+
+{% block footer %}
+
+
+
+{% endblock %}
+
