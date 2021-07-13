@@ -48,30 +48,54 @@ a:link, a:visited, a:hover, a:active {
 }
 
 .page_content {
- flex-grow: 2;
-}
-
-#slide_show_container {
-    padding: 25px 20px 75px 20px;
+    flex-grow: 2;
     display: flex;
-    justify-content: center;
-    overflow: hidden;
     flex-direction: column;
 }
 
-#picture_carousel {
-    display: flex;
-    
-}   
-.image_container {
-    width: auto;
-    height: auto;
-    padding: 15px;
-    transition: translate 0.5s linear;
+#slide_show_container {
+    padding: 0 40px;
+display: flex;
+overflow: hidden;
+flex-direction: column;
+flex-grow: 1;
 }
+
+#picture_carousel {
+    position: relative;
+
+}
+
+.image_container {
+    transition: translate 0.5s linear;
+position: absolute;
+z-index: 1;
+opacity: 0.7;
+filter: blur(0.6px);
+width: 100%;
+}
+
+
 .ss_picture {
-    width: 50vw;
     border-radius: 10px;
+height: inherit;
+width: inherit;
+}
+
+.active {
+    z-index: 2;
+    opacity: 1;
+    filter: none;
+}
+
+
+.prev {
+    transform: translate(-320px);
+}
+
+.next {
+    transform: translate(320px);
+
 }
 
 .ss_picture.blur {
@@ -83,11 +107,16 @@ justify-content: center;
 }
 .ss_indicator {
     width: 10px;
-    height: 10px;
-    background-color: gray;
-    border-radius: 50%;
-    margin: 5px 2px;
-}   
+height: 10px;
+background-color: white;
+border-radius: 50%;
+margin: 5px 2px;
+border: 2px solid #595959;
+}
+
+.filled {
+    background-color: #595959;
+}
 
 #instagram_container {
     display: flex;
@@ -123,10 +152,11 @@ justify-content: center;
 
 #navbar {
     flex-direction: column;
-
+    left:0;
     position: absolute;
     width: 90vw;
     background-color: white;
+
 }
 
 #navbar_link_holder {
@@ -145,9 +175,38 @@ justify-content: center;
     display: block;
 }
 
+#picture_carousel {
+    
+}
+
+.image_container {
+
+}
+
+
 .ss_picture {
-    width: 70vw;
-    border-radius: 10px;
+
+}
+
+.active {
+
+}
+
+
+.prev {
+    
+}
+
+.next {
+   
+}
+
+.ss_indicator {
+
+}
+
+.filled {
+
 }
 
 #ig_profile, #ig_logo {
