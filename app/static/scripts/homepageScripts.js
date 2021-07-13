@@ -55,10 +55,16 @@ function carousel_animation(carousel_object) {
     update_animation(carousel_object, 0);
 
     // testing this, dumb way to change a css class
+    console.log(document.styleSheets[1].cssRules);
     for(let style_object of document.styleSheets[1].cssRules) {
         if(style_object.selectorText == '.prev') {
             setTimeout( () => {
                 style_object.style.cssText = "transform: translate(-85vw); opacity: 0.5; transition: transform 1s ease-in, opacity 1s;";
+            }, 1000);
+        }
+        if(style_object.selectorText == '.image_container') {
+            setTimeout( () => {
+                style_object.style.cssText = "position: absolute; z-index: 1; opacity: 0; filter: blur(0.6px);width: 100%;transform: translate(-100vw);transition: transform 0.4s ease-in, opacity 1s;";
             }, 1000);
         }
     }

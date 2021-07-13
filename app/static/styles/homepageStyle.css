@@ -21,14 +21,15 @@ flex-grow: 1;
     opacity: 0;
     filter: blur(0.6px);
     width: 100%;
-    transform: translate(0);
+    /* css changes made in js after intitial positioning */
+
 }
 
 
 .ss_picture {
     border-radius: 10px;
-height: inherit;
-width: inherit;
+    height: inherit;
+    width: inherit;
 }
 
 .active {
@@ -36,6 +37,7 @@ width: inherit;
     opacity: 1;
     filter: none;
     transition: transform 1s ease-in, opacity 1s;
+    transform: translate(0);
 }
 
 
@@ -74,6 +76,6 @@ border: 2px solid #595959;
 
 @media only screen and (max-width: 600px) {
 
-    
+
 
 }
