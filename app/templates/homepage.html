@@ -2,6 +2,13 @@
 
 {% extends "header_footer.html" %}
 
+{% block head %}
+
+    {{super()}} 
+
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/homepageStyle.css') }}">
+
+{% endblock %}
 
 {% block content %}
 
@@ -22,6 +29,13 @@
 
 
 {% endblock %}
+
+{% block scripts %}
+    {{super()}} 
+
+    <script src="/static/scripts/homepageScripts.js"></script>
+
+{%- endblock scripts %}
 
 <!-- TODO: COPY ME-->
 
