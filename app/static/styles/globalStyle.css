@@ -29,7 +29,7 @@ body {
     justify-content: center;
     border-bottom: 1px solid #c2c2c2;
     margin: 0 20px;
-    z-index: 1;
+    z-index: 3;
 }
 #navbar_link_holder {
     display: none;
@@ -67,12 +67,13 @@ flex-grow: 1;
 }
 
 .image_container {
-    transition: translate 0.5s linear;
-position: absolute;
-z-index: 1;
-opacity: 0.7;
-filter: blur(0.6px);
-width: 100%;
+    
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    filter: blur(0.6px);
+    width: 100%;
+    transform: translate(0);
 }
 
 
@@ -86,16 +87,20 @@ width: inherit;
     z-index: 2;
     opacity: 1;
     filter: none;
+    transition: transform 1s ease-in, opacity 1s;
 }
 
 
 .prev {
-    transform: translate(-320px);
+    transform: translate(-85vw);
+    opacity: 0.5;
+    /* transition: transform 0.5s linear, opacity 0.5s; */
 }
 
 .next {
-    transform: translate(320px);
-
+    transform: translate(85vw);
+    opacity: 0.5;
+    transition: opacity 1s;
 }
 
 .ss_picture.blur {
