@@ -45,81 +45,123 @@ function populate_carousel(list_of_photo_file_names) {
     
     carousel_animation(index_tracking);
 
+    //manual_carousel_move(index_tracking);
+
 }
 
-function carousel_animation(carousel_object) {
-    // set up the interval for changing the classes..
-    let interval_time = 5000;
 
+// controls animation. starts in auto, changes to manual after first click event
+function carousel_animation(carousel_object) {
+    
+    let interval_time = 5000;
+    // tracks whether out of auto or not yet
+    let auto_bool = true;
+    let slide_show_container = document.getElementById('slide_show_container');
+    let container_middle = slide_show_container.scrollWidth/2;
+    let array_size = carousel_object.pictures.length;
     // initialize at zero
     update_animation(carousel_object, 0);
 
-    // testing this, dumb way to change a css class
-    console.log(document.styleSheets[1].cssRules);
-    for(let style_object of document.styleSheets[1].cssRules) {
-        if(style_object.selectorText == '.prev') {
-            setTimeout( () => {
-                style_object.style.cssText = "transform: translate(-85vw); opacity: 0.5; transition: transform 1s ease-in, opacity 1s;";
-            }, 1000);
-        }
-        if(style_object.selectorText == '.image_container') {
-            setTimeout( () => {
-                style_object.style.cssText = "position: absolute; z-index: 1; opacity: 0; filter: blur(0.6px);width: 100%;transform: translate(-100vw);transition: transform 0.4s ease-in, opacity 1s;";
-            }, 1000);
+    // start tracking int at one
+    let active_index = 1;
+
+    let auto_scroll = window.setInterval(auto_scroll_next, interval_time);
+
+    function auto_scroll_next() {
+        update_animation(carousel_object, active_index);
+
+        if( active_index == carousel_object.pictures.length - 1) {
+            active_index = 0;
+
+        } else {
+            active_index++;
+
         }
     }
 
-    // for tracking 
-    let active_index = 1;
+    let manual_move = slide_show_container.addEventListener('click', (event) => {
+        
+        // bool used so this clearInterval is only done once
+        if(auto_bool == true) {
+            window.clearInterval(auto_scroll); 
+            auto_bool = false;
+            // on initial setinto manual, index has already been incremented for next auto loop
+            active_index -= 1;
+        }
 
-    console.log(carousel_object);
+        if(event.clientX < (container_middle)) {
+            // left side
+            active_index -= 1;
+            active_index = limit(active_index, array_size);
+            update_animation(carousel_object, active_index);
 
-    window.setInterval(() => {
-        console.log(active_index);
+        } else {
+            // right side
+            active_index += 1;
+            active_index = limit(active_index, array_size);
+            update_animation(carousel_object, active_index);
+        }
 
-        update_animation(carousel_object, active_index);
-
-        active_index += 1;
-        if ( active_index == carousel_object.pictures.length ) active_index = 0;
-
-    }, interval_time);
-
+    });
+    
 
 }
 
-function update_animation(carousel_object, active_index) {
+// convert out of bounds number to within range 0 - length
+function  limit(value, length) {
+    if( value > length - 1 ) {
+        value = value - length;
+    }
+    if( value < 0 ) {
+        value = length + value;
+    }
+    return value;
+}
 
-    // loop through the object to set classes on everything
+// loops all photos and sets appropriate css classes based on index passed in.
+function update_animation(carousel_object, active_index) {
+    let length = carousel_object.pictures.length;
+
+    let classes = {
+        previous2: active_index - 2,
+        previous: active_index - 1,
+        active: active_index,
+        next: active_index + 1,
+        queue: active_index + 2
+    }
+    
     let index = 0;
     for( index = 0; index < carousel_object.pictures.length; index++ ) {
-        if(index == active_index) {
+        
+        if(index == classes.active) {
             carousel_object.pictures[index].className = 'image_container active';
             carousel_object.indicators[index].className = 'ss_indicator filled';
-        } else if( index == active_index - 1 ) {
+        } else if( index == limit(classes.previous2, length) ) {
+            // previous2
+            carousel_object.pictures[index].className = 'image_container prev2';
+            carousel_object.indicators[index].className = 'ss_indicator';
+
+        }else if( index == limit(classes.previous, length) ) {
             // previous
             carousel_object.pictures[index].className = 'image_container prev';
-            if(carousel_object.indicators[index].classList.contains('filled')) {
-                carousel_object.indicators[index].classList.remove('filled');
-            }
-        } else if (index == active_index + 1 ) {
+            carousel_object.indicators[index].className = 'ss_indicator';
+
+        } else if (index == limit(classes.next, length) ) {
             // next
             carousel_object.pictures[index].className = 'image_container next';
+            carousel_object.indicators[index].className = 'ss_indicator';
+
+        } else if (index == limit(classes.queue, length) ) {
+            //next2
+            carousel_object.pictures[index].className = 'image_container next2';
+            carousel_object.indicators[index].className = 'ss_indicator';
+
         } else {
             // all others
             carousel_object.pictures[index].className = 'image_container';
             if(carousel_object.indicators[index].classList.contains('filled')) {
                 carousel_object.indicators[index].classList.remove('filled');
             }
-        }
-
-        // additional settings for beginning and end
-        if( active_index == 0 ) {
-            carousel_object.pictures[carousel_object.pictures.length - 1].classList.add('prev');
-
-        }
-
-        if( active_index == carousel_object.pictures.length - 1) {
-            carousel_object.pictures[0].classList.add('next');
         }
 
     }
