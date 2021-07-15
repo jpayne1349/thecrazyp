@@ -22,12 +22,3 @@ if( screen.width < 600 ) {
     
 }
 
-
-// does a listdir of photos folder on server, allow for easy removal/addition of photos?
-fetch('/carousel_photos', { method: 'POST' })
-    .then(response => response.json())
-    .then(json_of_file_names => populate_carousel(json_of_file_names))
-    .catch( error => console.log('ERROR', error));
-
-
-

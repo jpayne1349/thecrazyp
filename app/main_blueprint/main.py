@@ -28,3 +28,26 @@ def carousel_photos():
     photos_list = json.dumps(list_of_photos)
 
     return photos_list
+
+@main_blueprint.route('/inventory')
+def inventory():
+    return render_template('inventory.html')
+
+@main_blueprint.route('/inventory_items', methods=['POST'])
+def inventory_items():
+    # maybe need seperate folders for each item
+    # to provide multiple photos
+
+    static = 'static'
+    photos = 'inventory_photos'
+
+    blueprint_dir = os.path.dirname(__file__)
+    app_dir = os.path.dirname(blueprint_dir)
+    
+    photos_dir = os.path.join(app_dir, static, photos)
+    
+    list_of_photos = os.listdir(photos_dir)
+
+    photos_list = json.dumps(list_of_photos)
+
+    return photos_list

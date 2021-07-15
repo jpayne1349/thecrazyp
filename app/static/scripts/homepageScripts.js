@@ -1,4 +1,8 @@
-
+// does a listdir of photos folder on server, allow for easy removal/addition of photos?
+fetch('/carousel_photos', { method: 'POST' })
+    .then(response => response.json())
+    .then(json_of_file_names => populate_carousel(json_of_file_names))
+    .catch( error => console.log('ERROR', error));
 
 // creating images and indicators, calls animation function on completion
 function populate_carousel(list_of_photo_file_names) {

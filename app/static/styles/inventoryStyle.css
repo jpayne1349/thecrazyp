@@ -1,0 +1,40 @@
+
+#inventory_div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.product_card {
+    width: 320px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 100px;
+    padding: 15px;
+    border-radius: 3px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.product_card:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 10px;
+    transform: translateY(-3px);
+}
+
+.product_photo {
+    width: 250px;
+    border-radius: 3px;
+}
+
+.product_descript {
+    font-size: 25px;
+    padding: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+
+
+
+}

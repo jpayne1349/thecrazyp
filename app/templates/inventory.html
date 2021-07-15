@@ -1,0 +1,33 @@
+
+
+
+
+{% extends "header_footer.html" %}
+
+{% block head %}
+
+    {{super()}} 
+
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/inventoryStyle.css') }}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class='page_content'>
+
+    <div id='inventory_div'>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    {{super()}} 
+
+    <script src="/static/scripts/inventoryScripts.js"></script>
+
+{%- endblock scripts %}
