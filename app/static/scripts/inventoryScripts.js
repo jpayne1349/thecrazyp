@@ -83,15 +83,17 @@ close_selected_product.className = 'close_selected_product';
 
 function close_card() {
 
-    product_card.classList.remove('selected');
-    product_photos_div.classList.remove('selected');
+    
     previous_photo_button.style.opacity = '0';
     next_photo_button.style.opacity = '0';
     product_descript.classList.remove('selected');
     close_selected_product.classList.remove('show');
     selected_product_description.style.opacity = '0';
     purchase_button.style.opacity = '0';
+    product_card.classList.remove('selected');
+    product_photos_div.classList.remove('selected');
     
+
     setTimeout( () => {
         selected_product_description.classList.remove('show');
         purchase_button.classList.remove('show');

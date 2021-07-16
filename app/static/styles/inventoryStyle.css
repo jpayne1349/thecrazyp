@@ -84,7 +84,8 @@
     transform: translateX(10px) rotate(45deg);
 }
 .product_photo {
-    width: inherit
+    width: inherit;
+    border-radius: 5px;
 }
 .product_descript {
     font-size: 25px;
@@ -145,7 +146,7 @@
     font-size: 25px;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s opacity 1s;
-    align-self: end;
+    align-self: flex-end;
     margin-right: 50px;
     margin-bottom: 10px;
     opacity: 0;
@@ -162,6 +163,19 @@
 
 @media only screen and (max-width: 600px) {
 
+    .product_card.selected {
+        width: 90vw;
+        height: 70vh;
+        margin: 0;
+    }
 
+    .product_photos_div.selected {
+        width: 65vw;
 
+    }
+
+    .purchase_button {
+        margin-right: 0;
+
+    }
 }
