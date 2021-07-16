@@ -35,7 +35,6 @@ product_card.addEventListener('click', open_card);
 function open_card() {
 
     // add photos to the product photo div? or img.. 
-
     product_card.classList.add('selected');
 
     product_photos_div.classList.add('selected');
