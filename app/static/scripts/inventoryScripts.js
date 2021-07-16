@@ -37,6 +37,7 @@ function open_card() {
     // add photos to the product photo div? or img.. 
 
     product_card.classList.add('selected');
+
     product_photos_div.classList.add('selected');
     previous_photo_button.classList.add('show');
     next_photo_button.classList.add('show');

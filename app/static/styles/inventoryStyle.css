@@ -17,9 +17,10 @@
     border-radius: 3px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s, width 1s, height 1s;
+    /* transition: transform 0.3s, box-shadow 0.3s, width 1s, height 2s; */
     background-color: white;
     user-select: none;
+    transition: all 1s linear;
 }
 .product_card:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 10px;
@@ -28,7 +29,7 @@
 
 .product_card.selected {
     width: 50vw;
-    height: 60vh;
+    height: 700px;
     position: absolute;
     z-index: 2;
     cursor: default;
@@ -131,7 +132,7 @@
     font-size: 30px;
     opacity:0;
     transition: opacity 1s;
-    flex-grow: 1;
+    flex-basis: 200px;
 }
 
 .purchase_button {
