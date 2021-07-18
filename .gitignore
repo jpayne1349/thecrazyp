@@ -3,7 +3,7 @@ config.py
 env
 app.db
 migrations
-projectNotes
+projectNotes.txt
 __pycache__
 
 
