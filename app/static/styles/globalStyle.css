@@ -31,7 +31,7 @@ body {
     margin: 0 20px;
     z-index: 3;
 }
-#navbar_link_holder {
+#mobile_navbar_hamburger {
     display: none;
 }
 
@@ -85,32 +85,84 @@ a:link, a:visited, a:hover, a:active {
 @media only screen and (max-width: 600px) {
 
 #header_and_logo {
-    margin-top:50px;
+    
 }
 
 #navbar {
     flex-direction: column;
-    left:0;
-    position: absolute;
-    width: 90vw;
     background-color: white;
 
+    min-height: 0px;
+
+    border-bottom: none;
+    margin: 0;
+
 }
 
-#navbar_link_holder {
+#mobile_navbar_hamburger {
+    position: absolute;
+    top: 45px;
+    right: 25px;
     display: block;
-    padding: 25px 0 0 0;
     font-size: 40px;
+    transform: translate(0 , 0);
+    z-index: 4;
+
+    height: 25px;
+    border-radius: 50%;
+    transition: transform 1s ease;
 }
+
+#mobile_navbar_hamburger.open {
+    transform: translate(0px , 434px);
+}
+
+#burger1, #burger2, #burger3 {
+    content: '';
+    width: 30px;
+    height: 2px;
+    background-color: black;
+    border-radius: 2px;
+    transition: transform 1s ease;
+}
+
+#burger2 {
+transform: translate(0px, 10px);
+position: absolute;
+    left: 0px;
+}
+#burger3 {
+transform:translate(0px, 22px);
+position: absolute;
+    left: 0px;
+}
+
+.open #burger1 {
+    transform: translate(0px, 12px) rotate(45deg);
+
+}
+
+.open #burger2 {
+    transform: translate(0px, 10px) rotate(45deg);
+}
+
+.open #burger3 {
+    transform:translate(0px, 10px) rotate(135deg);;
+}
+
+
 
 .navbar_link {
     display:none;
-    padding: 30px 0 0 0;
     font-size: 50px;
 }
 
 .navbar_link.show {
     display: block;
+}
+
+.navbar_link.last {
+    margin-bottom: 50px;
 }
 
 #ig_profile, #ig_logo {

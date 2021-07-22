@@ -112,7 +112,7 @@ selected_product_description.innerText = 'More product info here...';
 
 let purchase_button = document.createElement('div');
 purchase_button.className = 'purchase_button';
-purchase_button.innerText = 'Purchase';
+purchase_button.innerText = 'Request';
 
 
 
