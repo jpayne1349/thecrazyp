@@ -120,7 +120,7 @@ a:link, a:visited, a:hover, a:active {
 }
 
 #mobile_navbar_hamburger.open {
-    transform: translate(0px , 434px);
+    transform: translate(0px , 56vh);
     transition: transform 0.7s ease 0.2s;
 }
 
