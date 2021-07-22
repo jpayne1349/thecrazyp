@@ -91,13 +91,19 @@ a:link, a:visited, a:hover, a:active {
 #navbar {
     flex-direction: column;
     background-color: white;
-
-    min-height: 0px;
-
+    height: 50vh;
     border-bottom: none;
     margin: 0;
-
+    transform: translate(0, -50vh);
+    position:absolute;
+    width:100vw;
+    transition: transform 1s linear;
+    -webkit-transition: transform 0.6s linear;
 }
+#navbar.show {
+    -webkit-transform: translate(0px, 119px);
+    transform: translate(0 , 119px);
+}   
 
 #mobile_navbar_hamburger {
     position: absolute;
@@ -110,11 +116,12 @@ a:link, a:visited, a:hover, a:active {
 
     height: 25px;
     border-radius: 50%;
-    transition: transform 1s ease;
+    transition: transform 0.7s ease;
 }
 
 #mobile_navbar_hamburger.open {
     transform: translate(0px , 434px);
+    transition: transform 0.7s ease 0.2s;
 }
 
 #burger1, #burger2, #burger3 {
@@ -123,7 +130,7 @@ a:link, a:visited, a:hover, a:active {
     height: 2px;
     background-color: black;
     border-radius: 2px;
-    transition: transform 1s ease;
+    transition: transform 1.5s ease;
 }
 
 #burger2 {

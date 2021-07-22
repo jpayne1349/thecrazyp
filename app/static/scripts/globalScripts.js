@@ -15,9 +15,11 @@ if( screen.width < 600 ) {
             if(link.classList.contains('show')) {
                 link.classList.remove('show');
                 mobile_navbar_hamburger.classList.remove('open');
+                navbar.classList.remove('show');
             } else {
                 link.classList.add('show');
                 mobile_navbar_hamburger.classList.add('open');
+                navbar.classList.add('show');
             }
         }
     });
