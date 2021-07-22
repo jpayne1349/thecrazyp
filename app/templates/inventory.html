@@ -8,7 +8,7 @@
 
     {{super()}} 
 
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/inventoryStyle.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "/static/styles/inventoryStyle.css?v=01">
 
 {% endblock %}
 
@@ -28,6 +28,6 @@
 {% block scripts %}
     {{super()}} 
 
-    <script src="/static/scripts/inventoryScripts.js"></script>
+    <script src="/static/scripts/inventoryScripts.js?v=01"></script>
 
 {%- endblock scripts %}

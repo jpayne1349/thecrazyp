@@ -6,7 +6,7 @@
 
     {{super()}} 
 
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/homepageStyle.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "/static/styles/homepageStyle.css?v=01">
 
 {% endblock %}
 
@@ -33,7 +33,7 @@
 {% block scripts %}
     {{super()}} 
 
-    <script src="/static/scripts/homepageScripts.js"></script>
+    <script src="/static/scripts/homepageScripts.js?v=01"></script>
 
 {%- endblock scripts %}
 
