@@ -26,3 +26,14 @@ if( screen.width < 600 ) {
     
 }
 
+
+const pathname_list = ['/', '/inventory', 'special_order', '/faq'];
+// set navbar active link styling
+let current_page_pathname = window.location.pathname;
+
+pathname_list.forEach((pathname, index) =>  {
+    if(pathname == current_page_pathname) {
+        navbar_links[index].classList.add('active_link');
+        navbar_links[index].removeAttribute('href');
+    }
+});

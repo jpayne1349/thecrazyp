@@ -28,8 +28,9 @@ body {
     display: flex;
     justify-content: center;
     border-bottom: 1px solid #c2c2c2;
-    margin: 0 20px;
+        margin: 0px 20px 20px 20px;
     z-index: 3;
+    box-shadow: black 0px 5px 6px -7px;
 }
 #mobile_navbar_hamburger {
     display: none;
@@ -40,12 +41,20 @@ body {
     padding: 15px;
     cursor: pointer;
     font-size: 40px;
+    user-select: none;
 }
 
 a:link, a:visited, a:hover, a:active {
     text-decoration: none;
     color: inherit;
 }
+
+.navbar_link.active_link {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: #929292;
+}
+
 
 .page_content {
     flex-grow: 2;
@@ -120,7 +129,7 @@ a:link, a:visited, a:hover, a:active {
 }
 
 #mobile_navbar_hamburger.open {
-    transform: translate(0px , 56vh);
+    transform: translate(0px , 54vh);
     transition: transform 0.7s ease 0.2s;
 }
 

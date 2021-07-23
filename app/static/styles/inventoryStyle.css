@@ -1,4 +1,9 @@
 
+#inventory_title {
+    align-self: center;
+    font-size: 40px;
+}
+
 #inventory_div {
     display: flex;
     flex-wrap: wrap;
