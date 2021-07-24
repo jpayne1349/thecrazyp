@@ -44,10 +44,10 @@ def inventory_items():
     blueprint_dir = os.path.dirname(__file__)
     app_dir = os.path.dirname(blueprint_dir)
     
-    photos_dir = os.path.join(app_dir, static, photos)
+    inventory_dir = os.path.join(app_dir, static, photos)
     
-    list_of_photos = os.listdir(photos_dir)
+    list_of_products = os.listdir(inventory_dir)
 
-    photos_list = json.dumps(list_of_photos)
+    photos_list = json.dumps(list_of_products)
 
     return photos_list

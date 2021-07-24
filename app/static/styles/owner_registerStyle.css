@@ -1,0 +1,16 @@
+
+#register_content, .form_outline, .login_page_redirect {
+
+    align-self: center;
+    
+}
+
+.form_outline {
+
+    min-height: 30vh;
+
+}
+
+.login_page_redirect {
+    min-height: 20vh;
+}

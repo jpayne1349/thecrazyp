@@ -1,0 +1,29 @@
+
+
+{% extends "baseblocks.html" %}
+
+
+{% block title %}crazyp owner{% endblock title %}
+
+{% block head %}
+
+
+{{super()}}
+
+<link rel="icon" type="image/x-icon" href="{{ url_for('static' , filename='ic.ico') }}">
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class='logout_owner' >
+
+    You can logout
+    <a class='logout_link'  href='/{{username}}/owner_logout'> here.</a>
+
+</div>
+
+
+{% endblock %}
