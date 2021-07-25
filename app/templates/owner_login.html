@@ -14,7 +14,7 @@
 
 <div id='login_content'>
 
-    <h1 class='sign_in_title'>Sign in</h1>
+    <h1 class='sign_in_title'>Owner Login</h1>
 
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -50,14 +50,15 @@
 
             <div class='input_div'> {{ form.password(size=32 , class= 'password_input') }} </div>
 
-            <div> {{ form.submit(class='submit_button') }}</div>
+            <div class='submit_div' > {{ form.submit(class='submit_button') }}</div>
 
         </form>
     </div>
 
     <div class='new_account_div'>
         First time logging in? Set up your account
-        <a class='new_account_link' href='/owner_register'> here. </a>
+        <a class='new_account_link' href='/owner_register'> here </a>
+        .
     </div>
 
 </div>

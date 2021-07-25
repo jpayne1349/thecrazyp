@@ -21,27 +21,27 @@ function validateRegisterForm() {
     
     if( username_value == blank || password_value == blank || email_value == blank) {
         if( email_value == blank ) {
-            email_input[0].style.borderColor = 'rgba(255, 0, 0, 0.3)';
-            email_input[0].placeholder = 'Required';
+            email_input.style.borderColor = 'rgb(255 0 0 / 46%)';
+            email_input.placeholder = 'Required';
         } else {
-            email_input[0].style.borderColor = '#e1e4e8';
-            email_input[0].placeholder = '';
+            email_input.style.borderColor = '#e1e4e8';
+            email_input.placeholder = '';
         }
 
         if( username_value == blank ) {
-            username_input[0].style.borderColor = 'rgba(255, 0, 0, 0.3)';
-            username_input[0].placeholder = 'Required';
+            username_input.style.borderColor = 'rgb(255 0 0 / 46%)';
+            username_input.placeholder = 'Required';
         } else {
-            username_input[0].style.borderColor = '#e1e4e8';
-            username_input[0].placeholder = '';
+            username_input.style.borderColor = '#e1e4e8';
+            username_input.placeholder = '';
         }
 
         if (password_value == blank) {
-            password_input[0].style.borderColor = 'rgba(255, 0, 0, 0.3)';
-            password_input[0].placeholder = 'Required';
+            password_input.style.borderColor = 'rgb(255 0 0 / 46%)';
+            password_input.placeholder = 'Required';
         } else {
-            password_input[0].style.borderColor = '#e1e4e8';
-            password_input[0].placeholder = '';
+            password_input.style.borderColor = '#e1e4e8';
+            password_input.placeholder = '';
         }
 
         return false;

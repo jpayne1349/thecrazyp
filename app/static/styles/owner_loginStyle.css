@@ -4,3 +4,86 @@ align-self: center;
     min-height: 60vh;
 
 }
+
+.sign_in_title {
+    font-size: 50px;
+    text-align: center;
+}
+
+.label_div {
+font-size: 40px;
+
+}
+
+.username_input, .password_input {
+
+font-size: 25px;
+margin-bottom: 15px;
+border-radius: 5px;
+border-width: 1px;
+}
+.username_input::placeholder, .password_input::placeholder {
+
+    color: rgb(231, 166, 166);
+    font-size: 25px;
+    font-family: 'summer_garden';
+
+}
+
+
+.submit_button { 
+    appearance: none;
+    background-color: #2eb22e;
+    background: #2eb22e;
+    border: 0;
+    width: 75px;
+    height: 25px;
+    border-radius: 12px;
+    color: whitesmoke;
+    font-family: 'summer_garden';
+    font-size: 21px;
+    cursor: pointer;
+    user-select: none;
+}
+.submit_button:hover {
+    background-color: #2aa02a;
+}
+
+.new_account_div {
+text-align: center;
+    margin-top: 40px;
+    font-size: 22px;
+}
+.new_account_div .new_account_link {
+text-decoration: underline;
+    color: #4646ff;
+    text-decoration-thickness: 1px;
+
+}
+
+@media only screen and (max-width: 600px) {
+
+    .username_input, .password_input {
+        font-size: 18px;
+    }
+    .username_input::placeholder, .password_input::placeholder {
+        font-size: 20px;
+    }
+
+    .submit_button { 
+    background: rgb(2, 124, 2);
+    color: white;
+    box-sizing: none;
+    text-decoration: none;
+
+    width: 100%;
+    height: 35px;
+    font-size: 30px;
+    margin-top: 25px;
+
+    }
+    .submit_button:hover {
+        background: rgb(4, 104, 4);
+    }
+
+}

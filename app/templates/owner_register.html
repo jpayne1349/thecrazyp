@@ -16,7 +16,7 @@
 
     <div id='register_content'>
     
-        <h1 class='registration_title'>Register as an editor of this site</h1>
+        <h1 class='registration_title'>Register as an owner of this site</h1>
     
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -46,7 +46,7 @@
     
             <div class='input_div'> {{ form.password(size=32, class='input') }} </div>
     
-            <div> {{ form.submit(class='submit_button') }}</div>
+            <div class='submit_div'> {{ form.submit(class='submit_button') }}</div>
     
         </form>
     </div>
