@@ -1,6 +1,6 @@
 
 
-{% extends "baseblocks.html" %}
+{% extends "header_footer.html" %}
 
 
 {% block title %}crazyp owner{% endblock title %}
@@ -10,20 +10,43 @@
 
 {{super()}}
 
-<link rel="icon" type="image/x-icon" href="{{ url_for('static' , filename='ic.ico') }}">
 
+<link rel="stylesheet" type="text/css" href="/static/styles/owner_homepageStyle.css?v=01">
 
 {% endblock %}
 
 
 {% block content %}
 
-<div class='logout_owner' >
+<div class='owner_content' >
+    <div class='owner_navbar'>
+        <div class='logout_owner'>
+            <a class='logout_link' href='/{{username}}/owner_logout'> Logout </a>
+        </div>
+    </div>
 
-    You can logout
-    <a class='logout_link'  href='/{{username}}/owner_logout'> here.</a>
+    <div class='edit_carousel_div'>
+        <div class='title'> Edit Carousel Photos </div>
+        <div id='carousel_objects'></div>
+    </div>
+
+    <div class='edit_inventory_div'>
+
+
+    </div>
+
+    <div class='special_orders_div'>
+
+
+    </div>
 
 </div>
 
-
 {% endblock %}
+
+{% block scripts %}
+{{super()}}
+
+<script src="/static/scripts/owner_homepageScripts.js?v=01"></script>
+
+{%- endblock scripts %}

@@ -6,7 +6,8 @@ import os, json
 from app.models import Product, User
 from app.forms import LoginForm, RegisterForm
 from app import db
-
+from werkzeug.utils import secure_filename
+from config import allowed_file
 from flask_login import current_user, login_user, logout_user, login_required
 
 owner_blueprint = Blueprint('owner_blueprint', __name__) 
@@ -80,3 +81,23 @@ def owner_homepage(username): # pass in a argument in url_for, has to accept it 
 def owner_logout(username):
     logout_user()
     return redirect(url_for('owner_blueprint.owner_login'))
+
+
+@owner_blueprint.route('/new_carousel_photo', methods=['POST'])
+@login_required
+def new_carousel_photo():
+    print(request.files)
+    file = request.files['carousel_file_input']
+    
+    if file.filename == '':
+        # need to add flash section to this html file
+        flash('No selected file')
+        return redirect(request.url)
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['CAROUSEL_FOLDER'], filename))
+        return '{response:"fulfilled"}'
+
+    # failure response
+    return '{response:"rejected"}'
+

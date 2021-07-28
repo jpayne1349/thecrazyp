@@ -6,6 +6,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import login_manager
 import datetime
 
+class Carousel(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(50), index=True)
+
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(50), index=True)
