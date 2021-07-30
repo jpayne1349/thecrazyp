@@ -24,7 +24,8 @@ def carousel_photos():
     photos_dir = os.path.join(app_dir, static, photos)
     
     list_of_photos = os.listdir(photos_dir)
-
+    # add in the database id, so front end can append to src
+    
     photos_list = json.dumps(list_of_photos)
 
     return photos_list

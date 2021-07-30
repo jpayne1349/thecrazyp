@@ -30,6 +30,40 @@ display: flex;
     flex-direction: column;
     align-items: center;
     width: 125px;
+    cursor: pointer;
+    position: relative;
+}
+
+.carousel_object:hover {
+    box-shadow: rgb(0 0 0 / 24%) 0px 5px 12px;
+}
+.remove_icon {
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #bd5e5e;
+    cursor: pointer;
+    display: none;
+    margin: 5px;
+    box-shadow: 0 2px 6px #888888;
+    position: absolute;
+    z-index: 2;
+    left: calc(50% - 23px);
+    top: calc(50% - 20px);
+
+}
+.remove_icon:hover {
+background-color: #b85656;
+}
+.remove_icon.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.trash_can {
+    filter: invert(0.95);
+    height: 20px;
 }
 .filename {
     font-family: monospace;
@@ -38,6 +72,9 @@ display: flex;
 
 .img_div {
     width: 100px;
+}
+.img_div.blur {
+    filter: brightness(0.3);
 }
 .img_div.new {
     height: 100px;

@@ -27,7 +27,8 @@ function display_carousel_contents(name_list) {
 
         let carousel_object = document.createElement('div');
         carousel_object.className = 'carousel_object';
-        carousel_object.id = name;
+        // using the name as id for removal icon
+        // carousel_object.id = name;
         
         let filename = document.createElement('div');
         filename.className = 'filename';
@@ -50,11 +51,77 @@ function display_carousel_contents(name_list) {
         product_img.src = file_string + name + '?id=tbd';
         img_div.append(product_img);
 
+        // removal buttons 
+        let remove_icon = document.createElement('div');
+        remove_icon.className = 'remove_icon';
+        remove_icon.id = name;
+        remove_icon.addEventListener('click', remove_carousel_file);
+
+        let trash_can = document.createElement('img');
+        trash_can.className = 'trash_can';
+        trash_can.src = '/static/trash_can.svg';
+
+        remove_icon.append(trash_can);
+        carousel_object.append(remove_icon);
+
+        // on click of carousel_object, show remove icon, blur / listen for click out
+        carousel_object.addEventListener('click', () => {
+            img_div.classList.toggle('blur');
+            remove_icon.classList.toggle('show');
+            
+            //add global click listener with outside click callback
+            document.body.addEventListener('click', outside_click);
+
+        });
+
         carousel_object.append(filename, img_div);
 
         // add listener, etc.
 
         carousel_objects_div.append(carousel_object);
+
+        // listener function for state change on outside click
+        function outside_click(event) {
+
+            var clicked_in = true;
+            var clicked_element = event.target;
+
+            do {
+                
+                // target element must be watched_element, or a child
+                if(clicked_element == carousel_object) {
+                    // console.log('clicked element');
+                    return // exit checking loop
+                }
+
+                // anything other than the profile div needs to check it's parent
+                let next_parent = clicked_element.parentElement;
+                
+                // next two ifs will loop until it either finds the profile
+                // or it finds the body.
+                if(next_parent == carousel_object) {
+                    // console.log('clicked child');
+                    return // exit checking loop
+                }
+                
+                if(next_parent == document.body ) {
+                    clicked_in = false;
+                    // console.log('clicked outside');
+
+                    img_div.classList.toggle('blur');
+                    remove_icon.classList.toggle('show');    
+                    
+                    document.body.removeEventListener('click', outside_click);
+                
+
+                }
+
+                // assignment for next iteration..
+                clicked_element = next_parent;
+
+            } while (clicked_in);
+
+        }
 
     });
 
@@ -186,9 +253,33 @@ function upload_carousel_file() {
 
 }
 
+// called at trash can press
+function remove_carousel_file(event) {
+    let file_object = {filename : event.target.id }
+    if( file_object.filename == '') { file_object.filename = event.target.parentElement.id; }    
+
+    let json_data = JSON.stringify(file_object);
+    // fetch post with filename to remove from folder?
+
+    fetch('/remove_carousel_photo', { // POST endpoint
+    method: 'POST',
+    headers: {
+        "Content-Type": 'application/json'
+        },
+    body: json_data
+    })
+    .then(function(response) {
+            // passing response, just call refresh.
+            carousel_fetch();
+        }
+    ).catch(error => console.log(error));
+
+    
+}
 
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
 }
+

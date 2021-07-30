@@ -96,8 +96,39 @@ def new_carousel_photo():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['CAROUSEL_FOLDER'], filename))
-        return '{response:"fulfilled"}'
+
+        # create database entry to track id
+
+        resp_dict = {'response': 'fulfilled'} 
+        resp_dict = json.dumps(resp_dict)
+        return resp_dict
 
     # failure response
-    return '{response:"rejected"}'
+    resp_dict = {'response': 'rejected'} 
+    resp_dict = json.dumps(resp_dict)
+    return resp_dict
+
+
+@owner_blueprint.route('/remove_carousel_photo', methods=['POST'])
+@login_required
+def remove_carousel_photo():
+    file_dict = request.json
+    filename = file_dict["filename"]
+
+    #lookup file and rm
+    static = 'static'
+    photos = 'carousel_photos'
+
+    blueprint_dir = os.path.dirname(__file__)
+    app_dir = os.path.dirname(blueprint_dir)
+    photos_dir = os.path.join(app_dir, static, photos)
+    
+    photo_to_remove = os.path.join(photos_dir, filename)
+    os.remove(photo_to_remove)
+
+    # remove from database to track id.
+
+    resp_dict = {'response': 'fulfilled'} 
+    resp_dict = json.dumps(resp_dict)
+    return resp_dict
 
