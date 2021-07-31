@@ -5,6 +5,8 @@ from flask import current_app as app
 
 import os, json
 
+from app.models import Carousel
+
 main_blueprint = Blueprint('main_blueprint', __name__) 
 
 
@@ -24,9 +26,15 @@ def carousel_photos():
     photos_dir = os.path.join(app_dir, static, photos)
     
     list_of_photos = os.listdir(photos_dir)
-    # add in the database id, so front end can append to src
     
-    photos_list = json.dumps(list_of_photos)
+    carousel_objects = Carousel.query.all()
+
+    # dict key is the id..
+    filename_dict = {}
+    for carousel_object in carousel_objects:
+        filename_dict[carousel_object.id] = (carousel_object.filename)
+
+    photos_list = json.dumps(filename_dict)
 
     return photos_list
 

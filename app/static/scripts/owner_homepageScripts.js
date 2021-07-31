@@ -1,30 +1,31 @@
 
 
-// we need fetch commands to populate the divs on page load.
 
-// load in these things into js. So we can accurately parse what changes
-// need to be made back to the server.
+
 carousel_fetch();
 
+// removes and refreshes carousel photos
 function carousel_fetch() {
 
     let carousel_photo_names = [];
     // same as the acutal page.
     fetch('/carousel_photos', { method: 'POST' })
     .then(response => response.json())
-    .then(json_of_file_names => display_carousel_contents(json_of_file_names))
+    .then(json_object => display_carousel_contents(json_object))
     .catch( error => console.log('ERROR', error));
 
 
 }
 
-function display_carousel_contents(name_list) {
+// uses list from fetch to create new elements
+// all listeners for elements written inline
+function display_carousel_contents(file_list_object) {
 
     let carousel_objects_div = document.getElementById('carousel_objects');
     removeAllChildNodes(carousel_objects_div);
 
-    name_list.forEach( (name) => {
-
+    for (const [id, name] of Object.entries(file_list_object)) {
+        
         let carousel_object = document.createElement('div');
         carousel_object.className = 'carousel_object';
         // using the name as id for removal icon
@@ -48,7 +49,7 @@ function display_carousel_contents(name_list) {
         product_img.className = 'product_img';
         let file_string = '/static/carousel_photos/';
         // append database id # as a .jpg?id=4
-        product_img.src = file_string + name + '?id=tbd';
+        product_img.src = file_string + name + '?id=' + id;
         img_div.append(product_img);
 
         // removal buttons 
@@ -123,7 +124,7 @@ function display_carousel_contents(name_list) {
 
         }
 
-    });
+    }
 
     // way to add a new photo to the folder
     let add_new_carousel_object = document.createElement('div');
@@ -223,7 +224,7 @@ function display_carousel_contents(name_list) {
 
 }
 
-// display a confirm or deny , and the file name. run the ajax to upload
+// confirm or deny upload. run the ajax to upload
 function upload_carousel_file() {
 
     let input_element = document.getElementById('carousel_file_input');
@@ -253,7 +254,7 @@ function upload_carousel_file() {
 
 }
 
-// called at trash can press
+// ajax call to remove certain file from storage and db
 function remove_carousel_file(event) {
     let file_object = {filename : event.target.id }
     if( file_object.filename == '') { file_object.filename = event.target.parentElement.id; }    
@@ -277,9 +278,23 @@ function remove_carousel_file(event) {
     
 }
 
+// pass in the parent to remove everything inside
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
 }
 
+
+// inventory item creation here
+// 
+inventory_fetch();
+
+function inventory_fetch() {
+
+}
+
+function display_inventory_contents() {
+
+    // so we need to access
+}

@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask import current_app as app
 import os, json
-from app.models import Product, User
+from app.models import Product, User, Carousel
 from app.forms import LoginForm, RegisterForm
 from app import db
 from werkzeug.utils import secure_filename
@@ -98,6 +98,9 @@ def new_carousel_photo():
         file.save(os.path.join(app.config['CAROUSEL_FOLDER'], filename))
 
         # create database entry to track id
+        new_carousel = Carousel(filename = filename)
+        db.session.add(new_carousel)
+        db.session.commit()
 
         resp_dict = {'response': 'fulfilled'} 
         resp_dict = json.dumps(resp_dict)
@@ -127,6 +130,9 @@ def remove_carousel_photo():
     os.remove(photo_to_remove)
 
     # remove from database to track id.
+    photo_in_db = Carousel.query.filter_by(filename = filename).first()
+    db.session.delete(photo_in_db)
+    db.session.commit()
 
     resp_dict = {'response': 'fulfilled'} 
     resp_dict = json.dumps(resp_dict)

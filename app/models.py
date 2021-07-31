@@ -7,11 +7,11 @@ from app import login_manager
 import datetime
 
 class Carousel(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     filename = db.Column(db.String(50), index=True)
 
 class Product(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     description = db.Column(db.String(50), index=True)
     details = db.Column(db.String(240), index=True)
     price = db.Column(db.Integer, index=True)
@@ -42,4 +42,4 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f'<User {self.first_name} {self.last_name} {self.username}>'
+        return f'<User {self.username} >'
