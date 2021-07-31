@@ -1,11 +1,11 @@
 // does a listdir of photos folder on server, allow for easy removal/addition of photos?
 fetch('/carousel_photos', { method: 'POST' })
     .then(response => response.json())
-    .then(json_of_file_names => populate_carousel(json_of_file_names))
+    .then(json_files_object => populate_carousel(json_files_object))
     .catch( error => console.log('ERROR', error));
 
 // creating images and indicators, calls animation function on completion
-function populate_carousel(list_of_photo_file_names) {
+function populate_carousel(json_files_object) {
 
     let index_tracking = {
         pictures: [],
@@ -17,9 +17,9 @@ function populate_carousel(list_of_photo_file_names) {
     let indicator_container = document.getElementById('carousel_indicator');
     let file_string = 'static/carousel_photos/';
 
-    for( let file_name of list_of_photo_file_names ) {
+    for (const [id, file_name] of Object.entries(json_files_object)) {
         
-        let file_path = file_string + file_name
+        let file_path = file_string + file_name + '?id=' + id;
 
 
         let image_container = document.createElement('div');
