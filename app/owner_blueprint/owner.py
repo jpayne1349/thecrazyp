@@ -109,7 +109,7 @@ def new_carousel_photo():
     # failure response
     resp_dict = {'response': 'rejected'} 
     resp_dict = json.dumps(resp_dict)
-    return resp_dict
+    return resp_dict, 404
 
 
 @owner_blueprint.route('/remove_carousel_photo', methods=['POST'])
@@ -138,3 +138,47 @@ def remove_carousel_photo():
     resp_dict = json.dumps(resp_dict)
     return resp_dict
 
+
+@owner_blueprint.route('/new_product_photo', methods=['POST'])
+@login_required
+def new_product_photo():
+
+    file = request.files['add_product_photo_input']
+    product_id = request.form['product_id']
+
+    if file.filename == '':
+        # need to add flash section to this html file
+        flash('No selected file')
+        return 'rejected', 400
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        product_folder = os.path.join(app.config['INVENTORY_FOLDER'] ,product_id)
+        file.save(os.path.join(product_folder, filename))
+
+
+        resp_dict = {'response': 'fulfilled'} 
+        resp_dict = json.dumps(resp_dict)
+        return resp_dict
+
+    # failure response
+    resp_dict = {'response': 'rejected'} 
+    resp_dict = json.dumps(resp_dict)
+    return resp_dict, 503
+
+@owner_blueprint.route('/remove_product_photo', methods=['POST'])
+@login_required
+def remove_product_photo():
+    product_id = request.form['product_id']
+    photo_filename = request.form['photo_filename']
+    print(request.form)
+    # catch file not found errors?
+    try:
+        product_folder = os.path.join(app.config['INVENTORY_FOLDER'] , product_id)
+        photo_to_remove = os.path.join(product_folder, photo_filename)
+        os.remove(photo_to_remove)
+    except:
+        return 'file not found', 404
+
+    resp_dict = {'response': 'fulfilled'} 
+    resp_dict = json.dumps(resp_dict)
+    return resp_dict
