@@ -170,7 +170,6 @@ def new_product_photo():
 def remove_product_photo():
     product_id = request.form['product_id']
     photo_filename = request.form['photo_filename']
-    print(request.form)
     # catch file not found errors?
     try:
         product_folder = os.path.join(app.config['INVENTORY_FOLDER'] , product_id)

@@ -1,8 +1,9 @@
 
 from flask import Flask
 from flask_migrate import Migrate
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from flask_sqlalchemy import SQLAlchemy
+
 
 db = SQLAlchemy()
 migrate = Migrate()
@@ -22,6 +23,16 @@ def create_app():
 
     login_manager.login_view = 'owner_blueprint.owner_login'
 
+
+    @app.context_processor
+    def logged_in_check():
+        def owner():
+            if current_user.is_authenticated:
+                return True
+            else:
+                return False
+        return dict(owner=owner)
+
     with app.app_context():
 
         from .main_blueprint import main # giving the app access to this folder and this file
@@ -35,5 +46,7 @@ def create_app():
         from . import models  # USED WHEN DB IS NEEDED
 
         return app
+
+
 
 

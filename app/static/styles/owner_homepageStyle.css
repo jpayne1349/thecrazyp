@@ -43,6 +43,13 @@ padding: 25px;
 .carousel_object:hover {
     box-shadow: rgb(0 0 0 / 24%) 0px 5px 12px;
 }
+#click_catcher {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
 .remove_icon {
 
     width: 40px;
@@ -89,6 +96,7 @@ background-color: #b85656;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100px;
 }
 
 .plus_icon {
@@ -198,6 +206,7 @@ background-color: #b15555;
 
 .product_img {
     width: inherit;
+    padding: 5px;
 }
 .hidden_form {
     display: none;
@@ -221,17 +230,19 @@ background-color: #b15555;
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     border: 1px solid #cacaca;
     padding-top: 10px;
     border-radius: 10px;
+    min-height: 250px;
 }
 .product_container {
-    border-bottom: 1px #cacaca solid;
+    border-bottom: 2px #cacaca solid;
     padding: 10px;
-    border-radius: 9px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
+    
 
 }
 .showing_row {
@@ -284,6 +295,8 @@ display: flex;
     padding: 5px;
     cursor: pointer;
     position: relative;
+    display: flex;
+    justify-content: center;
     
 }
 .product_photo:hover {
@@ -295,9 +308,11 @@ display: flex;
     align-items: center;
     flex-direction: column;
     cursor: default;
-
+    width: auto;
 }
-
+.product_photo_icons {
+    display: flex;
+}
 .product_img.removal {
     filter: brightness(0.3);
 }

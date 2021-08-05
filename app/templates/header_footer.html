@@ -59,7 +59,19 @@
 
 <div id='footer'>
     &copy; thecrazyp
+
+    
+    
+    {% if owner() %}
+    <div id='owner_link'>
+        <a href='/owner_login'> Owner Editor </a>
+    </div>
+    {% endif %}
+    
+
 </div>
+
+
 
 {% endblock %}
 

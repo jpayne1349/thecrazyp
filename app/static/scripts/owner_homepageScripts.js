@@ -65,63 +65,39 @@ function display_carousel_contents(file_list_object) {
         carousel_object.append(remove_icon);
 
         // on click of carousel_object, show remove icon, blur / listen for click out
-        carousel_object.addEventListener('click', () => {
-            img_div.classList.toggle('blur');
-            remove_icon.classList.toggle('show');
-            
-            //add global click listener with outside click callback
-            document.body.addEventListener('click', outside_click);
+        carousel_object.addEventListener('click', trigger_removal);
 
-        });
+        
+        function trigger_removal() {
+            img_div.classList.add('blur');
+            remove_icon.classList.add('show');
+            
+            let click_catcher = document.createElement('div');
+            click_catcher.id = 'click_catcher';
+            document.body.appendChild(click_catcher);
+
+            carousel_object.removeEventListener('click', trigger_removal);
+            click_catcher.addEventListener('click', untrigger_removal);
+               
+        }
+
+        function untrigger_removal() {
+            img_div.classList.remove('blur');
+            remove_icon.classList.remove('show');
+
+            let click_catcher = document.getElementById('click_catcher');
+            click_catcher.removeEventListener('click', untrigger_removal)
+            click_catcher.remove();
+
+            carousel_object.addEventListener('click', trigger_removal);
+
+        }
 
         carousel_object.append(filename, img_div);
 
         // add listener, etc.
 
         carousel_objects_div.append(carousel_object);
-
-        // listener function for state change on outside click
-        function outside_click(event) {
-
-            var clicked_in = true;
-            var clicked_element = event.target;
-
-            do {
-                
-                // target element must be watched_element, or a child
-                if(clicked_element == carousel_object) {
-                    // console.log('clicked element');
-                    return // exit checking loop
-                }
-
-                // anything other than the profile div needs to check it's parent
-                let next_parent = clicked_element.parentElement;
-                
-                // next two ifs will loop until it either finds the profile
-                // or it finds the body.
-                if(next_parent == carousel_object) {
-                    // console.log('clicked child');
-                    return // exit checking loop
-                }
-                
-                if(next_parent == document.body ) {
-                    clicked_in = false;
-                    // console.log('clicked outside');
-
-                    img_div.classList.toggle('blur');
-                    remove_icon.classList.toggle('show');    
-                    
-                    document.body.removeEventListener('click', outside_click);
-                
-
-                }
-
-                // assignment for next iteration..
-                clicked_element = next_parent;
-
-            } while (clicked_in);
-
-        }
 
     }
 
@@ -255,6 +231,10 @@ function upload_carousel_file() {
 
 // ajax call to remove certain file from storage and db
 function remove_carousel_file(event) {
+    // remove click catcher too
+    let click_catcher = document.getElementById('click_catcher');
+    click_catcher.remove();
+
     let file_object = {filename : event.target.id }
     if( file_object.filename == '') { file_object.filename = event.target.parentElement.id; }    
 
@@ -341,6 +321,7 @@ function display_inventory_contents(loaded_json) {
         let product_photos = document.createElement('div');
         product_photos.className = 'product_photos';
 
+        // adding existing photos
         for( let photo_file of product.photos_list ) {
             let product_photo = document.createElement('div');
             product_photo.className = 'product_photo';
@@ -381,13 +362,16 @@ function display_inventory_contents(loaded_json) {
         product_photo_plus_icon.setAttribute('for', 'add_product_photo_input');
         product_photo_plus_icon.id = product.id;
 
+        let product_photo_icons = document.createElement('div');
+        product_photo_icons.className = 'product_photo_icons';
+
         let product_photo_confirm_icon = document.createElement('div');
         product_photo_confirm_icon.className = 'confirm_icon photo_for_product';
 
         let product_photo_deny_icon = document.createElement('div');
         product_photo_deny_icon.className = 'deny_icon photo_for_product';
 
-
+        product_photo_icons.append(product_photo_confirm_icon, product_photo_deny_icon);
         
         let hidden_product_photo_form = document.createElement('form');
         hidden_product_photo_form.enctype = 'multipart/form-data';
@@ -402,7 +386,7 @@ function display_inventory_contents(loaded_json) {
         hidden_product_photo_form.append(add_product_photo_input);
         product_photo_plus_icon.append(hidden_product_photo_form);
 
-        add_product_photo.append(add_product_photo_filename, product_photo_plus_icon, product_photo_confirm_icon, product_photo_deny_icon);
+        add_product_photo.append(add_product_photo_filename, product_photo_plus_icon, product_photo_icons);
 
         product_photos.append(add_product_photo);
         // ^^^ adding product photos
@@ -446,7 +430,8 @@ function upload_product_photo() {
     console.log(this);
     let form = this.parentElement;
     let plus_icon = form.parentElement;
-    let confirm_icon = plus_icon.nextSibling;
+    let product_photo_icons = plus_icon.nextSibling;
+    let confirm_icon = product_photo_icons.firstChild;
     let deny_icon = confirm_icon.nextSibling;
 
     let filename = plus_icon.previousSibling;
@@ -508,9 +493,8 @@ function upload_product_photo() {
 
 function product_photo_removal() {
 
-    // add some classes and show remove_icon
-    console.log(this);
-
+    this.removeEventListener('click', product_photo_removal);
+    
     let remove_icon = this.firstChild.nextSibling;
     let trash_can = remove_icon.firstChild;
     let product_img = this.firstChild;
@@ -521,58 +505,26 @@ function product_photo_removal() {
     // remove icon listener..
     remove_icon.addEventListener('click', remove_product_photo_fetch);
 
-    // global click listener, remove the remove_icon?
-    setTimeout(() => {document.body.addEventListener('click', outside_click) }, 100);
+    let click_catcher = document.createElement('div');
+    click_catcher.id = 'click_catcher';
+    document.body.appendChild(click_catcher);
 
-    // listener function for state change on outside click
-    function outside_click(event) {
+    click_catcher.addEventListener('click', () => {
+        remove_icon.classList.remove('show');
+        product_img.classList.remove('removal');
 
-        var clicked_in = true;
-        var clicked_element = event.target;
+        click_catcher.remove();
 
-        do {
-            
-            // target element must be watched_element, or a child
-            if(clicked_element == remove_icon) {
-                // console.log('clicked element');
-                return // exit checking loop
-            }
+        this.addEventListener('click', product_photo_removal);
 
-            // anything other than the profile div needs to check it's parent
-            let next_parent = clicked_element.parentElement;
-            
-            // next two ifs will loop until it either finds the profile
-            // or it finds the body.
-            if(next_parent == remove_icon) {
-                // console.log('clicked child');
-                return // exit checking loop
-            }
-            
-            if(next_parent == document.body ) {
-                clicked_in = false;
-                // console.log('clicked outside');
-
-                remove_icon.classList.remove('show');
-                product_img.classList.remove('removal');   
-                
-                document.body.removeEventListener('click', outside_click);
-                remove_icon.removeEventListener('click', remove_product_photo_fetch)
-
-            }
-
-            // assignment for next iteration..
-            clicked_element = next_parent;
-
-        } while (clicked_in);
-
-    }
-
+    });
 }
 
 // named for event listener removal
 function remove_product_photo_fetch() {
-    
-    // 'this' is remove_icon, child is trash can
+    // remove click catcher
+    var click_catcher = document.getElementById('click_catcher');
+    click_catcher.remove();
 
     let form_data = new FormData();
             
@@ -584,8 +536,10 @@ function remove_product_photo_fetch() {
         body: form_data
         })
     .then((success) => {
+        // TODO: these reloads should just be done locally.
+        // maybe another fetch endpoint, so the reload is much cleaner.
         inventory_fetch();
-        console.log(success);
+        
     })
     .catch((fail) => console.log(fail));
 

@@ -87,6 +87,21 @@ a:link, a:visited, a:hover, a:active {
 #footer {
     align-self: center;
     padding: 15px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    position: relative;
+}
+#owner_link {
+    padding: 5px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: #b3ebb3;
+    border-radius: 20px;
+}
+#owner_link:hover {
+background-color: #a5e5a5;
 }
 
 
