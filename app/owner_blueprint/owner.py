@@ -168,6 +168,7 @@ def new_product_photo():
 @owner_blueprint.route('/remove_product_photo', methods=['POST'])
 @login_required
 def remove_product_photo():
+
     product_id = request.form['product_id']
     photo_filename = request.form['photo_filename']
     # catch file not found errors?
@@ -181,3 +182,24 @@ def remove_product_photo():
     resp_dict = {'response': 'fulfilled'} 
     resp_dict = json.dumps(resp_dict)
     return resp_dict
+
+
+@owner_blueprint.route('/edit_product', methods=['POST'])
+@login_required
+def edit_product():
+
+    product_dict = request.json
+
+    stored_product = Product.query.filter_by(id = product_dict['id']).first()
+
+    stored_product.id = product_dict['id']
+    stored_product.description = product_dict['description']
+    stored_product.details = product_dict['details']
+    stored_product.price = product_dict['price']
+    stored_product.status = product_dict['status']
+
+    db.session.add(stored_product)
+    db.session.commit()
+    
+    
+    return 'fulfilled', 200

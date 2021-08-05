@@ -274,13 +274,24 @@ display: flex;
 }
 
 .product_description {
+    font-size: 25px;
+}
+
+.edit_product {
+width: 35px;
+    padding: 0 10px;
+    margin-left: auto;
+    cursor: pointer;
+}
+.edit_pencil {
 
 }
 .expanded_view {
     display: none;
 }
 .expanded_view.show {
-    display: block;
+    flex-direction: column;
+    display: flex;
 }
 .product_photos {
     display: flex;
@@ -310,6 +321,9 @@ display: flex;
     cursor: default;
     width: auto;
 }
+.product_price {
+    display: flex;
+} 
 .product_photo_icons {
     display: flex;
 }
@@ -317,14 +331,69 @@ display: flex;
     filter: brightness(0.3);
 }
 .product_details {
-    margin: 10px 40px;
+    margin: 10px 40px 40px;
+    font-size: 25px;
+    flex-grow: 2;
+    align-self: center;
 }
 .bottom_row {
     display: flex;
     justify-content: space-evenly;
+    margin: 20px 0px;
 }
-.product_price, .product_status {
+.product_status {
+    font-family: 'summer_garden';
+    font-size: 25px;
+}
+.product_price {
     font-family: monospace;
-    font-size: 15px;
+    font-size: 25px;
 
+}
+.edit_product_input {
+    border: none;
+    border-bottom: 1px solid #efefef;
+    font-size: 25px;
+    font-family: 'summer_garden';
+    outline: none;
+}
+.edit_product_description {
+    width: 90%;
+    margin: 2px;
+
+}
+.edit_product_details {
+margin: 10px 40px 40px;
+    text-align: center;
+}
+.edit_product_price_value {
+    font-family: monospace;
+    width: 60px;
+
+}
+
+.product_edit_buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+.cancel_product_edits, .save_product_edits {
+    padding: 2px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 25px;
+}
+
+.cancel_product_edits {
+    background-color: #ffa0a0;
+}
+.cancel_product_edits:hover {
+    background-color: #f89292;
+}
+.save_product_edits {
+background-color: #a4e2a4;
+}
+.save_product_edits:hover {
+background-color: #91dd91;
 }

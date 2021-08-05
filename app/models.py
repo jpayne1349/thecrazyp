@@ -17,6 +17,7 @@ class Product(db.Model):
     price = db.Column(db.Integer, index=True)
 
     # could represent available, pending, sold etc.
+    # 0 - avail, 1 - pending , 2 - sold
     status = db.Column(db.Integer, index=True)
 
 

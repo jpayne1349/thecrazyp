@@ -289,8 +289,11 @@ function display_inventory_contents(loaded_json) {
     
     for ( let product of loaded_json) {
 
+        console.log(product);
+
         let product_container = document.createElement('div');
         product_container.className = 'product_container';
+        product_container.setAttribute('p_id', product.id);
 
         let showing_row = document.createElement('div');
         showing_row.className = 'showing_row';
@@ -312,8 +315,16 @@ function display_inventory_contents(loaded_json) {
         let product_description = document.createElement('div');
         product_description.className = 'product_description';
         product_description.innerText = product.description;
-        
-        showing_row.append(toggle_product, product_description);
+
+        let edit_product = document.createElement('div');
+        edit_product.className = 'edit_product';
+        let edit_pencil = document.createElement('img');
+        edit_pencil.className = 'edit_pencil';
+        edit_pencil.src = '/static/edit_pencil.svg';
+        edit_product.appendChild(edit_pencil);
+        edit_product.addEventListener('click', edit_product_inputs);
+
+        showing_row.append(toggle_product, product_description, edit_product);
         
         let expanded_view = document.createElement('div');
         expanded_view.className = 'expanded_view';
@@ -400,12 +411,27 @@ function display_inventory_contents(loaded_json) {
         
         let product_price = document.createElement('div');
         product_price.className = 'product_price';
-        product_price.innerText = '$' + product.price.toString();
+        let product_price_sign = document.createElement('div');
+        product_price_sign.innerText = '$';
+        let product_price_value = document.createElement('div');
+        product_price_value.innerText = product.price.toString();
+        product_price.append(product_price_sign, product_price_value);
 
         let product_status = document.createElement('div');
         product_status.className = 'product_status';
-        // TODO: parse status. set rules for each number.. etc
-        product_status.innerText = 'Status: ' + product.status.toString();
+        product_status.setAttribute('val', product.status);
+        //  0 - avail, 1 - pending , 2 - sold
+        if(product.status == 0 ) {
+            product_status.classList.add('avail');
+            product_status.innerText = 'Available';
+        } else if ( product.status == 1 ) {
+            product_status.classList.add('pending');
+            product_status.innerText = 'Pending';
+        } else {
+            product_status.classList.add('sold');
+            product_status.innerText = 'Sold';
+        }
+
 
         bottom_row.append(product_price, product_status);
 
@@ -545,3 +571,122 @@ function remove_product_photo_fetch() {
 
 }
 
+// called on edit_product click
+function edit_product_inputs() {
+
+    // toggle view of edit_product/ pencil div?
+    
+
+    console.log(this);
+
+    let showing_row = this.parentElement;
+    let product_description = showing_row.firstChild.nextSibling;
+    
+    let expanded_view = showing_row.nextSibling;
+    let product_details = expanded_view.firstChild.nextSibling;
+    let bottom_row = product_details.nextSibling;
+    let product_price = bottom_row.firstChild;
+    let product_price_value = product_price.firstChild.nextSibling;
+    let product_status = product_price.nextSibling;
+
+    this.remove();
+
+    let edit_product_description = document.createElement('input');
+    edit_product_description.className = 'edit_product_description edit_product_input';
+    edit_product_description.value = product_description.innerText;
+
+    showing_row.insertBefore(edit_product_description, product_description);
+    product_description.remove();
+
+    let edit_product_details = document.createElement('textarea');
+    edit_product_details.className = 'edit_product_details edit_product_input';
+    edit_product_details.value = product_details.innerText;
+
+    expanded_view.insertBefore(edit_product_details, product_details);
+    product_details.remove();
+
+    let edit_product_price_value = document.createElement('input');
+    edit_product_price_value.className = 'edit_product_price_value edit_product_input';
+    edit_product_price_value.type = 'number';
+    edit_product_price_value.value = parseInt(product_price_value.innerText);
+    
+    product_price.insertBefore(edit_product_price_value, product_price_value);
+    product_price_value.remove();
+
+    // TODO: this will be a select with options?
+    let edit_product_status = document.createElement('select');
+    edit_product_status.className = 'edit_product_status edit_product_input';
+
+    let available_option = document.createElement('option');
+    available_option.className = 'edit_status_option';
+    available_option.innerText = 'Available';
+    available_option.value = 0;
+    let pending_option = document.createElement('option');
+    pending_option.className = 'edit_status_option';
+    pending_option.innerText = 'Pending';
+    pending_option.value = 1;
+    let sold_option = document.createElement('option');
+    sold_option.className = 'edit_status_option';
+    sold_option.innerText = 'Sold';
+    sold_option.value = 2;
+
+    edit_product_status.value = product_status.getAttribute('val');
+
+    edit_product_status.append(available_option, pending_option, sold_option);
+
+
+    bottom_row.insertBefore(edit_product_status, product_status);
+    product_status.remove();
+
+
+
+    // display a save and cancel option
+
+    let product_edit_buttons = document.createElement('div');
+    product_edit_buttons.className = 'product_edit_buttons';
+
+    let cancel_product_edits = document.createElement('div');
+    cancel_product_edits.className = 'cancel_product_edits';
+    cancel_product_edits.innerText = 'Cancel';
+    // TODO: fix this. lol
+    cancel_product_edits.addEventListener('click', inventory_fetch);
+
+    let save_product_edits = document.createElement('div');
+    save_product_edits.className = 'save_product_edits';
+    save_product_edits.innerText = 'Save';
+    save_product_edits.addEventListener('click', ()=>{
+        // json packaged values?
+        let edited_product = {
+            'id': showing_row.parentElement.getAttribute('p_id'),
+            'description': edit_product_description.value,
+            'details': edit_product_details.value,
+            'price': edit_product_price_value.value,
+            'status': edit_product_status.value
+        }
+        console.log(edited_product);
+
+        let product_json = JSON.stringify(edited_product);
+
+        // ajax submission
+        fetch('/edit_product', {
+                method: 'POST',
+                body: product_json,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then((success) => {
+                inventory_fetch();
+            })
+            .catch((fail) => console.log(fail));
+
+        // refresh inventory fetch
+        
+    });
+
+
+    product_edit_buttons.append(cancel_product_edits, save_product_edits);
+
+    expanded_view.append(product_edit_buttons);
+
+}
