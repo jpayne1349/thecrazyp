@@ -289,8 +289,6 @@ function display_inventory_contents(loaded_json) {
     
     for ( let product of loaded_json) {
 
-        console.log(product);
-
         let product_container = document.createElement('div');
         product_container.className = 'product_container';
         product_container.setAttribute('p_id', product.id);
@@ -370,7 +368,7 @@ function display_inventory_contents(loaded_json) {
 
         let product_photo_plus_icon = document.createElement('label');
         product_photo_plus_icon.className = 'plus_icon photo_for_product';
-        product_photo_plus_icon.setAttribute('for', 'add_product_photo_input');
+        product_photo_plus_icon.setAttribute('for', 'add_product_photo_input'+ product.id);
         product_photo_plus_icon.id = product.id;
 
         let product_photo_icons = document.createElement('div');
@@ -390,7 +388,7 @@ function display_inventory_contents(loaded_json) {
 
         let add_product_photo_input = document.createElement('input');
         add_product_photo_input.type = 'file';
-        add_product_photo_input.id = 'add_product_photo_input';
+        add_product_photo_input.id = 'add_product_photo_input' + product.id;
         add_product_photo_input.name = 'add_product_photo_input';
         // on input, run upload function.. show confirm/deny icons
         add_product_photo_input.addEventListener('input', upload_product_photo);
@@ -432,19 +430,138 @@ function display_inventory_contents(loaded_json) {
             product_status.innerText = 'Sold';
         }
 
-
         bottom_row.append(product_price, product_status);
 
-        expanded_view.append(product_photos, product_details, bottom_row);
+        let delete_product = document.createElement('div');
+        delete_product.className = 'delete_product';
+        let trash_can = document.createElement('img');
+        trash_can.className = 'product_trash_can';
+        trash_can.src = '/static/trash_can.svg';
+        delete_product.appendChild(trash_can);
+        delete_product.addEventListener('click', delete_product_func);
+        
 
-
+        expanded_view.append(product_photos, product_details, bottom_row, delete_product);
 
         product_container.append(showing_row, expanded_view);
 
         inventory_objects.append(product_container);
     }
 
+    // creation of new product vvv
+    let product_container = document.createElement('div');
+    product_container.className = 'product_container new_product';
+
+    let new_product_description = document.createElement('input');
+    new_product_description.className = 'new_product_description edit_product_input hide_new_form';
+    new_product_description.placeholder = 'Product Description';
+
+    // photos list here.
+    let product_photos = document.createElement('div');
+    product_photos.className = 'new_product_photos hide_new_form';
     
+    let add_photos_text = document.createElement('div');
+    add_photos_text.className = 'add_photos_text';
+    add_photos_text.innerText = 'Add Photos after Saving';
+    product_photos.appendChild(add_photos_text);
+
+    let new_product_details = document.createElement('textarea');
+    new_product_details.className = 'new_product_details edit_product_input hide_new_form';
+    new_product_details.placeholder = 'Product Details';
+
+    let bottom_row = document.createElement('div');
+    bottom_row.className = 'bottom_row hide_new_form';
+
+    let new_product_price = document.createElement('div');
+    new_product_price.className = 'new_product_price';
+    let product_price_sign = document.createElement('div');
+    product_price_sign.innerText = '$';
+    let new_product_price_value = document.createElement('input');
+    new_product_price_value.className = 'new_product_price_value edit_product_input';
+    new_product_price_value.type = 'number';
+    new_product_price_value.value = 0;
+    new_product_price.append(product_price_sign, new_product_price_value);
+    
+    let new_product_status = document.createElement('select');
+    new_product_status.className = 'new_product_status edit_product_input';
+
+    let available_option = document.createElement('option');
+    available_option.className = 'edit_status_option';
+    available_option.innerText = 'Available';
+    available_option.value = 0;
+    let pending_option = document.createElement('option');
+    pending_option.className = 'edit_status_option';
+    pending_option.innerText = 'Pending';
+    pending_option.value = 1;
+    let sold_option = document.createElement('option');
+    sold_option.className = 'edit_status_option';
+    sold_option.innerText = 'Sold';
+    sold_option.value = 2;
+
+    new_product_status.value = 0;
+
+    new_product_status.append(available_option, pending_option, sold_option);
+    bottom_row.append(new_product_price, new_product_status);
+
+    let product_edit_buttons = document.createElement('div');
+    product_edit_buttons.className = 'product_edit_buttons hide_new_form';
+
+    let cancel_product_edits = document.createElement('div');
+    cancel_product_edits.className = 'cancel_product_edits';
+    cancel_product_edits.innerText = 'Cancel';
+    // TODO: fix this. lol
+    cancel_product_edits.addEventListener('click', inventory_fetch);
+
+    let save_product_edits = document.createElement('div');
+    save_product_edits.className = 'save_product_edits';
+    save_product_edits.innerText = 'Save';
+    save_product_edits.addEventListener('click', ()=>{
+        // json packaged values?
+        let edited_product = {
+            'description': new_product_description.value,
+            'details': new_product_details.value,
+            'price': new_product_price_value.value,
+            'status': new_product_status.value
+        }
+        console.log(edited_product);
+
+        let product_json = JSON.stringify(edited_product);
+
+        // ajax submission
+        fetch('/new_product', {
+                method: 'POST',
+                body: product_json,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then((success) => {
+                inventory_fetch();
+            })
+            .catch((fail) => console.log(fail));
+
+        // refresh inventory fetch
+        
+    });
+
+    product_edit_buttons.append(cancel_product_edits, save_product_edits);
+
+
+       
+    let new_product_plus_icon = document.createElement('div');
+    new_product_plus_icon.className = 'plus_icon new_product';
+    new_product_plus_icon.addEventListener('click', () => {
+        new_product_plus_icon.classList.add('hide_new_form');
+        new_product_description.classList.add('show');
+        product_photos.classList.add('show');
+        new_product_details.classList.add('show');
+        bottom_row.classList.add('show');
+        product_edit_buttons.classList.add('show');
+    });
+
+    product_container.append(new_product_plus_icon, new_product_description, product_photos, new_product_details, bottom_row, product_edit_buttons);
+
+    inventory_objects.append(product_container);
 
 
 
@@ -574,22 +691,19 @@ function remove_product_photo_fetch() {
 // called on edit_product click
 function edit_product_inputs() {
 
-    // toggle view of edit_product/ pencil div?
-    
-
-    console.log(this);
-
     let showing_row = this.parentElement;
     let product_description = showing_row.firstChild.nextSibling;
     
     let expanded_view = showing_row.nextSibling;
     let product_details = expanded_view.firstChild.nextSibling;
     let bottom_row = product_details.nextSibling;
+    let delete_product = bottom_row.nextSibling;
     let product_price = bottom_row.firstChild;
     let product_price_value = product_price.firstChild.nextSibling;
     let product_status = product_price.nextSibling;
 
     this.remove();
+    delete_product.remove();
 
     let edit_product_description = document.createElement('input');
     edit_product_description.className = 'edit_product_description edit_product_input';
@@ -688,5 +802,37 @@ function edit_product_inputs() {
     product_edit_buttons.append(cancel_product_edits, save_product_edits);
 
     expanded_view.append(product_edit_buttons);
+
+}
+
+function delete_product_func(event) {
+
+    let clicked_elem = event.target;
+    let parent_elem = event.target.parentElement;
+    // loop up to parent with class = product_container
+    let found_container = false;
+    while(!found_container) {
+        if(parent_elem.classList.contains('product_container')) {
+            found_container = true;
+            break;
+        }
+        parent_elem = parent_elem.parentElement;
+    }
+
+    let product_id = parent_elem.getAttribute('p_id');
+
+    let json_data = JSON.stringify({'id':product_id});
+    
+    fetch('/delete_product', {
+                method: 'POST',
+                body: json_data,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then((success) => {
+                inventory_fetch();
+            })
+            .catch((fail) => console.log(fail));
 
 }

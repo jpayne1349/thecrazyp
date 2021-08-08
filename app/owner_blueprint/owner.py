@@ -2,7 +2,7 @@
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask import current_app as app
-import os, json
+import os, json, shutil
 from app.models import Product, User, Carousel
 from app.forms import LoginForm, RegisterForm
 from app import db
@@ -201,5 +201,45 @@ def edit_product():
     db.session.add(stored_product)
     db.session.commit()
     
+
+    return 'fulfilled', 200
+
+@owner_blueprint.route('/new_product', methods=['POST'])
+@login_required
+def new_product():
+
+    product_dict = request.json
+
+    new_product = Product(description = product_dict['description'], details = product_dict['details'],
+        price = product_dict['price'], status = product_dict['status'])
+
+
+    db.session.add(new_product)
+    db.session.commit()
     
+    new_product_id = new_product.id
+
+    new_folder = os.path.join(app.config['INVENTORY_FOLDER'] , str(new_product_id))
+    os.mkdir(new_folder)
+    
+    
+    return 'fulfilled', 200
+
+
+@owner_blueprint.route('/delete_product', methods=['POST'])
+@login_required
+def delete_product():
+
+    product_dict = request.json
+
+    product = Product.query.filter_by(id = product_dict['id']).first()
+
+    db.session.delete(product)
+    db.session.commit()
+
+    product_folder = os.path.join(app.config['INVENTORY_FOLDER'] , product_dict['id'])
+
+    shutil.rmtree(product_folder)
+
+
     return 'fulfilled', 200

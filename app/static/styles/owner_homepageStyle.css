@@ -1,8 +1,10 @@
 
 .owner_content {
-padding: 25px;
-    min-height:80vh;
+    padding: 25px;
+    min-height: 80vh;
     font-size: 20px;
+    max-width: 768px;
+    align-self: center;
 }
 .owner_navbar {
     display: flex;
@@ -242,7 +244,7 @@ background-color: #b15555;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    
+    position: relative;
 
 }
 .showing_row {
@@ -396,4 +398,54 @@ background-color: #a4e2a4;
 }
 .save_product_edits:hover {
 background-color: #91dd91;
+}
+
+.plus_icon.new_product {
+    align-self: center;
+}
+.new_product_description {
+    width: 90%;
+    margin: 2px;
+}
+.new_product_photos {
+    display: flex;
+    margin: 10px 40px;
+    border-radius: 10px;
+    border: 1px solid #cacaca;
+    overflow: scroll;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+}
+.add_photos_text {
+font-size: 30px;
+    color: #d4d4d4;
+}
+.new_product_details {
+margin: 10px 40px 40px;
+    text-align: center;
+}
+.new_product_price {
+    display: flex;
+}
+.new_product_price_value {
+    width: 60px;
+    font-family: monospace;
+}
+.hide_new_form {
+    display: none;
+}
+.hide_new_form.show {
+    display: flex;
+}
+.delete_product {
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    left: 12px;
+    padding: 2px;
+}
+.product_trash_can {
+    filter: invert(83%) sepia(64%) saturate(2158%) hue-rotate(296deg) brightness(98%) contrast(123%);
+    height: 20px;
 }
