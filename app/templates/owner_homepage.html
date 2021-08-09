@@ -20,18 +20,19 @@
 
 <div class='owner_content' >
     <div class='owner_navbar'>
-        <div class='logout_owner'>
-            <a class='logout_link' href='/{{username}}/owner_logout'> Logout </a>
-            owner navbar here.
+        <div class='toggle_carousel_edit owner_navbar_button' id='toggle_carousel_edit'> Edit Carousel </div>
+        <div class='toggle_inventory_edit owner_navbar_button' id='toggle_inventory_edit'> Edit Inventory </div>
+        <div class='logout_owner owner_navbar_button'>
+            <a class='logout_link' href='/{{username}}/owner_logout'> Log Out </a>
         </div>
     </div>
     
-    <div class='edit_carousel_div'>
+    <div class='edit_carousel_div' id='edit_carousel_div'>
         <div class='title'> Edit Carousel Photos </div>
         <div id='carousel_objects'></div>
     </div>
 
-    <div class='edit_inventory_div'>
+    <div class='edit_inventory_div' id='edit_inventory_div'>
         <div class='title'> Edit Inventory Items </div>
         <div id='inventory_objects'></div>
     </div>

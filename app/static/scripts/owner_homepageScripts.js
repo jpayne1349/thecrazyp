@@ -1,5 +1,19 @@
 
+// assign listeners to the navbar buttons
+let edit_carousel_button = document.getElementById('toggle_carousel_edit');
+let edit_inventory_button = document.getElementById('toggle_inventory_edit');
+let edit_carousel_div = document.getElementById('edit_carousel_div');
+let edit_inventory_div = document.getElementById('edit_inventory_div');
 
+edit_carousel_button.addEventListener('click', ()=> {
+    edit_carousel_div.classList.toggle('show')
+    edit_carousel_button.classList.toggle('active');
+    });
+
+    edit_inventory_button.addEventListener('click', ()=> {
+        edit_inventory_div.classList.toggle('show');
+        edit_inventory_button.classList.toggle('active');
+    });
 
 
 carousel_fetch();

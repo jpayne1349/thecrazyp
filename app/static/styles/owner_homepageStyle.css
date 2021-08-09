@@ -1,6 +1,6 @@
 
 .owner_content {
-    padding: 25px;
+        padding: 0px 25px 25px 25px;
     min-height: 80vh;
     font-size: 20px;
     max-width: 768px;
@@ -11,6 +11,43 @@
     justify-content: center;
     flex-wrap: nowrap;
     overflow: scroll;
+    height: 40px;
+    align-items: center;
+}
+.owner_navbar_button {
+    padding: 5px 10px;
+    border-radius: 16px;
+    margin: 0 25px;
+    box-shadow: black 0px 5px 6px -7px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.owner_navbar_button.active {
+    background-color: rgb(107, 216, 107);
+}
+.owner_navbar_button:hover {
+    transform:translateY(-3px);
+}
+.toggle_carousel_edit {
+    background-color: #f1f1f1;
+}
+.toggle_inventory_edit {
+    background-color: #f1f1f1;
+}
+
+.toggle_carousel_edit:hover {
+    background-color: #e7e7e7;
+}
+.toggle_inventory_edit:hover {
+    background-color: #e7e7e7;
+}
+
+.logout_owner {
+    background-color: #aeaeae;
+    color: white !important;
+}
+.logout_owner:hover {
+    background-color: #a8a7a7;
 }
 .title {
     font-family: monospace;
@@ -18,11 +55,13 @@
     text-decoration: underline;
 }
 .edit_carousel_div {
-    display: flex;
+    display: none;
     flex-direction: column;
-    
     padding: 10px;
     border-radius: 2px;
+}
+.edit_carousel_div.show  {
+    display: flex;
 }
 #carousel_objects {
     display: flex;
@@ -223,10 +262,13 @@ background-color: #b15555;
 /* inventory elements */
 
 .edit_inventory_div {
-    display: flex;
+    display: none;
     flex-direction: column;
     padding: 10px;
     border-radius: 2px;
+}
+.edit_inventory_div.show {
+    display: flex;
 }
 #inventory_objects {
     margin-top: 20px;
