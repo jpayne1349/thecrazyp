@@ -43,6 +43,16 @@ def owner_register():
         email = register_form.email.data
         username = register_form.username.data
         password = register_form.password.data
+        # dev_key to be pulled here from environment variable
+        # no new accounts to be created without dev key
+        # compare keys = 
+        # os.environ.get('OWNER_REGISTER_KEY')
+        key = register_form.dev_key.data
+        print(key)
+        print(os.environ.get('OWNER_REGISTER_KEY'))
+        if key != os.environ.get('OWNER_REGISTER_KEY'):
+            flash('Development Key Incorrect')
+            return redirect(url_for('owner_blueprint.owner_register'))
 
         # check username for duplicate here.
         match_check = User.query.filter_by(username=register_form.username.data).first()

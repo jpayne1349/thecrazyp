@@ -758,8 +758,15 @@ function edit_product_inputs() {
     sold_option.innerText = 'Sold';
     sold_option.value = 2;
 
-    edit_product_status.value = product_status.getAttribute('val');
-
+    let current_selected = product_status.getAttribute('val');
+    if(current_selected == 0) {
+        available_option.setAttribute('selected', 'selected');
+    } else if ( current_selected == 1 ) {
+        pending_option.setAttribute('selected', 'selected');
+    } else {
+        sold_option.setAttribute('selected', 'selected');
+    }
+    
     edit_product_status.append(available_option, pending_option, sold_option);
 
 

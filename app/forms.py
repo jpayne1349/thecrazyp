@@ -10,6 +10,7 @@ class RegisterForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+    dev_key = StringField('Developer Key', validators=[DataRequired()])
     submit = SubmitField('Create Account')
 
 

@@ -9,6 +9,14 @@ align-self: center;
     font-size: 50px;
     text-align: center;
 }
+.flashes_div {
+    background-color: #ffd8d8;
+    border-radius: 5px;
+    box-shadow: black 0px 5px 6px -7px;
+    margin-bottom: 15px;
+    font-size: 25px;
+    text-align: center;
+}
 
 .label_div {
 font-size: 40px;

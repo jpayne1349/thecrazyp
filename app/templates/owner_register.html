@@ -20,11 +20,11 @@
     
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <ul>
+        <div class='flashes_div' >
             {% for message in messages %}
-            <li class='flashed_message'>{{ message }}</li>
+            <div class='flashed_message'>{{ message }}</div>
             {% endfor %}
-        </ul>
+        </div>
         {% endif %}
         {% endwith %}
     
@@ -45,6 +45,10 @@
             <div class='label_div'> {{ form.password.label(class='label') }}</div>
     
             <div class='input_div'> {{ form.password(size=32, class='input') }} </div>
+
+            <div class='label_div'> {{ form.dev_key.label(class='label') }}</div>
+            
+            <div class='input_div'> {{ form.dev_key(size=32, class='input') }} </div>
     
             <div class='submit_div'> {{ form.submit(class='submit_button') }}</div>
     
