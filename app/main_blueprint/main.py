@@ -5,7 +5,7 @@ from flask import current_app as app
 
 import os, json
 
-from app.models import Carousel, Product
+from app.models import Carousel, Product, SpecialOrder
 
 main_blueprint = Blueprint('main_blueprint', __name__) 
 
@@ -44,6 +44,7 @@ def inventory():
 
 @main_blueprint.route('/load_inventory', methods=['POST'])
 def load_inventory():
+
     # maybe need seperate folders for each item
     # to provide multiple photos
 
@@ -82,3 +83,11 @@ def load_inventory():
     json_data = json.dumps(product_list)
 
     return json_data
+
+@main_blueprint.route('/special_order')
+def special_order():
+    
+    # form to display here.
+
+
+    return render_template('special_order.html')

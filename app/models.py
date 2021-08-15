@@ -20,6 +20,17 @@ class Product(db.Model):
     # 0 - avail, 1 - pending , 2 - sold
     status = db.Column(db.Integer, index=True)
 
+# new class for Special Order
+class SpecialOrder(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    style = db.Column(db.String(24), index=True)
+    color = db.Column(db.String(24), index=True)
+    bandtype = db.Column(db.String(24), index=True)
+    custom_design = db.Column(db.String(24), index=True)
+    notes = db.Column(db.String(24), index=True)
+    contact_method = db.Column(db.String(24), index=True)
+    phone_number = db.Column(db.String(24), index=True)
+    email = db.Column(db.String(24), index=True)
 
 @login_manager.user_loader
 def load_user(id):

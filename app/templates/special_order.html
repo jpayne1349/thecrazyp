@@ -1,0 +1,112 @@
+{% extends "header_footer.html" %}
+
+{% block head %}
+
+{{super()}}
+
+<link rel="stylesheet" type="text/css" href="/static/styles/special_orderStyle.css?v=02">
+
+{% endblock %}
+
+{% block content %}
+
+<div class='page_content'>
+
+    <div id='order_form' >
+
+        <div class='dropdown_wrapper' >
+        <div class='label_holder'>
+            <div id='style_label' class='label' >Style</div>
+            <div class='arrow' id='style_arrow'></div>
+        </div>
+        <div id='style_selection' class='selection'>
+            <div class='option' id='style1'></div>
+            <div class='option' id='style1'></div>
+            <div class='option' id='style1'></div>
+            <div class='option other' id='other_style'></div>
+        </div>
+        </div>
+
+        <div class='dropdown_wrapper'>
+        <div class='label_holder'>
+            <div id='style_label' class='label'>Color</div>
+            <div class='arrow' id='style_arrow'></div>
+        </div>
+        <div id='style_selection' class='selection'>
+            <div class='option' id='style1'></div>
+            <div class='option' id='style1'></div>
+            <div class='option' id='style1'></div>
+            <div class='option other' id='other_style'></div>
+        </div>
+        </div>
+
+        <div class='dropdown_wrapper'>
+        <div class='label_holder'>
+            <div id='style_label' class='label'>Band Type</div>
+            <div class='arrow' id='style_arrow'></div>
+        </div>
+        <div id='style_selection' class='selection'>
+            <div class='option' id='style1'></div>
+            <div class='option' id='style1'></div>
+            <div class='option' id='style1'></div>
+            <div class='option other' id='other_style'></div>
+        </div>
+        </div>
+
+        <div class='dropdown_wrapper'>
+        <div class='label_holder'>
+            <div id='style_label' class='label'>Design</div>
+            <div class='arrow' id='style_arrow'></div>
+        </div>
+        <div id='style_selection' class='selection'>
+            design location
+            <div class='option' id='style1'></div>
+            <div class='option' id='style1'></div>
+            <div class='option' id='style1'></div>
+            <div class='option other' id='other_style'></div>
+        </div>
+        </div>
+
+        <div class='dropdown_wrapper'>
+        <div class='label_holder'>
+            <div id='style_label' class='label'>Notes</div>
+            <div class='arrow' id='style_arrow'></div>
+        </div>
+        <div id='style_selection' class='selection'>
+            <div class='option' id='style1'></div>
+            <div class='option' id='style1'></div>
+            <div class='option' id='style1'></div>
+            <div class='option other' id='other_style'></div>
+        </div>
+        </div>
+
+        <div class='dropdown_wrapper'>
+        <div class='label_holder'>
+            <div id='style_label' class='label'>Contact Method</div>
+            <div class='arrow' id='style_arrow'></div>
+        </div>
+        <div id='contact_method_selection' class='selection'>
+            <label id='phone_label'> Phone Number </label>
+            <input type='tel' id='phone_input'>
+
+            <label id='email_label'> Email </label>
+            <input type='email' id='email_input'>
+        </div>
+        </div>
+
+    </form>
+
+
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+
+<script src="/static/scripts/special_orderScripts.js?v=02"></script>
+
+{%- endblock scripts %}
+
+<!-- TODO: COPY ME-->
