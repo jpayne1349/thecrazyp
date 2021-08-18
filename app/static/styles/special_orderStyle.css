@@ -1,7 +1,11 @@
+body {
+    align-items: center;
+}
 
 #header_and_logo {
     z-index: 25;
     background-color: white;
+    width: 100vw;
 }
 #mobile_navbar_hamburger {
     z-index: 27;
@@ -11,6 +15,7 @@
 }
 .page_content {
     min-height: 80vh;
+    max-width: 768px;
 }   
 .dropdown_wrapper {
     display: flex;
@@ -20,7 +25,7 @@
     transition: height 1s;
 }
 .dropdown_wrapper.expanded {
-    height: 400px;
+
 }
 .label_holder {
     display: flex;
@@ -28,6 +33,11 @@
     justify-content: space-between;
     box-shadow: black 0px 5px 6px -9px;
     background-color: white;
+    transition: box-shadow 1.5s;
+}
+.label_holder.focus {
+    background-color: #ffffff;
+    box-shadow: black 0px 5px 7px -8px;
 }
 .label {
     font-size: 35px;
@@ -72,25 +82,94 @@
     transform: translate(0px, -110%);
     transition: transform 1s;
     position: absolute;
+    min-width: 100vw;
 }
 .selection.loaded {
     display: flex;
 }
 .selection.show {
-    transform: translate(0, 20%);
+        transform: translate(0, 50px);
 
 }
 .option {
-        height: 30vw;
+    height: 30vw;
     width: 30vw;
     margin: 5px 20px;
     border-radius: 10px;
     box-shadow: black 0px 4px 19px -11px;
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    
+}
+.option.hide {
+    display: none;
 }
 
-.other {
+.option.focus {
+    width: 60vw;
+    height: 60vw;
+    background-color: white;
+    font-size: 50px;
+}
+.option.value_added {
+    border: 1px solid #6cd76c;
+}
+.other_close {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    opacity: 0;
+}
+.other_close.show {
+    opacity: 1;
+}
+.other_close.accept_input::before {
+    transform: translate(13px, 1px) rotate( 
+45deg
+ );
+    height: 18px;
+}
+.other_close.accept_input::after {
+    transform: translate(4px, 8px) rotate( 
+315deg
+ );
+    height: 10px;
+}
 
+.other_close::before, .other_close::after {
+    content: '';
+    width: 2px;
+    height: 20px;
+    background-color: black;
+    position: absolute;
+    transition: transform 0.5s;
+}
+.other_close::before {
+    transform: translate(10px, 0px) rotate(45deg);
+}
+.other_close::after {
+    transform: translate(10px, 0px) rotate( -45deg);
+}
+.other_label {
+font-size: 33px;
+}
+.other_input {
+    display: none;
+    width: 80%;
+}
+.other_input.show {
+    display: block;
+    outline: none;
+    border: none;
+    margin-top: 10px;
+    border-bottom: 1px solid grey;
+    font-size: 30px;
+    font-family: 'summer_garden';
 }
 
 #order_form {
@@ -99,3 +178,15 @@
     flex-direction: column;
     align-items: center;
 }
+
+@media only screen and (min-width: 600px) {
+    
+    .label_holder {
+        width: 600px;
+    }
+    .selection {
+        min-width: 600px;
+        max-width: 600px;
+    }
+
+}   
