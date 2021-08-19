@@ -42,7 +42,12 @@ body {
 .label {
     font-size: 35px;
     align-self: flex-start;
-    padding: 5px 20px;
+    padding: 5px 5px 5px 20px;
+}
+.selected_option_display {
+    font-size: 30px;
+    padding: 5px 0;
+    align-self: center;
 }
 .arrow {
     width: 30px;
@@ -51,6 +56,8 @@ body {
     transform: rotate( 90deg );
     transition: transform 1s;
     z-index: 0;
+    align-self: center;
+    margin-left: auto;
 }
 .arrow.showing {
     transform: rotate( 0deg );

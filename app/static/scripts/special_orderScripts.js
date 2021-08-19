@@ -1,5 +1,17 @@
 
 
+// form object to be updated and accessed by functions
+var formObject = {
+
+    style:'',
+    color:'',
+    band_type:'',
+    design:'',
+    notes:'',
+    contact: {}
+
+}
+
 main();
 
 function main() {
@@ -30,7 +42,8 @@ function init_label_holders() {
         index_counter++;
         selection_below.classList.add('loaded');
         let label_name = label_holders[i].firstElementChild;
-        let arrow = label_name.nextElementSibling;
+        let option_display = label_name.nextElementSibling;
+        let arrow = option_display.nextElementSibling;
 
         let selection_height = selection_below.clientHeight;
         let orig_wrapper_ht = wrapper.clientHeight;
@@ -63,9 +76,6 @@ function init_label_holders() {
 function init_other_options() {
     let other_options = document.getElementsByClassName('other');
 
-    // all options need an event listener for selection...
-    // also needs to trigger a removal for any other option previously selected
-    // check the associated children. possibly reset the 'other' block
     for(let n = 0; n < other_options.length; n++) {
         other_options[n].addEventListener('click', () => {
             // expand the other input
@@ -77,6 +87,12 @@ function init_other_options() {
             close.classList.add('show');
 
             let parent_holder = other_options[n].parentElement;
+            // TODO: next_sel_label could be found here. for referencing later.
+            let sel_label_holder = parent_holder.previousElementSibling;
+            let sel_label = sel_label_holder.firstElementChild;
+            let selected_option_display = sel_label.nextElementSibling;
+            let sel_type = parent_holder.getAttribute('sel_type');
+            console.log(sel_type);
             let options = parent_holder.children;
             for(let i = 0; i < options.length - 1; i++ ) {
                 options[i].classList.add('hide');
@@ -92,11 +108,21 @@ function init_other_options() {
                     for(let i = 0; i < options.length - 1; i++ ) {
                         options[i].classList.remove('hide');
                     }
+                    if( close.classList.contains('accept_input')) {
+                        formObject[sel_type] = input.value;
+                        selected_option_display.innerText = '- ' + input.value;
+                        // TODO: this should also trigger a class for the sel_label
+                        // to highlight border green
+                        // TODO: could also trigger the the sel_label arrow to
+                        // turn into a checkmark
+                    }
+                    
+                    // TODO: close the selection, open the next.
+                    sel_label.click();
                 }
             });
 
             input.addEventListener('input', function() {
-                console.log(event);
                 if(input.value == '') { // if no text in
                     if(other_options[n].classList.contains('value_added')) {
                         other_options[n].classList.remove('value_added');
@@ -110,6 +136,7 @@ function init_other_options() {
                         other_options[n].classList.add('value_added');
                         close.classList.add('accept_input');
                         label.innerText = input.value;
+            
                     }
 
                 }
@@ -120,3 +147,6 @@ function init_other_options() {
 
     }
 }
+
+// function for init of all regular options,
+// listeners and updating label_holder displays and what not.
