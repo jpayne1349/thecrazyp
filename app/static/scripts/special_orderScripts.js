@@ -83,16 +83,22 @@ function init_other_options() {
             let close = other_options[n].firstElementChild;
             let label = close.nextElementSibling;
             let input = label.nextElementSibling;
+            input.focus();
             input.classList.add('show');
             close.classList.add('show');
 
             let parent_holder = other_options[n].parentElement;
-            // TODO: next_sel_label could be found here. for referencing later.
+            // TODO: find next label holder for next click
+            let wrapper = parent_holder.parentElement;
+            let next_wrapper = wrapper.nextElementSibling;
+            let next_label_holder = next_wrapper.firstElementChild;
+            let next_sel_label_holder = parent_holder.nextElementSibling;
             let sel_label_holder = parent_holder.previousElementSibling;
+            
             let sel_label = sel_label_holder.firstElementChild;
             let selected_option_display = sel_label.nextElementSibling;
+            let arrow = selected_option_display.nextElementSibling;
             let sel_type = parent_holder.getAttribute('sel_type');
-            console.log(sel_type);
             let options = parent_holder.children;
             for(let i = 0; i < options.length - 1; i++ ) {
                 options[i].classList.add('hide');
@@ -111,14 +117,23 @@ function init_other_options() {
                     if( close.classList.contains('accept_input')) {
                         formObject[sel_type] = input.value;
                         selected_option_display.innerText = '- ' + input.value;
-                        // TODO: this should also trigger a class for the sel_label
-                        // to highlight border green
-                        // TODO: could also trigger the the sel_label arrow to
+                        // add green bottom border to label holder
+                        sel_label_holder.classList.add('option_selected');
                         // turn into a checkmark
+                        arrow.classList.add('option_selected');
+                        // TODO: close the selection, open the next.
+                        sel_label_holder.click();
+                        setTimeout(() => next_label_holder.click(), 600);
+
+                    } else { // other option closed with no input added
+                        if(sel_label_holder.classList.contains('option_selected')) {
+                            sel_label_holder.classList.remove('option_selected');
+                            arrow.classList.remove('option_selected');
+                            selected_option_display.innerText = '';
+                        }
                     }
                     
-                    // TODO: close the selection, open the next.
-                    sel_label.click();
+                    
                 }
             });
 

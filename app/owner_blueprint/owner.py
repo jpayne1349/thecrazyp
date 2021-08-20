@@ -103,7 +103,21 @@ def new_carousel_photo():
         # need to add flash section to this html file
         flash('No selected file')
         return redirect(request.url)
+
+    # check for duplicate filename
+    saved_files = Carousel.query.all()
+    for db_filename in saved_files:
+        if file.filename == db_filename.filename:
+            print('filenames the same!', file.filename)
+            # split filename at '.'
+            split_name = file.filename.split('.')
+            new_filename = split_name[0] + '(' + str(len(saved_files)) + ')'
+            file.filename = new_filename + '.' + split_name[1]
+            print('new filename = ', file.filename)
+
     if file and allowed_file(file.filename):
+        # TODO: check if filename already exists in database
+        # if taking photo from phone camera, filenames will duplicate
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['CAROUSEL_FOLDER'], filename))
 
