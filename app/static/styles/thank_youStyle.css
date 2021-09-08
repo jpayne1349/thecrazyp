@@ -1,0 +1,43 @@
+
+
+#page_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 65vh;
+    justify-content: space-between;
+}
+
+.header {
+font-size: 80px;
+}
+
+.image_holder {
+    width: 70vw;
+    height: 70vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ty_image {
+
+}
+
+.lower_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+
+}
+
+.paragraph {
+    font-size: 25px;
+    margin: 10px 0px;
+
+}
+
+#menu_linker {
+    color: #6e6ebf;
+    border-bottom: 1px solid #6e6ebf;
+}

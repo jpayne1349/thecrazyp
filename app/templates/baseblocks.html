@@ -9,13 +9,14 @@
     <title>{% block title %}{{title|default}}{% endblock title %}</title>
 
     {%- block metas %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     {%- endblock metas %}
 
     {%- block styles %}
     {%- endblock styles %}
     {%- endblock head %}
   </head>
+
   <body {% block body_attribs %}{% endblock body_attribs %}>
     {% block body -%}
     {% block navbar %}
@@ -32,6 +33,7 @@
     {%- endblock scripts %}
     {%- endblock body %}
   </body>
+  
 {%- endblock html %}
 </html>
 {% endblock doc -%}

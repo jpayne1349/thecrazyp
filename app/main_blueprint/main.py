@@ -1,11 +1,11 @@
 
-from flask import Blueprint, render_template, flash
-
+from flask import Blueprint, render_template, flash, request
 from flask import current_app as app
-
 import os, json
-
+from app import db
 from app.models import Carousel, Product, SpecialOrder
+from app.email import email_special_order
+
 
 main_blueprint = Blueprint('main_blueprint', __name__) 
 
@@ -87,7 +87,25 @@ def load_inventory():
 @main_blueprint.route('/special_order')
 def special_order():
     
-    # form to display here.
-
-
     return render_template('special_order.html')
+
+@main_blueprint.route('/special_order_formObject', methods=['POST'])
+def order_form():
+    form_dict = request.json
+
+    new_special_order = SpecialOrder(style=form_dict['style'], color=form_dict['color'], band=form_dict['band'], notes=form_dict['notes'], contact=form_dict['contact'])
+    # save to db
+    db.session.add(new_special_order)
+    db.session.commit()
+
+    # send email to owner with flask-mail
+    email_special_order(form_dict)
+
+    #TODO: add in a tracker for the email failing or succeeding?
+    
+    return 'order sent'
+
+@main_blueprint.route('/thank_you')
+def thank_you():
+
+    return render_template('thank_you.html')

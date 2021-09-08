@@ -1,0 +1,114 @@
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .wrapper {
+            display: block;
+            text-align: center;
+            background-color: #3d6e8e;
+        }
+        .header {
+                font-size: 35px;
+    margin-bottom: 20px;
+    font-family: monospace;
+        }
+        .selections_holder {
+            display: block;
+        margin: auto auto;
+        max-width: 800px;
+        padding-bottom: 50px;
+        }
+        .option {
+            height: 35vw;
+            width: 35vw;
+            max-width: 300px;
+            max-height: 300px;
+            margin: 5px 20px;
+            display: inline-block;
+            border: 1px solid #d9d9d9;
+            background-color: #d9d9d9;
+        }
+        .option_title {
+            padding: 5px 10px;
+            text-align: center;
+            font-size: 25px;
+            font-family: monospace;
+        }
+        .option_content {
+            margin: 5px 20px;
+        padding: 5px 5px;
+        text-align: center;
+        font-size: 10px;
+        height: calc(100% - 70px);
+        font-family: monospace;
+        background-color: white;
+        border-radius: 5px;
+        }
+        .option_image{
+            width: 100%;
+            height: 100%;
+        }
+        .disclaimer {
+        color: #d9d9d9;
+        font-family: monospace;
+        font-size: 8px;
+        padding: 7px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class='wrapper'>
+        <div class='header'> New Special Order </div>
+
+        <div class='selections_holder'>
+            <div class='option'>
+                <div class='option_title'> Style</div>
+                <div class='option_content'> 
+                    <img class='option_image' placeholder='img_placeholder'>
+                    {{ dict['style'] }} 
+                </div>
+            </div>
+            <div class='option'>
+                <div class='option_title'> Color </div>
+                <div class='option_content'> 
+                    <img class='option_image' placeholder='img_placeholder'>
+                    {{ dict['color'] }} 
+                </div>
+            </div>
+            <div class='option'>
+                <div class='option_title'> Band </div>
+                <div class='option_content'> 
+                    <img class='option_image' placeholder='img_placeholder'>
+                    {{ dict['band'] }} 
+                </div>
+            </div>
+            <div class='option'>
+                <div class='option_title'> Notes </div>
+                <div class='option_content'>
+                    <img class='option_image' placeholder='img_placeholder'>
+                    {{ dict['notes'] }} 
+                </div>
+            </div>
+            <div class='option'>
+                <div class='option_title'> Contact </div>
+                
+                <div class='option_content'> 
+                    <img class='option_image' placeholder='img_placeholder'>
+                    {{ dict['contact'] }} 
+                </div>
+            </div>
+        </div>
+        <div class='disclaimer'> 
+            This email is being sent automatically. This is a send/receive mailing system.
+                <br>
+            Please reply to this email if you have questions or concerns. - STS
+        </div>
+    </div>
+</body>
+
+</html>
+
+

@@ -1,0 +1,35 @@
+{% extends "header_footer.html" %}
+
+{% block head %}
+
+{{super()}}
+
+<link rel="stylesheet" type="text/css" href="/static/styles/thank_youStyle.css?v=02">
+
+{% endblock %}
+
+{% block content %}
+
+<div id='page_content' >
+    <div class='header'>Thank you!</div>
+
+    <div class='image_holder'>
+        <img class='ty_image' alt='thank you image'>
+    </div>
+
+    <div class='lower_content'>
+        <div class='paragraph'> We will reach out to you as soon as possible.</div>
+        <div class='paragraph'>Close this page or continue browsing from the <span id='menu_linker' >menu!</span></div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+{{super()}}
+
+<script src="/static/scripts/thank_youScripts.js?v=02"></script>
+
+{%- endblock scripts %}

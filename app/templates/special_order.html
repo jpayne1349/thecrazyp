@@ -1,5 +1,7 @@
 {% extends "header_footer.html" %}
 
+
+
 {% block head %}
 
 {{super()}}
@@ -21,9 +23,15 @@
             <div class='arrow' id='style_arrow'></div>
         </div>
         <div id='style_selection' sel_type='style' class='selection'>
-            <div class='option' id='style1'></div>
-            <div class='option' id='style2'></div>
-            <div class='option' id='style3'></div>
+            <div class='option' id='style1'>
+                <img alt='img_placeholder'>
+            </div>
+            <div class='option' id='style2'>
+                <img alt='img_placeholder'>
+            </div>
+            <div class='option' id='style3'>
+                <img alt='img_placeholder'>
+            </div>
             <div class='option other' id='other_style'>
                 <div class='other_close' ></div>
                 <div class='other_label'> Other </div>
@@ -38,9 +46,15 @@
                 <div class='arrow' id='color_arrow'></div>
             </div>
             <div id='color_selection' sel_type='color' class='selection'>
-                <div class='option' id='color1'></div>
-                <div class='option' id='color2'></div>
-                <div class='option' id='color3'></div>
+                <div class='option' id='color1'>
+                    <img alt='img_placeholder'>
+                </div>
+                <div class='option' id='color2'>
+                    <img alt='img_placeholder'>
+                </div>
+                <div class='option' id='color3'>
+                    <img alt='img_placeholder'>
+                </div>
                 <div class='option other' id='other_color'>
                     <div class='other_close'></div>
                     <div class='other_label'> Other </div>
@@ -56,9 +70,15 @@
                 <div class='arrow' id='band_arrow'></div>
             </div>
             <div id='band_selection' sel_type='band' class='selection'>
-                <div class='option' id='band1'></div>
-                <div class='option' id='band2'></div>
-                <div class='option' id='band3'></div>
+                <div class='option' id='band1'>
+                    <img alt='img_placeholder'>
+                </div>
+                <div class='option' id='band2'>
+                    <img alt='img_placeholder'>
+                </div>
+                <div class='option' id='band3'>
+                    <img alt='img_placeholder'>
+                </div>
                 <div class='option other' id='other_band'>
                     <div class='other_close'></div>
                     <div class='other_label'> Other </div>
@@ -74,28 +94,16 @@
                 <div class='arrow' id='design_arrow'></div>
             </div>
             <div id='design_selection' sel_type='design' class='selection'>
-                <div class='option' id='design1'></div>
-                <div class='option' id='design2'></div>
-                <div class='option' id='design3'></div>
-                <div class='option other' id='other_design'>
-                    <div class='other_close'></div>
-                    <div class='other_label'> Other </div>
-                    <input class='other_input' type='text'>
+                <div class='option' id='design1'>
+                    <img alt='img_placeholder'>
                 </div>
-            </div>
-        </div>
-
-        <div class='dropdown_wrapper'>
-            <div class='label_holder'>
-                <div id='notes_label' class='label'>Notes</div>
-                <div class='selected_option_display' sel_type='notes'></div>
-                <div class='arrow' id='notes_arrow'></div>
-            </div>
-            <div id='notes_selection' sel_type='notes' class='selection'>
-                <div class='option' id='notes1'></div>
-                <div class='option' id='notes2'></div>
-                <div class='option' id='notes3'></div>
-                <div class='option other' id='other_notes'>
+                <div class='option' id='design2'>
+                    <img alt='img_placeholder'>
+                </div>
+                <div class='option' id='design3'>
+                    <img alt='img_placeholder'>
+                </div>
+                <div class='option other' id='other_design'>
                     <div class='other_close'></div>
                     <div class='other_label'> Other </div>
                     <input class='other_input' type='text'>
@@ -110,15 +118,15 @@
                 <div class='arrow' id='style_arrow'></div>
             </div>
             <div id='contact_selection' sel_type='contact' class='selection'>
-                <div class='option' id='contact1'></div>
-                <div class='option' id='contact2'></div>
-                <div class='option' id='contact3'></div>
-                <div id='contact_method_selection' class='selection'>
-                    <label id='phone_label'> Phone Number </label>
-                    <input type='tel' id='phone_input'>
-                
-                    <label id='email_label'> Email </label>
-                    <input type='email' id='email_input'>
+                <div class='option' id='phone_option'>
+                    <div class='other_close'></div>
+                    <label id='phone_label' class='contact_label'> Text </label>
+                    <input class='contact_input' type='tel' id='phone_input'>
+                </div>
+                <div class='option' id='email_option'>
+                    <div class='other_close'></div>
+                    <label id='email_label' class='contact_label'> Email </label>
+                    <input class='contact_input' type='email' id='email_input'>
                 </div>
                 <div class='option other' id='other_contact'>
                     <div class='other_close'></div>
@@ -128,11 +136,81 @@
             </div>
         </div>
 
-    </form>
+        <div class='dropdown_wrapper'>
+            <div class='label_holder notes'>
+                <div id='notes_label' class='label'> Additional Notes</div>
+                <div class='selected_option_display' sel_type='notes'></div>
+                <div class='arrow' id='notes_arrow'></div>
+            </div>
+            <div id='notes_selection' sel_type='notes' class='selection'>
+                <div class='notes_option' id='notes'>
+                    Anything we need to know?
+                    <textarea class='notes_input' type='text'></textarea>
+                </div>
+            </div>
+        </div>
 
+        <div class='review_wrapper' id='review_wrapper'>
+            <div class='review_button' id='review'> Review </div>
+        </div>
+
+    </div>
 
 </div>
 
+<div id='click_blocker' > </div>
+<div id='review_container' class='fullscreen_container'>
+    <div id='review_header' class='review_header'> Review your selections! </div>
+    <div id='review_form_contents' class='review_contents'>
+        <div class='review_option' id='review_style'>
+            <div class='review_option_title'> Style </div>
+            <div class='review_option_content'>
+                <img class='content_image'>
+                <div class='content_label'></div>
+            </div>
+        </div>
+        <div class='review_option' id='review_color'>
+            <div class='review_option_title'> Color </div>
+            <div class='review_option_content'>
+                <img class='content_image'>
+                <div class='content_label'></div>
+            </div>
+        </div>
+        <div class='review_option' id='review_band'>
+            <div class='review_option_title'> Band Type</div>
+            <div class='review_option_content'>
+                <img class='content_image'>
+                <div class='content_label'></div>
+            </div>
+        </div>
+        <div class='review_option' id='review_design'>
+            <div class='review_option_title'> Design </div>
+            <div class='review_option_content'>
+                <img class='content_image'>
+                <div class='content_label'></div>
+            </div>
+        </div>
+        <div class='review_option' id='review_notes'>
+            <div class='review_option_title'> Notes </div>
+            <div class='review_option_content'>
+                <img class='content_image'>
+                <div class='content_label'></div>
+            </div>
+        </div>
+        <div class='review_option' id='review_contact'>
+            <div class='review_option_title'> Contact Info</div>
+            <div class='review_option_content'>
+                <img class='content_image'>
+                <div class='content_label'></div>
+            </div>
+        </div>
+    </div>
+
+    <div id='button_container'>
+        <div id='back_button'> Back </div>
+        <div id='send_button'> Send </div>
+    </div>
+</div>
 
 {% endblock %}
 
