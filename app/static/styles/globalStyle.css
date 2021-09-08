@@ -65,25 +65,37 @@ a:link, a:visited, a:hover, a:active {
 
 /* SEE PAGE STYLE SHEET */
 
-#instagram_container {
+#social_container {
     display: flex;
-    justify-content: center;
-}
-#ig_link {
-    display: flex;
+    align-items: center;
     flex-direction: column;
+    user-select: none;
 }
-#ig_profile {
+#profile_photo {
     width: 166px;
     border-radius: 50%;
     border: #dfdfdf 2px solid;
     padding: 3px;
     cursor: pointer;
 }
-#ig_logo {
+#logo_container {
+    display: flex;
     width: 166px;
+    justify-content: space-evenly;
+    margin-top: 10px;
+
+}
+#ig_link {
+    display: flex;
+    flex-direction: column;
 }
 
+#ig_logo, #fb_logo {
+    width: 40px;
+}
+#fb_link {
+
+}
 #footer {
     align-self: center;
     padding: 15px;
@@ -196,8 +208,8 @@ position: absolute;
     margin-bottom: 50px;
 }
 
-#ig_profile, #ig_logo {
-    width: 87px;
+#ig_logo, #fb_logo {
+    width: 35px;
 
 }
 

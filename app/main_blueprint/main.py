@@ -108,4 +108,4 @@ def order_form():
 @main_blueprint.route('/thank_you')
 def thank_you():
 
-    return render_template('thank_you.html')
+    return render_template('test_email.html')

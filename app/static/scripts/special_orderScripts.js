@@ -677,6 +677,8 @@ function sendSpecialOrder() {
     let send_button = document.getElementById('send_button');
     send_button.classList.add('sending');
     
+    if(formObject['notes'] = '') {formObject['notes'] == 'None' };
+    
     let form_json = JSON.stringify(formObject);
 
     // ajax submission

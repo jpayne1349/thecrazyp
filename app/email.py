@@ -17,7 +17,7 @@ def email_special_order(order_dict):
         user_email_list.append(user.email)
 
     # just send the data for testing. styling can be done later.
-    new_msg = Message('New Special Order - TheCrazyP.com', sender=smtp_email, recipients=current_app.config['ADMINS'])
+    new_msg = Message('New Special Order - TheCrazyP.com', sender=smtp_email, recipients=user_email_list)
     
     new_msg.html = render_template('test_email.html', dict=order_dict)
 
