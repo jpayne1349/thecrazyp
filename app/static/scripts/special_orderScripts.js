@@ -27,6 +27,7 @@ async function show_first_selection() {
     const contact_options = await init_contact_options();
     const submit_setup = await reviewButtonListener();
     const notes_listener = await init_notes_input();
+    //const desktop_view = await scrollInDesktopView();
     first_selection.click();
 
 }
@@ -37,6 +38,7 @@ function init_label_holders() {
     let index_counter = 0;
     for(let i = 0; i<label_holders.length; i++ ) {
         let wrapper = label_holders[i].parentElement;
+        let top_of_wrapper = wrapper.offsetTop;
         wrapper.style.zIndex = (label_holders.length * 3 ) - index_counter;
         index_counter++;
         label_holders[i].style.zIndex = (label_holders.length * 3 ) - index_counter;
@@ -52,6 +54,7 @@ function init_label_holders() {
         let selection_height = selection_below.clientHeight;
         let orig_wrapper_ht = wrapper.clientHeight;
         let expanded_height = orig_wrapper_ht + selection_height;
+        
         wrapper.style.height = orig_wrapper_ht + 'px';
         
         label_holders[i].addEventListener('click', () => {
@@ -64,13 +67,15 @@ function init_label_holders() {
                 wrapper.style.height = orig_wrapper_ht + 'px';
 
             } else {
+
+                doScrolling(top_of_wrapper - 50, 2000);
+
                 label_holders[i].classList.add('focus');
                 selection_below.classList.add('show');
                 arrow.classList.add('showing');
                 wrapper.classList.add('expanded');
                 wrapper.style.height = expanded_height + 'px';
             }
-        console.log(formObject);
         }
         );
 
@@ -560,8 +565,8 @@ function openNextEmptySelection(this_label_holder) {
                 }
             }
             // if this never returns, the form is filled out completely..
-            // TODO: show submit button here??
-            // slash validate as well.
+
+            doScrolling(0, 1000);
             let review_button = document.getElementById('review');
             review_button.classList.add('available');
         }
@@ -599,7 +604,6 @@ function reviewButtonListener() {
 }
 
 
-// TODO: maybe add a loader to the review button while this function is starting up?
 function toggleReviewContainer() {
     
     let review_container = document.getElementById('review_container');
@@ -664,7 +668,7 @@ function toggleReviewContainer() {
             click_blocker.classList.add('visible');
         }, 100);
 
-        window.scrollTo(container_top, 0);
+        doScrolling(0, 1000);
     }
 
 }
@@ -678,7 +682,7 @@ function sendSpecialOrder() {
     send_button.classList.add('sending');
     
     if(formObject['notes'] = '') {formObject['notes'] == 'None' };
-    
+
     let form_json = JSON.stringify(formObject);
 
     // ajax submission
@@ -702,3 +706,39 @@ function sendSpecialOrder() {
 
 }
 // TODO: formObject[contact] need to differentiate between email and phone? idk.. 
+
+
+function scrollInDesktopView() {
+
+    if(screen.width > 768) {
+        // get the first dropdown wrapper
+        let wrappers = document.getElementsByClassName('dropdown_wrapper');
+        let y_position = wrappers[0].offsetTop;
+        y_position-= 50;
+        doScrolling(y_position, 2000);
+
+    }
+
+}
+
+function doScrolling(elementY, duration) { 
+  var startingY = window.pageYOffset;
+  var diff = elementY - startingY;
+  var start;
+
+  // Bootstrap our animation - it will get called right before next frame shall be rendered.
+  window.requestAnimationFrame(function step(timestamp) {
+    if (!start) start = timestamp;
+    // Elapsed milliseconds since start of scrolling.
+    var time = timestamp - start;
+    // Get percent of completion in range [0, 1].
+    var percent = Math.min(time / duration, 1);
+
+    window.scrollTo(0, startingY + diff * percent);
+
+    // Proceed with animation as long as we wanted it to.
+    if (time < duration) {
+      window.requestAnimationFrame(step);
+    }
+  })
+}

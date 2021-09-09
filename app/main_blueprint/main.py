@@ -73,6 +73,8 @@ def load_inventory():
 
         # look for folder
         for photo_folder in product_photos_folders:
+            if(photo_folder == '.DS_Store'):
+                continue
             if int(photo_folder) == product.id:
                 folder_path = os.path.join(inventory_dir, photo_folder)
                 photos_list = os.listdir(folder_path)   
@@ -109,3 +111,8 @@ def order_form():
 def thank_you():
 
     return render_template('test_email.html')
+
+
+# TODO: write the emailing portion of the inventory request.
+# TODO: the inventory items are pulling all of the db info into their elements.
+# TODO: add scrolling effect to the inventory items page as well?
