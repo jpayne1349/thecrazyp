@@ -1,4 +1,8 @@
 
+//TODO: fix the photos list arrows. so they are individual
+// they are messed up rn..
+// maybe make the request form slide up from the bottom of the green border?
+// would look cool.
 
 // does a listdir of photos folder on server, allow for easy removal/addition of photos?
 fetch('/load_inventory', { method: 'POST' })
@@ -18,10 +22,28 @@ function load_iventory(inventory_products) {
 
         let product_card = document.createElement('div');
         product_card.className = 'product_card';
-        product_card.addEventListener('click', open_card);
+        product_card.addEventListener('click', open_card); 
+        
+        let placeholder = document.createElement('div');
+        placeholder.className = 'product_card placeholder';
 
         // event listener on product card has to be removed, in order to add one to the close button
         function open_card() {
+
+            // we need to quickly make a placeholder for this card,
+            // and send this one into absolute positioning.
+            
+            let top = this.offsetTop - 20;
+            let left = this.offsetLeft - 48;
+
+            if( screen.width < 600 ) {
+                left = this.offsetLeft;
+            }
+            product_card.style.top = top + 'px';
+            product_card.style.left = left + 'px';
+            
+            this.before(placeholder);
+            
 
             // add photos to the product photo div? or img.. 
             product_card.classList.add('selected');
@@ -91,6 +113,8 @@ function load_iventory(inventory_products) {
 
         function close_card() {
 
+            // add a closing class before removing the absolute position
+            product_card.classList.add('closing');
             
             previous_photo_button.style.opacity = '0';
             next_photo_button.style.opacity = '0';
@@ -99,7 +123,7 @@ function load_iventory(inventory_products) {
             product_details.style.opacity = '0';
             product_price.style.opacity = '0';
             purchase_button.style.opacity = '0';
-            product_card.classList.remove('selected');
+            
             product_photos_div.classList.remove('selected');
             product_details.classList.remove('show');
 
@@ -109,8 +133,15 @@ function load_iventory(inventory_products) {
                 product_price.classList.remove('show');
                 previous_photo_button.classList.remove('show');
                 next_photo_button.classList.remove('show');
+                
 
             }, 300);
+
+            setTimeout( () => {
+                product_card.classList.remove('selected');
+                placeholder.remove();
+                product_card.classList.remove('closing');
+            }, 1000);
 
             product_card.removeEventListener('click', close_card);
             setTimeout( () => product_card.addEventListener('click', open_card) , 100);
