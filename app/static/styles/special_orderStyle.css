@@ -444,7 +444,18 @@ font-size: 33px;
         max-width: 600px;
     }
     .fullscreen_container {
-        height: 160vh;
+        height: 90vh;
+        overflow: scroll;
+        width: 65vw;
+        left: 17.5vw;
+    }
+    .review_option {
+
+    }
+    .review_option_content {
+        width: 25vh;
+        height: 25vh;
+
     }
     #click_blocker {
         height: 200vh;

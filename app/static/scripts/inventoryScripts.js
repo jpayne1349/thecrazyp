@@ -11,7 +11,9 @@ fetch('/load_inventory', { method: 'POST' })
 function load_iventory(inventory_products) {
     let product;
     let inventory_div = document.getElementById('inventory_div');
-    
+
+    console.log(inventory_products);
+
     for( product of inventory_products) {
 
         let product_card = document.createElement('div');
@@ -30,10 +32,12 @@ function load_iventory(inventory_products) {
             product_descript.classList.add('selected');
             close_selected_product.classList.add('show');
             product_details.classList.add('show');
+            product_price.classList.add('show');
             purchase_button.classList.add('show');
 
             setTimeout( () => {
                 product_details.style.opacity = '1';
+                product_price.style.opacity = '1';
                 purchase_button.style.opacity = '1';
                 previous_photo_button.style.opacity = '1';
                 next_photo_button.style.opacity = '1';
@@ -51,7 +55,7 @@ function load_iventory(inventory_products) {
 
         let product_descript = document.createElement('div');
         product_descript.className = 'product_descript';
-        product_descript.innerText = 'description';
+        product_descript.innerText = product['description'];
 
         let previous_photo_button = document.createElement('div');
         previous_photo_button.className = 'previous_photo_button';
@@ -65,7 +69,7 @@ function load_iventory(inventory_products) {
         for( let photo_src of product.photos_list ) {
             let inv_product_photo = document.createElement('img');
             inv_product_photo.className = 'inv_product_photo';
-            // TODO: might need version number on this as well
+    
             inv_product_photo.src = '/static/product_inventory/' + product.id + '/' + photo_src;
             // set first looped photo to active on load..
             if(first_photo == true) {
@@ -93,6 +97,7 @@ function load_iventory(inventory_products) {
             product_descript.classList.remove('selected');
             close_selected_product.classList.remove('show');
             product_details.style.opacity = '0';
+            product_price.style.opacity = '0';
             purchase_button.style.opacity = '0';
             product_card.classList.remove('selected');
             product_photos_div.classList.remove('selected');
@@ -101,6 +106,7 @@ function load_iventory(inventory_products) {
             setTimeout( () => {
                 
                 purchase_button.classList.remove('show');
+                product_price.classList.remove('show');
                 previous_photo_button.classList.remove('show');
                 next_photo_button.classList.remove('show');
 
@@ -112,16 +118,43 @@ function load_iventory(inventory_products) {
 
         let product_details = document.createElement('div');
         product_details.className = 'product_details';
-        product_details.innerText = 'More product info here...';
+        product_details.innerText = product['details'];
+
+        let lower_section = document.createElement('div');
+        lower_section.className = 'lower_section';
+
+        let product_price = document.createElement('div');
+        product_price.className = 'product_price';
+        product_price.innerText = '$' + product['price'];
 
         let purchase_button = document.createElement('div');
         purchase_button.className = 'purchase_button';
-        purchase_button.innerText = 'Request';
+        if(product['status'] == '0') {
+            purchase_button.innerText = 'Request';
+            purchase_button.classList.add('avail');
+            product_card.classList.add('avail');
+            purchase_button.setAttribute('var', product['id']);
+            purchase_button.addEventListener('click', requestItemForm);
+        } else if( product['status'] == '1') {
+            purchase_button.innerText = 'Pending';
+            purchase_button.classList.add('pend');
+            product_card.classList.add('pend');
+        } else {
+            purchase_button.innerText = 'Sold';
+            purchase_button.classList.add('sold');
+            product_card.classList.add('sold');
+        }
+        
+
+        lower_section.append(product_price, purchase_button);
+        // check product status and determine if button what purchase button should read?
+        // TODO: the product status should also be shown in the non-selected view
+        // TODO: also, sort the product by this. unavailable product should come last...
+        
 
 
 
-
-        product_card.append(close_selected_product, product_descript, product_photos_div, product_details, purchase_button);
+        product_card.append(close_selected_product, product_descript, product_photos_div, product_details, lower_section);
 
         inventory_div.append(product_card);
 
@@ -187,5 +220,12 @@ function change_photo(event) {
             break;
         }
     }
+
+}
+
+// pull the items info and display a form to fill out
+function requestItemForm() {
+
+    console.log(this);
 
 }
