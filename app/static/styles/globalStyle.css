@@ -78,7 +78,7 @@ a:link, a:visited, a:hover, a:active {
     border-radius: 50%;
     border: #dfdfdf 2px solid;
     padding: 3px;
-    cursor: pointer;
+    cursor: default;
 }
 #logo_container {
     display: flex;

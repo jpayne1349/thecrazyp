@@ -1,7 +1,6 @@
 
-//TODO: fix the photos list arrows. so they are individual
-// they are messed up rn..
-// maybe make the request form slide up from the bottom of the green border?
+
+// TODO: maybe make the request form slide up from the bottom of the green border?
 // would look cool.
 
 // does a listdir of photos folder on server, allow for easy removal/addition of photos?
@@ -178,13 +177,9 @@ function load_iventory(inventory_products) {
         
 
         lower_section.append(product_price, purchase_button);
-        // check product status and determine if button what purchase button should read?
-        // TODO: the product status should also be shown in the non-selected view
-        // TODO: also, sort the product by this. unavailable product should come last...
         
-
-
-
+        // TODO: also, sort the product the status. unavailable product should come last...
+        
         product_card.append(close_selected_product, product_descript, product_photos_div, product_details, lower_section);
 
         inventory_div.append(product_card);
@@ -212,7 +207,13 @@ function toggle_selected_card(card_element) {
 
 // move showing class forward or backward
 function change_photo(event) {
-    let photo_stack = document.getElementById('photo_stack');
+    
+    let arrow = event.srcElement;
+    let product_photo_div = arrow.parentElement;
+    let children_arr = product_photo_div.children;
+
+    let photo_stack = children_arr[1];
+
     let direction;
     if(event.target.classList.contains('previous_photo_button')) {
         direction = -1;
@@ -221,23 +222,21 @@ function change_photo(event) {
     }
     let photos_list = photo_stack.children;
 
-    console.log( 'move direction', direction);
     for( let photo of photos_list ) {
+        // find the current active photo.., get next/prev based on that.
         if( photo.classList.contains('active')) {
-            // photo.classList.remove('active');
+            
             let next_photo = photo.nextSibling;
             if( next_photo == null) {
                 next_photo = photos_list.item(0);
             }
-            console.log('next', next_photo);
+            
             let prev_photo = photo.previousSibling;
             if( prev_photo == null) {
-                console.log(photos_list.length);
                 prev_photo = photos_list.item(photos_list.length - 1);
-                console.log('null, changed to', prev_photo);
+    
             }
-            console.log('prev', prev_photo);
-
+            
             setTimeout(()=>{
                 if( direction == 1 ) {
                 next_photo.classList.add('active');
