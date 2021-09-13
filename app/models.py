@@ -29,6 +29,11 @@ class SpecialOrder(db.Model):
     notes = db.Column(db.String(24), index=True)
     contact = db.Column(db.String(24), index=True)
 
+class ProductRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    product_id = db.Column(db.Integer, index=True)
+    contact_info = db.Column(db.String(48), index=True)
+    date_created = db.Column(db.String(24), index=True)
 
 @login_manager.user_loader
 def load_user(id):

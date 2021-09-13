@@ -272,6 +272,12 @@
 .request_contact_input.show {
     display: block;
 }
+.request_contact_input.required {
+    border-color: rgb(245, 75, 75);
+    border-style: solid;
+    border-width: 1px;    
+}
+
 .request_descript {
     font-size: 20px;
     text-align: center;

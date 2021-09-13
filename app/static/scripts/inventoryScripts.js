@@ -312,7 +312,6 @@ function requestItemForm() {
     // product details
     let product_details = lower_section.previousSibling;
     let target_y = product_details.offsetTop;
-    console.log(target_y);
     
     request_div.classList.add('show');
     setTimeout(()=>{
@@ -325,8 +324,6 @@ function requestItemForm() {
 
     let request_start_point = request_div.offsetTop;
     let calculated_height = request_start_point - target_y;
-    console.log(request_start_point);
-    console.log(calculated_height);
 
     request_div.style.height = calculated_height + 'px';
 
@@ -338,6 +335,8 @@ function closeRequestForm() {
 
     let cancel_button = this;
     let button_div = cancel_button.parentElement;
+    let descript = button_div.previousElementSibling;
+    let textarea_input = descript.previousElementSibling;
     let request_div = button_div.parentElement;
     let div_children = request_div.children;
 
@@ -348,6 +347,10 @@ function closeRequestForm() {
         }
 
         request_div.style.height = '0px';
+        
+        if( textarea_input.classList.contains('required')) {
+            textarea_input.classList.remove('required');
+        }
 
     }
 
@@ -357,4 +360,54 @@ function closeRequestForm() {
 function sendInventoryRequest() {
 
     console.log(this);
+    let send_button = this;
+    let button_div = send_button.parentElement;
+    let request_div = button_div.parentElement;
+    let request_children = request_div.children;
+    let contact_input = request_children[2];
+
+    let contact_info = contact_input.value;
+
+    // check for empty input
+    if( contact_info == '') {
+        contact_input.classList.add('required');
+    } else {
+
+        // get product id, and contact info, send to server
+        let product_id = send_button.getAttribute('var');
+
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date+' '+time;
+
+        let object_to_send = {
+            'id': product_id,
+            'contact_info': contact_info,
+            'date_created': dateTime
+        };
+
+        let json_object = JSON.stringify(object_to_send);
+
+        // ajax submission
+        fetch('/inventoryProductRequest', {
+                method: 'POST',
+                body: json_object,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then((success) => {
+                console.log(success)
+                // redirect to thank you page.
+                setTimeout(()=>window.location.replace('/thank_you'), 1000);
+
+            })
+            .catch((fail) => {
+                // TODO: display an error page or message
+                console.log(fail)
+            });
+
+    }
+
 }

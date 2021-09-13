@@ -3,8 +3,8 @@ from flask import Blueprint, render_template, flash, request
 from flask import current_app as app
 import os, json
 from app import db
-from app.models import Carousel, Product, SpecialOrder
-from app.email import email_special_order
+from app.models import Carousel, Product, SpecialOrder, ProductRequest
+from app.email import email_special_order, email_product_order
 
 
 main_blueprint = Blueprint('main_blueprint', __name__) 
@@ -110,7 +110,29 @@ def order_form():
 @main_blueprint.route('/thank_you')
 def thank_you():
 
-    return render_template('test_email.html')
+    return render_template('thank_you.html')
+
+@main_blueprint.route('/inventoryProductRequest', methods=['POST'])
+def product_request():
+
+    info_dict = request.json
+
+    # create a new db productRequest
+    new_req = ProductRequest(product_id = info_dict['id'], contact_info = info_dict['contact_info'], date_created = info_dict['date_created'])
+    db.session.add(new_req)
+    db.session.commit()
+
+    id = info_dict['id']
+    # set product status as pending
+    product = Product.query.filter_by(id = id).first()
+    print(product)
+    product.status = 1
+    db.session.add(product)
+    db.session.commit()
+
+    # send email out to owner
+    email_product_order(product, info_dict['contact_info'])
+
 
 
 # TODO: write the emailing portion of the inventory request.
