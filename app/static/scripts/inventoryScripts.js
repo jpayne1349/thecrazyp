@@ -112,6 +112,16 @@ function load_iventory(inventory_products) {
 
         function close_card() {
 
+            // close the request form if it is open.
+            // simulate click.
+            let lower_section = product_details.nextElementSibling;
+            let lower_children = lower_section.children;
+            let request_div = lower_children[2];
+            let request_children = request_div.children;
+            let request_buttons = request_children[4];
+            let cancel_button = request_buttons.firstChild;
+            cancel_button.click();
+
             // add a closing class before removing the absolute position
             product_card.classList.add('closing');
             
@@ -181,6 +191,43 @@ function load_iventory(inventory_products) {
         // TODO: also, sort the product the status. unavailable product should come last...
         
         product_card.append(close_selected_product, product_descript, product_photos_div, product_details, lower_section);
+
+        let request_div = document.createElement('div');
+        request_div.className = 'request_div';
+
+        let request_title = document.createElement('div');
+        request_title.className = 'request_title';
+        request_title.innerText = 'How can we contact you?'
+
+        let request_examples = document.createElement('div');
+        request_examples.className = 'request_examples';
+        request_examples.innerText = 'Text , Email , Instagram, Facebook, etc';
+
+        let request_contact_input = document.createElement('textarea');
+        request_contact_input.className = 'request_contact_input';
+
+        let request_descript = document.createElement('div');
+        request_descript.className = 'request_descript';
+        request_descript.innerHTML = 'This hat and your contact info will go straight to us! <br> We will reach out soon!'
+
+        let request_buttons = document.createElement('div');
+        request_buttons.className = 'request_buttons';
+
+        let cancel_request = document.createElement('div');
+        cancel_request.className = 'cancel_request button';
+        cancel_request.innerText = 'Cancel';
+        cancel_request.addEventListener('click', closeRequestForm);
+
+        let send_request = document.createElement('div');
+        send_request.className = 'send_request button';
+        send_request.innerText = 'Send';
+        send_request.setAttribute('var', product['id']);
+        send_request.addEventListener('click', sendInventoryRequest);
+
+        request_buttons.append(cancel_request, send_request);
+
+        request_div.append(request_title, request_examples, request_contact_input, request_descript, request_buttons);
+        lower_section.append(request_div);
 
         inventory_div.append(product_card);
 
@@ -256,6 +303,58 @@ function change_photo(event) {
 // pull the items info and display a form to fill out
 function requestItemForm() {
 
-    console.log(this);
+    let request_button = this;
+    let lower_section = request_button.parentElement;
+    let lower_children = lower_section.children;
+    let request_div = lower_children[2];
+    let request_div_children = request_div.children;
 
+    // product details
+    let product_details = lower_section.previousSibling;
+    let target_y = product_details.offsetTop;
+    console.log(target_y);
+    
+    request_div.classList.add('show');
+    setTimeout(()=>{
+        for( let element of request_div_children ) {
+            element.classList.add('show');   
+        }
+    },800);
+
+    // TODO: make this show/hide work with opacity fading.
+
+    let request_start_point = request_div.offsetTop;
+    let calculated_height = request_start_point - target_y;
+    console.log(request_start_point);
+    console.log(calculated_height);
+
+    request_div.style.height = calculated_height + 'px';
+
+    
+}
+
+// hides the request form popup. also will run in async from close card function
+function closeRequestForm() {
+
+    let cancel_button = this;
+    let button_div = cancel_button.parentElement;
+    let request_div = button_div.parentElement;
+    let div_children = request_div.children;
+
+    if( button_div.classList.contains('show')) {
+
+        for( let element of div_children) {
+            element.classList.remove('show');
+        }
+
+        request_div.style.height = '0px';
+
+    }
+
+}
+
+// grab product id/info and send to server side for db changes and emailing owner
+function sendInventoryRequest() {
+
+    console.log(this);
 }
