@@ -327,11 +327,11 @@ font-size: 33px;
     opacity: 0.95;
 }
 .fullscreen_container {
-    width: 80vw;
-    height: 80vh;
+    width: 90vw;
+    height: 90vh;
     position: absolute;
     top: 5vh;
-    left: 10vw;
+    left: 5vw;
     background-color: white;
     border: 1px solid #dedede;
     border-radius: 20px;
@@ -453,8 +453,8 @@ font-size: 33px;
 
     }
     .review_option_content {
-        width: 25vh;
-        height: 25vh;
+       width: 20vh;
+    height: 20vh;
 
     }
     #click_blocker {
