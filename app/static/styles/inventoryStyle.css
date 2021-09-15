@@ -23,7 +23,7 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s, width 1s, height 1s, margin 1s;
-    background-color: white;
+    background-color: rgb(250 250 250);
     user-select: none;
     
 }

@@ -32,7 +32,7 @@ body {
         margin: 0px 20px 20px 20px;
     z-index: 3;
     box-shadow: black 0px 5px 6px -7px;
-    background-color: white;
+    background-color: #fafafa;;
 }
 #mobile_navbar_hamburger {
     display: none;
@@ -128,7 +128,7 @@ background-color: #a5e5a5;
 
 #navbar {
     flex-direction: column;
-    background-color: white;
+    background-color: #fafafa;;
     height: 50vh;
     border-bottom: none;
     margin: 0;
