@@ -125,13 +125,18 @@ def product_request():
     id = info_dict['id']
     # set product status as pending
     product = Product.query.filter_by(id = id).first()
-    print(product)
-    product.status = 1
-    db.session.add(product)
-    db.session.commit()
+
+    if( info_dict['status'] == 0 ):
+        product.status = 1
+        db.session.add(product)
+        db.session.commit()
+
 
     # send email out to owner
-    email_product_order(product, info_dict['contact_info'])
+    email_product_order(product, info_dict['contact_info'], info_dict['status'])
+
+
+
 
 
 

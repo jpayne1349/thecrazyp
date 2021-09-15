@@ -3,12 +3,13 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
+        
         .wrapper {
             display: block;
             text-align: center;
             background-color: #568fa3;
         }
-
+        
         .header {
             font-size: 35px;
             font-family: monospace;
@@ -35,6 +36,10 @@
         .status_update {
             margin-bottom: 20px;
         }
+        .status_update.not_available {
+            color: #9c5858;
+    font-size: 25px;
+        }
         .disclaimer {
             color: #d9d9d9;
             font-family: monospace;
@@ -59,10 +64,20 @@
             <div class='customer_info label'> Customers Provided Contact Info: </div>
             <div class='info'>{{ dict['contact_info'] }}</div>
         </div>
-        <div class='status_update'> 
-            This item's status has automatically been updated to Pending. <br>
-            Please <a href='http://143.244.171.13/owner_login'>login </a> to update as necessary.
-        </div>
+        <!-- This status update will be based on a dict variable orig_status -->
+        {% if dict['orig_status'] == 0 %}
+            <div class='status_update'> 
+                This item's status has automatically been updated to Pending. <br>
+                Please <a href='http://143.244.171.13/owner_login'>login </a> to update as necessary.
+            </div>
+        {% else %}
+            <div class='status_update not_available'>
+                This item was requested while Pending or Sold. <br>
+                Status of existing product not changed.
+            </div>
+
+        {% endif %}
+
         <div class='disclaimer'>
             This email is being sent automatically. This is a send/receive mailing system.
             <br>

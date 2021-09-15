@@ -29,7 +29,10 @@ def email_special_order(order_dict):
     new_thread.start()
 
 
-def email_product_order(product_object, contact_info):
+def email_product_order(product_object, contact_info, status):
+
+    # TODO: check status, change email message based on that
+    # can pass in something to the template, and do in template?
 
     all_users = User.query.all()
     user_email_list = []
@@ -44,7 +47,8 @@ def email_product_order(product_object, contact_info):
         'description':product_object.description,
         'details':product_object.details,
         'price':product_object.price,
-        'contact_info':contact_info
+        'contact_info':contact_info,
+        'orig_status':status
     }
 
     new_msg.html = render_template('product_requested_email.html', dict=product_dict)

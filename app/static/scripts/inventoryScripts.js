@@ -173,8 +173,6 @@ function load_iventory(inventory_products) {
             purchase_button.innerText = 'Request';
             purchase_button.classList.add('avail');
             product_card.classList.add('avail');
-            purchase_button.setAttribute('var', product['id']);
-            purchase_button.addEventListener('click', requestItemForm);
         } else if( product['status'] == '1') {
             purchase_button.innerText = 'Pending';
             purchase_button.classList.add('pend');
@@ -184,6 +182,8 @@ function load_iventory(inventory_products) {
             purchase_button.classList.add('sold');
             product_card.classList.add('sold');
         }
+        purchase_button.setAttribute('var', product['id']);
+        purchase_button.addEventListener('click', requestItemForm);
         
 
         lower_section.append(product_price, purchase_button);
@@ -301,8 +301,12 @@ function change_photo(event) {
 }
 
 // pull the items info and display a form to fill out
+//TODO: add a selector to this function, avail, pend, sold
+// to modify certain parts of the process.
+// we still want the option to request a hat similar to one that's already been sold..
 function requestItemForm() {
 
+    // check the request button for classes that coincide with status
     let request_button = this;
     let lower_section = request_button.parentElement;
     let lower_children = lower_section.children;
@@ -312,7 +316,24 @@ function requestItemForm() {
     // product details
     let product_details = lower_section.previousSibling;
     let target_y = product_details.offsetTop;
-    
+
+    if( request_button.classList.contains('pend')) {
+        request_div.classList.add('pend');
+        request_div_children[2].classList.add('pend');
+        let request_title = request_div_children[0];
+        request_title.innerText = 'We can make more!';
+        let request_descript = request_div_children[3];
+        request_descript.innerHTML = 'Drop your contact info above and we will contact you about making a hat similar to this one!';
+
+    } else if (request_button.classList.contains('sold')) {
+        request_div.classList.add('sold');
+        request_div_children[2].classList.add('sold');
+        let request_title = request_div_children[0];
+        request_title.innerText = 'We can make more!';
+        let request_descript = request_div_children[3];
+        request_descript.innerHTML = 'Drop your contact info above and we will contact you about making a hat similar to this one!';
+    }
+
     request_div.classList.add('show');
     setTimeout(()=>{
         for( let element of request_div_children ) {
@@ -372,6 +393,19 @@ function sendInventoryRequest() {
     if( contact_info == '') {
         contact_input.classList.add('required');
     } else {
+        // TODO: make this sending class look better on mobile
+        send_button.classList.add('sending');
+
+        // TODO: check the request_div for a pend/sold class
+        // modify the object to send based on this, to keep track of this
+
+        let status = 0;
+        // get pend/sold status if applicable
+        if( request_div.classList.contains('pend')) {
+            status = 1;
+        } else if( request_div.classList.contains('sold')) {
+            status = 2;
+        }
 
         // get product id, and contact info, send to server
         let product_id = send_button.getAttribute('var');
@@ -384,7 +418,8 @@ function sendInventoryRequest() {
         let object_to_send = {
             'id': product_id,
             'contact_info': contact_info,
-            'date_created': dateTime
+            'date_created': dateTime,
+            'status': status
         };
 
         let json_object = JSON.stringify(object_to_send);
@@ -400,7 +435,7 @@ function sendInventoryRequest() {
             .then((success) => {
                 console.log(success)
                 // redirect to thank you page.
-                setTimeout(()=>window.location.replace('/thank_you'), 1000);
+                setTimeout(()=>window.location.replace('/thank_you'), 2000);
 
             })
             .catch((fail) => {
