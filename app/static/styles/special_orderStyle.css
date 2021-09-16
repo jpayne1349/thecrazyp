@@ -39,6 +39,8 @@ body {
     box-shadow: black 0px 5px 6px -9px;
     background-color: rgb(250 250 250);;
     transition: box-shadow 1.5s;
+    cursor: pointer;
+
 }
 .label_holder.focus {
     background-color: rgb(250 250 250);;
@@ -169,7 +171,11 @@ transform: translate(19px, 20px) rotate(
     position: relative;
     max-width: 250px;
     max-height: 250px;
-    
+    cursor: pointer;
+    transition: box-shadow 0.5s;
+}
+.option:hover {
+    box-shadow: black 0px 4px 19px -8px;
 }
 .option.hide {
     display: none;
@@ -394,6 +400,8 @@ font-size: 33px;
     background-color: #f5aaaa;
     border-bottom-left-radius: 20px;
     border-top-right-radius: 20px;
+    user-select: none;
+    cursor: pointer;
 
 }
 #back_button:hover {
@@ -405,6 +413,8 @@ font-size: 33px;
     background-color: #b0f5aa;
     border-bottom-right-radius: 20px;
     border-top-left-radius: 20px;
+    user-select: none;
+    cursor: pointer;
 
 }
 #send_button:hover {

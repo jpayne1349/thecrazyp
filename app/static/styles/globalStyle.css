@@ -18,21 +18,27 @@ body {
 }
 
 #header_and_logo {
-    min-height: 100px;
-    text-align: center;
-    padding: 25px;
-    font-size: 60px;
+    display: flex;
+    justify-content: left;
+    position: absolute;
+    z-index: 5;
+}
+.logo_img {
+    width: 15vw;
+    filter: brightness(0.98);
+    margin-left: 25px;
 }
 #navbar {
-    min-height: 50px;
+    min-height: 140px;
     text-align: center;
     display: flex;
+    align-items: center;
     justify-content: center;
     border-bottom: 1px solid #c2c2c2;
-        margin: 0px 20px 20px 20px;
+    margin: 0px 20px 20px 20px;
     z-index: 3;
     box-shadow: black 0px 5px 6px -7px;
-    background-color: #fafafa;;
+    background-color: #fafafa;
 }
 #mobile_navbar_hamburger {
     display: none;
@@ -123,7 +129,28 @@ background-color: #a5e5a5;
 @media only screen and (max-width: 600px) {
 
 #header_and_logo {
-    
+    min-height: 125px;
+    align-items: center;
+    position: relative;
+    box-shadow: black 0px 5px 6px -7px;
+    margin-bottom: 20px;
+    transition: transform 1s ease 0.3s, box-shadow 0.5s;
+    z-index: 3;
+}
+#header_and_logo.show {
+    box-shadow: none;
+
+}
+#header_and_logo > a > img{
+    transition: all 1s;
+}
+#header_and_logo.show > a > img {
+    width: 30vw;
+    transform: translate(31vw);
+}
+.logo_img {
+    width: 22vw;
+    margin-left: 20px;
 }
 
 #navbar {
@@ -145,12 +172,12 @@ background-color: #a5e5a5;
 
 #mobile_navbar_hamburger {
     position: absolute;
-    top: 45px;
-    right: 25px;
+    top: 51px;
+    right: 37px;
     display: block;
     font-size: 40px;
     transform: translate(0 , 0);
-    z-index: 4;
+    z-index: 6;
 
     height: 25px;
     border-radius: 50%;
@@ -158,13 +185,13 @@ background-color: #a5e5a5;
 }
 
 #mobile_navbar_hamburger.open {
-    transform: translate(0px , 54vh);
+    transform: translate(0px , 52vh);
     transition: transform 0.7s ease 0.2s;
 }
 
 #burger1, #burger2, #burger3 {
     content: '';
-    width: 30px;
+    width: 35px;
     height: 2px;
     background-color: black;
     border-radius: 2px;

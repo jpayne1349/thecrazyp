@@ -312,6 +312,7 @@
 .send_request {
     background-color: #379937;
 }
+/* MAKE THIS SENDING THING BETTER FOR MOBILE... */
 .send_request.sending {
     animation-name: sending_request;
     animation-duration: 1s;
