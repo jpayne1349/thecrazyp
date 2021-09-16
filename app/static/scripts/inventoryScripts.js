@@ -90,7 +90,21 @@ function load_iventory(inventory_products) {
         for( let photo_src of product.photos_list ) {
             let inv_product_photo = document.createElement('img');
             inv_product_photo.className = 'inv_product_photo';
-    
+
+            let img_loading_placeholder = document.createElement('div');
+            img_loading_placeholder.className = 'img_loading_placeholder shimmer';
+
+            // before adding src, need to setup onload function for each
+            inv_product_photo.onload = function() {
+                img_loading_placeholder.classList.add('loaded');
+                setTimeout(()=>{
+                    inv_product_photo.classList.add('loaded');
+                    img_loading_placeholder.remove();
+                },1000);
+                
+                
+            };
+
             inv_product_photo.src = '/static/product_inventory/' + product.id + '/' + photo_src;
             // set first looped photo to active on load..
             if(first_photo == true) {
@@ -98,7 +112,7 @@ function load_iventory(inventory_products) {
                 first_photo = false;
             }
 
-            photo_stack.appendChild(inv_product_photo);
+            photo_stack.append(img_loading_placeholder, inv_product_photo);
         }
 
         let next_photo_button = document.createElement('div');

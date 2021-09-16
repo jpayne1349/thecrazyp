@@ -27,6 +27,7 @@ body {
     width: 15vw;
     filter: brightness(0.98);
     margin-left: 25px;
+    max-width: 137px;
 }
 #navbar {
     min-height: 140px;
