@@ -82,9 +82,15 @@ def load_inventory():
 
         product_list.append(product_object)
 
+    # sort the list of dictionaries based on status value
+    product_list.sort(key=returnStatus)
+    
     json_data = json.dumps(product_list)
 
     return json_data
+
+def returnStatus(product_object):
+    return product_object['status']
 
 @main_blueprint.route('/special_order')
 def special_order():

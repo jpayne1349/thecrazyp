@@ -9,6 +9,7 @@
     flex-wrap: wrap;
     justify-content: center;
     min-height: 75vh;
+    margin-bottom: 150px;
 }
 
 .product_card {
