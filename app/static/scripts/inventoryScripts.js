@@ -149,13 +149,13 @@ function load_iventory(inventory_products) {
             
             product_photos_div.classList.remove('selected');
             product_details.classList.remove('show');
+            previous_photo_button.classList.remove('show');
+            next_photo_button.classList.remove('show');
 
             setTimeout( () => {
                 
                 purchase_button.classList.remove('show');
                 product_price.classList.remove('show');
-                previous_photo_button.classList.remove('show');
-                next_photo_button.classList.remove('show');
                 
 
             }, 300);
