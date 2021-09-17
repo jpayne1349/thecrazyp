@@ -232,11 +232,14 @@ function upload_carousel_file() {
         body: file
         })
         .then(function(response) {
-                    // checks for and parses json. 
-                    response.json().then( function(result){ 
-                    
-                    console.log(result);
-                });
+            // checks for and parses json. 
+            response.json().then( function(result){ 
+            
+            console.log(result);
+        })
+        .catch(function(response){
+            console.log(response);
+        });
             }
         );
     };

@@ -116,8 +116,7 @@ def new_carousel_photo():
             print('new filename = ', file.filename)
 
     if file and allowed_file(file.filename):
-        # TODO: check if filename already exists in database
-        # if taking photo from phone camera, filenames will duplicate
+
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['CAROUSEL_FOLDER'], filename))
 
