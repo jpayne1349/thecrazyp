@@ -45,7 +45,7 @@ function populate_carousel(json_files_object) {
     }
 
     // this makes the container a square, which matches the photos, and allows for centering easily
-    carousel_container.style.height = carousel_container.scrollWidth + 'px';
+    carousel_container.style.height = (carousel_container.scrollWidth * 0.75) + 'px';
     
     carousel_animation(index_tracking);
 
@@ -57,7 +57,7 @@ function populate_carousel(json_files_object) {
 // controls animation. starts in auto, changes to manual after first click event
 function carousel_animation(carousel_object) {
     
-    let interval_time = 5000;
+    let interval_time = 8000;
     // tracks whether out of auto or not yet
     let auto_bool = true;
     let slide_show_container = document.getElementById('slide_show_container');
