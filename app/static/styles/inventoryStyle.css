@@ -13,8 +13,8 @@
 }
 
 .product_card {
-    width: 320px;
-    height: 290px;
+    width: 350px;
+    height: 320px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,7 +29,7 @@
     
 }
 .product_card:hover {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 10px;
+    /* box-shadow: rgba(0, 0, 0, 0.24) 0px 6px 10px; */
     transform: translateY(-3px);
 }
 .product_card.avail {
@@ -43,41 +43,43 @@
 }
 .product_card.selected {
     /* width: 350px; */
-    height: 540px;
+    height: 600px;
     position: absolute;
     z-index: 2;
     cursor: default;
 }
 .product_card.closing {
-    height: 290px;
+    height: 320px;
    
 }
 
 .product_card.selected:hover {
     transform: none;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.product_card.placeholder {
+    box-shadow: none;
 }
 
 .product_photos_div {
-    max-width: 250px;
+    max-width: 305px;
     border-radius: 3px;
     transition: all 1s;
     position: relative;
     display: flex;
     justify-content: center;
-    max-height: 187.5px;
+    max-height: 227.5px;
 }
 .product_photos_div.selected {
-    width: 250px;
-    height: 187.5px;
+    height: 227.5px;
+    width: 305px;
 
 }
 .previous_photo_button {
-    left: -15%;
+    left: -9%;
     top: 65%;
 }
 .next_photo_button {
-    right: -15%;
+    right: -9%;
     top: 65%;
     transform: rotate(180deg);
 }
@@ -114,12 +116,12 @@
     display: flex;
     justify-content: center;
     border-radius: 5px;
-    height: 187.5px;
+    height: 227.5px;
 }
 
 .inv_product_photo {
-    max-height: 187.5px;
-    max-width: 250px;   
+    max-height: 227.5px;
+    max-width: 305px;   
     border-radius: 5px;
     position: absolute;
     opacity: 0;
@@ -131,8 +133,8 @@
 }
 
 .img_loading_placeholder {
-    width: 250px;
-    height: 187.5px;
+    height: 227.5px;
+    width: 305px;
     background-color: gainsboro;
     position: absolute;
     border-radius: 5px;
@@ -393,14 +395,16 @@
 
     .product_card {
         margin: 20px 0px;
+        width: 92vw;
+        height: 85vw;
     }
     .product_card.closing {
         
-        height: 290px;
+        height: 85vw !important;
     }
 
     .product_card.selected {
-
+        height: 600px;
     }
     
     .purchase_button {

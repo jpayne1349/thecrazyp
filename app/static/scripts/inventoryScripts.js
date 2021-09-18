@@ -33,7 +33,7 @@ function load_iventory(inventory_products) {
             // and send this one into absolute positioning.
             
             let top = this.offsetTop - 20;
-            let left = this.offsetLeft - 48;
+            let left = this.offsetLeft - 50;
 
             if( screen.width < 600 ) {
                 left = this.offsetLeft;
