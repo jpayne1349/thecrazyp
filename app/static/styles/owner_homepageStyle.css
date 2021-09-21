@@ -14,9 +14,10 @@
     justify-content: space-evenly;
     flex-wrap: nowrap;
     overflow: scroll;
-    height: 40px;
+    height: 59px;
     align-items: center;
     width: 100vw;
+    margin: 0px 20px;
 }
 .owner_navbar_button {
     padding: 5px 10px;
@@ -27,9 +28,7 @@
     min-width: 100px;
     text-align: center;
     user-select: none;
-}
-.owner_navbar_button.active {
-    background-color: rgb(107, 216, 107);
+    margin: 0px 10px;
 }
 
 .toggle_carousel_edit {
@@ -57,6 +56,107 @@
     font-family: monospace;
     align-self: center;
     text-decoration: underline;
+}
+#toggle_orders {
+    background-color: #dfdfdf;
+    min-width: 130px;
+}
+#toggle_orders.active, #toggle_carousel_edit.active, #toggle_inventory_edit.active {
+    background-color: rgb(107, 216, 107);
+}
+
+.orders_div {
+        display: none;
+    flex-direction: column;
+
+    margin: 10px;
+    border-radius: 2px;
+}
+
+.orders_div.show {
+    display: flex;
+}
+#special_orders, #product_requests {
+    display: flex;
+    flex-direction: column;
+}
+.order_item_div {
+font-family: monospace;
+    font-size: 20px;
+    border-top: 1px solid #989898;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    
+    min-height: 60px;
+    margin-top: 4px;
+    box-shadow: #ebebeb 0px 5px 6px -4px;
+}
+.order_item_div.even {
+background-color: #ebebeb;
+}
+.order_item_div.odd {
+background-color: #d8d8d8;
+}
+.order_item_condensed {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 60px;
+    cursor: pointer;
+}
+.order_item_expanded {
+    display: none;
+    border-top: 1px solid white;
+    font-size: 15px;
+    min-height: 150px;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding-left: 55px;
+    position: relative;
+
+}
+.order_item_expanded.show {
+    display: flex;
+}
+.id_div {
+    flex-basis: 55px;
+    font-size: 15px;
+    align-self: baseline;
+    margin: 3px 0px 0px 3px;
+}
+.contact_div {
+    font-size: large;
+}
+.delete_order_item {
+    background-color: #f79494;
+    padding: 3px;
+    width: 32px;
+    height: 35px;
+    text-align: center;
+    align-self: flex-end;
+    margin: 0 10px 5px 0px;
+    border-radius: 5px;
+    color: #ebebeb;
+    position: absolute;
+    cursor: pointer;
+    right: 5px;
+    top: 10px;
+    transition: all 1s;
+}
+.delete_order_item.confirm {
+    background-color: #f30808;
+    width: 100px;
+    font-size: 20px;
+}
+.order_trash_can {
+    filter: invert(0.95);
+    max-width: 25px;
+}
+.order_trash_can.hide {
+    display: none;
+}
+.request_item_div {
+
 }
 .edit_carousel_div {
     display: none;
@@ -502,6 +602,9 @@ margin: 10px 40px 40px;
 @media only screen and (max-width: 600px) {
     .product_photos {
         margin: 0;
+    }
+    .owner_navbar {
+        justify-content: flex-start;
     }
 
 }

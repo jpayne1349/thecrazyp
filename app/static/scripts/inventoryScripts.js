@@ -1,7 +1,6 @@
 
+// TODO: load a lower quality image first, to cut down on loading time?
 
-// TODO: maybe make the request form slide up from the bottom of the green border?
-// would look cool.
 
 // does a listdir of photos folder on server, allow for easy removal/addition of photos?
 fetch('/load_inventory', { method: 'POST' })
@@ -315,9 +314,6 @@ function change_photo(event) {
 }
 
 // pull the items info and display a form to fill out
-//TODO: add a selector to this function, avail, pend, sold
-// to modify certain parts of the process.
-// we still want the option to request a hat similar to one that's already been sold..
 function requestItemForm() {
 
     // check the request button for classes that coincide with status

@@ -12,6 +12,7 @@ main_blueprint = Blueprint('main_blueprint', __name__)
 
 @main_blueprint.route('/')
 def homepage():
+    track_visitor(request)
     return render_template('homepage.html')
 
 @main_blueprint.route('/carousel_photos', methods=['POST'])
@@ -89,6 +90,7 @@ def load_inventory():
 
     return json_data
 
+# used in load inventory to sort by product status
 def returnStatus(product_object):
     return product_object['status']
 
@@ -101,7 +103,7 @@ def special_order():
 def order_form():
     form_dict = request.json
 
-    new_special_order = SpecialOrder(style=form_dict['style'], color=form_dict['color'], band=form_dict['band'], notes=form_dict['notes'], contact=form_dict['contact'])
+    new_special_order = SpecialOrder(style=form_dict['style'], color=form_dict['color'], band=form_dict['band'], notes=form_dict['notes'], contact=form_dict['contact'], order_status = 0)
     # save to db
     db.session.add(new_special_order)
     db.session.commit()
@@ -124,7 +126,7 @@ def product_request():
     info_dict = request.json
 
     # create a new db productRequest
-    new_req = ProductRequest(product_id = info_dict['id'], contact_info = info_dict['contact_info'], date_created = info_dict['date_created'])
+    new_req = ProductRequest(product_id = info_dict['id'], contact_info = info_dict['contact_info'], date_created = info_dict['date_created'], order_status = 0)
     db.session.add(new_req)
     db.session.commit()
 
@@ -142,10 +144,9 @@ def product_request():
     email_product_order(product, info_dict['contact_info'], info_dict['status'])
 
 
-
-
-
-
-# TODO: write the emailing portion of the inventory request.
-# TODO: the inventory items are pulling all of the db info into their elements.
-# TODO: add scrolling effect to the inventory items page as well?
+# TODO: add something to the db for this. then add to owner homepage
+def track_visitor(request):
+    # we could do a db search? that would be pretty time consuming.
+    # or we could just do like the date and increment a counter for the day.
+    # like site visits
+    print("VISITOR IP ", request.remote_addr)

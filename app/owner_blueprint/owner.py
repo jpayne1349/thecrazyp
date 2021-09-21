@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask import current_app as app
 import os, json, shutil
-from app.models import Product, User, Carousel
+from app.models import Product, User, Carousel, SpecialOrder, ProductRequest
 from app.forms import LoginForm, RegisterForm
 from app import db
 from werkzeug.utils import secure_filename
@@ -85,6 +85,45 @@ def owner_homepage(username): # pass in a argument in url_for, has to accept it 
 
     return render_template('owner_homepage.html', username = username)
 
+# load in special orders and product requests for viewing
+@owner_blueprint.route('/orders', methods=['POST'])
+@login_required
+def product_requests():
+
+    special_orders = SpecialOrder.query.all()
+
+    special_orders_list = []
+    for order in special_orders:
+        order_dict = {}
+        order_dict['id'] = order.id
+        order_dict['style'] = order.style
+        order_dict['color'] = order.color
+        order_dict['band'] = order.band
+        order_dict['notes'] = order.notes
+        order_dict['contact'] = order.contact
+        order_dict['order_status'] = order.order_status
+
+        special_orders_list.append(order_dict)    
+
+    product_requests = ProductRequest.query.all()
+
+    product_requests_list = []
+    for request in product_requests:
+        request_dict = {}
+        request_dict['id'] = request.id
+        request_dict['product_id'] = request.product_id
+        request_dict['contact_info'] = request.contact_info
+        request_dict['date_created'] = request.date_created
+        request_dict['order_status'] = request.order_status
+
+        product_requests_list.append(request_dict)
+
+    # to json, and send. process on front end
+    sending_list = [special_orders_list, product_requests_list]
+
+    json_data = json.dumps(sending_list)
+    
+    return json_data
 
 @owner_blueprint.route('/<username>/owner_logout/')
 @login_required
@@ -266,3 +305,32 @@ def delete_product():
 
 
     return 'fulfilled', 200
+
+
+@owner_blueprint.route('/delete_special_order', methods=['POST'])
+@login_required
+def delete_special_order():
+    request_dict = request.json
+
+    this_order = SpecialOrder.query.filter_by(id=request_dict['id']).first()
+    db.session.delete(this_order)
+    db.session.commit()
+
+    return 'order deleted'
+
+@owner_blueprint.route('/change_special_order_status', methods=['POST'])
+@login_required
+def change_special_order_status():
+
+    request_dict = request.json
+
+    id = request_dict['id']
+    status = request_dict['status']
+
+    order = SpecialOrder.query.filter_by(id=id).first()
+    print(order)
+    order.order_status = status
+    
+    db.session.commit()
+
+    return 'order status updated'

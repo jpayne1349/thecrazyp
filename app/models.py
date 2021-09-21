@@ -28,12 +28,19 @@ class SpecialOrder(db.Model):
     band = db.Column(db.String(24), index=True)
     notes = db.Column(db.String(24), index=True)
     contact = db.Column(db.String(24), index=True)
+    # 0 = processing, 1 = fulfilled, 2 = canceled
+    order_status = db.Column(db.Integer, index=True)
 
 class ProductRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     product_id = db.Column(db.Integer, index=True)
     contact_info = db.Column(db.String(48), index=True)
     date_created = db.Column(db.String(24), index=True)
+    # 0 = processing, 1 = fulfilled, 2 = canceled
+    order_status = db.Column(db.Integer, index=True)
+
+# TODO: do these orders need a status? that the owner configures..
+# processing, fulfilled, canceled
 
 @login_manager.user_loader
 def load_user(id):
