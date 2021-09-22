@@ -1,6 +1,12 @@
 
 // assign listeners to the navbar buttons
 let orders_button = document.getElementById('toggle_orders');
+let special_orders_div = document.getElementById('special_orders');
+let product_request_div = document.getElementById('product_requests');
+let hidden_order_header = document.getElementById('hidden_order_header');
+let hidden_orders_div = document.getElementById('hidden_special_orders');
+let hidden_request_header = document.getElementById('hidden_request_header');
+let hidden_request_div = document.getElementById('hidden_product_requests');
 let edit_carousel_button = document.getElementById('toggle_carousel_edit');
 let edit_inventory_button = document.getElementById('toggle_inventory_edit');
 let orders_div = document.getElementById('orders_div');
@@ -21,7 +27,20 @@ edit_inventory_button.addEventListener('click', ()=> {
     edit_inventory_div.classList.toggle('show');
     edit_inventory_button.classList.toggle('active');
 });
-
+hidden_order_header.addEventListener('click', function() {
+    let line1 = this.firstElementChild;
+    let line2 = line1.nextElementSibling;
+    line1.classList.toggle('showing');
+    line2.classList.toggle('showing');
+    hidden_orders_div.classList.toggle('show');
+});
+hidden_request_header.addEventListener('click', function() {
+    let line1 = this.firstElementChild;
+    let line2 = line1.nextElementSibling;
+    line1.classList.toggle('showing');
+    line2.classList.toggle('showing');
+    hidden_request_div.classList.toggle('show');
+});
 
 orders_fetch();
 
@@ -38,21 +57,25 @@ function orders_fetch() {
 function display_orders(data_lists) {
     let special_orders_div = document.getElementById('special_orders');
     removeAllChildNodes(special_orders_div);
+    let hidden_orders_div = document.getElementById('hidden_special_orders');
+    removeAllChildNodes(hidden_orders_div);
     let product_requests_div = document.getElementById('product_requests');
     removeAllChildNodes(product_requests_div);
+    let hidden_requests_div = document.getElementById('hidden_product_requests');
+    removeAllChildNodes(hidden_requests_div);
 
     // loop through all special orders
     let orders_list = data_lists[0];
-    let color_alternate_bool = false;
+    let order_color_alternate_bool = false;
     for(let order_item of orders_list) {
         let order_item_div = document.createElement('div');
         order_item_div.className = 'order_item_div';
-        if(color_alternate_bool) {
+        if(order_color_alternate_bool) {
             order_item_div.classList.add('odd');
-            color_alternate_bool = false;
+            order_color_alternate_bool = false;
         }else {
             order_item_div.classList.add('even');
-            color_alternate_bool = true;
+            order_color_alternate_bool = true;
         }
 
 
@@ -135,11 +158,14 @@ function display_orders(data_lists) {
 
         order_item_div.append(order_item_condensed, order_item_expanded);
 
-        special_orders_div.append(order_item_div);
-    }
+        if(order_item.order_status == 0 ) {
+            special_orders_div.append(order_item_div);
+        } else {
+            hidden_orders_div.append(order_item_div);
+        }
 
-    // display for requests
-    let requests_list = data_lists[1];
+        
+    }
 
     // show/hide expanded information
     function toggle_order_item() {
@@ -148,16 +174,27 @@ function display_orders(data_lists) {
 
     }
     function update_order_status() {
+        let status_div = this.parentElement;
+        let expanded_view = status_div.parentElement;
+        let item_div = expanded_view.parentElement;
+
         
         let order_status_value;
         let order_status_text = this.value;
         if(order_status_text == 'Pending') {
             order_status_value = 0;
+            special_orders_div.append(item_div);
+
         } else if( order_status_text == 'Fulfilled' ) {
             order_status_value = 1;
+            hidden_orders_div.append(item_div);
+
         } else { // canceled
             order_status_value = 2;
+            hidden_orders_div.append(item_div);
+
         }
+
         let special_order_id = this.getAttribute('var');
         
         let json_data = {
@@ -195,6 +232,187 @@ function display_orders(data_lists) {
                     json_data = JSON.stringify(json_data)
 
                     fetch('/delete_special_order', {
+                        method: 'POST',
+                        body: json_data,
+                        headers: {
+                            "Content-Type": 'application/json'
+                        }
+                        })
+                    .then((success) => {
+                        // remove this element from the page
+                        let item_expanded_div = this_delete_button.parentElement;
+                        let whole_item_div = item_expanded_div.parentElement;
+                        whole_item_div.remove();
+
+                    })
+                    .catch((fail) => console.log(fail));
+                } else {
+                    // change back button
+                    this_delete_button.innerText = '';
+                    this_delete_button.classList.remove('confirm');
+                    this_delete_button.append(trash_can);
+                }
+            }, options);
+        }, 100);
+    }
+
+
+    // display for requests
+    let requests_list = data_lists[1];
+    let request_color_alternate_bool = false;
+    for(let request_item of requests_list) {
+        let request_item_div = document.createElement('div');
+        request_item_div.className = 'request_item_div';
+        if(request_color_alternate_bool) {
+            request_item_div.classList.add('odd');
+            request_color_alternate_bool = false;
+        }else {
+            request_item_div.classList.add('even');
+            request_color_alternate_bool = true;
+        }
+        
+        let request_item_condensed = document.createElement('div');
+        request_item_condensed.className = 'request_item_condensed';
+        request_item_condensed.addEventListener('click', toggle_request_item);
+
+        let request_item_expanded = document.createElement('div');
+        request_item_expanded.className = 'request_item_expanded';
+        
+        let id_div = document.createElement('div');
+        id_div.className = 'id_div';
+        id_div.innerText = 'ID#:' + request_item.id;
+
+        let contact_div = document.createElement('div');
+        contact_div.className = 'contact_div';
+        contact_div.innerText = 'Contact: ' + request_item.contact_info;
+
+        request_item_condensed.append(id_div, contact_div);
+
+        let product_id = document.createElement('div');
+        product_id.className = 'product_id';
+        product_id.innerText = 'Product ID#: ' + request_item.product_id;
+
+        let date_created = document.createElement('div');
+        date_created.className = 'date_created';
+
+        let order_status_div = document.createElement('div');
+        order_status_div.className = 'order_status_div';
+        order_status_div.innerText = 'Order Status: ';
+
+        let order_status_select = document.createElement('select');
+        order_status_select.className = 'order_status_select';
+        order_status_select.setAttribute('var', request_item.id);
+        let order_pending = document.createElement('option');
+        order_pending.className = 'order_status_option';
+        order_pending.innerText = 'Pending';
+        if(request_item.order_status == 0) {
+            order_pending.setAttribute('selected','selected');
+        }
+        let order_fulfilled = document.createElement('option');
+        order_fulfilled.className = 'order_status_option';
+        order_fulfilled.innerText = 'Fulfilled';
+        if(request_item.order_status == 1) {
+            order_fulfilled.setAttribute('selected','selected');
+        }
+        let order_canceled = document.createElement('option');
+        order_canceled.className = 'order_status_option';
+        order_canceled.innerText = 'Canceled';
+        if(request_item.order_status == 2) {
+            order_canceled.setAttribute('selected','selected');
+        }
+
+        order_status_select.append(order_pending, order_fulfilled, order_canceled);
+        order_status_div.append(order_status_select);
+
+        order_status_select.addEventListener('change', update_request_status);
+
+        let delete_request_item = document.createElement('div');
+        delete_request_item.className = 'delete_request_item';
+        delete_request_item.setAttribute('var', request_item.id);
+        delete_request_item.addEventListener('click', delete_request_product);
+
+        let request_trash_can = document.createElement('img');
+        request_trash_can.className = 'request_trash_can';
+        request_trash_can.src = '/static/trash_can.svg';
+
+        delete_request_item.append(request_trash_can);
+
+        request_item_expanded.append(product_id, date_created, order_status_div, delete_request_item);
+
+        request_item_div.append(request_item_condensed, request_item_expanded);
+
+        if(request_item.order_status == 0 ) {
+            product_request_div.append(request_item_div);
+        } else {
+            hidden_requests_div.append(request_item_div);
+        }
+
+    }   
+
+        // show/hide expanded information
+    function toggle_request_item() {
+        let expanded_view = this.nextSibling;
+        expanded_view.classList.toggle('show');
+
+    }   
+    function update_request_status() {
+        let status_div = this.parentElement;
+        let expanded_view = status_div.parentElement;
+        let item_div = expanded_view.parentElement;
+
+        let order_status_value;
+        let order_status_text = this.value;
+        if(order_status_text == 'Pending') {
+            order_status_value = 0;
+            product_request_div.append(item_div);
+
+        } else if( order_status_text == 'Fulfilled' ) {
+            order_status_value = 1;
+            hidden_request_div.append(item_div);
+
+        } else { // canceled
+            order_status_value = 2;
+            hidden_request_div.append(item_div);
+
+        }
+
+        let product_request_id = this.getAttribute('var');
+        
+        let json_data = {
+            'id':product_request_id,
+            'status':order_status_value
+        };
+        json_data = JSON.stringify(json_data);
+
+        fetch('/change_product_request_status', {
+            method: 'POST',
+            body: json_data,
+            headers: {
+                "Content-Type": 'application/json'
+            }
+            })
+        .then((success) => {
+            console.log(success);
+        })
+        .catch((fail) => console.log(fail));
+
+    }
+    function delete_request_product() {
+        let trash_can = this.firstChild;
+    
+        this.innerText = 'Confirm';
+        this.classList.add('confirm');
+        let this_delete_button = this;
+
+        const options = {'once':true};
+        setTimeout(function() {
+            window.addEventListener('click', function(){
+                if(event.target == this_delete_button) {
+                    // run fetch
+                    let json_data = {'id':this_delete_button.getAttribute('var')};
+                    json_data = JSON.stringify(json_data)
+
+                    fetch('/delete_product_request', {
                         method: 'POST',
                         body: json_data,
                         headers: {

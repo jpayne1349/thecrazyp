@@ -334,3 +334,32 @@ def change_special_order_status():
     db.session.commit()
 
     return 'order status updated'
+
+
+@owner_blueprint.route('/change_product_request_status', methods=['POST'])
+@login_required
+def change_product_request_status():
+    request_dict = request.json
+
+    id = request_dict['id']
+    status = request_dict['status']
+
+    prod_request = ProductRequest.query.filter_by(id=id).first()
+    print(request)
+    prod_request.order_status = status
+    
+    db.session.commit()
+
+    return 'order status updated'
+
+@owner_blueprint.route('/delete_product_request', methods=['POST'])
+@login_required
+def delete_product_request():
+    request_dict = request.json
+
+    this_request = ProductRequest.query.filter_by(id=request_dict['id']).first()
+    db.session.delete(this_request)
+    db.session.commit()
+
+    return 'order deleted'
+
