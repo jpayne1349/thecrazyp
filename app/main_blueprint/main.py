@@ -43,6 +43,10 @@ def carousel_photos():
 def inventory():
     return render_template('inventory.html')
 
+@main_blueprint.route('/faq')
+def faq():
+    return render_template('faq.html')
+
 @main_blueprint.route('/load_inventory', methods=['POST'])
 def load_inventory():
 

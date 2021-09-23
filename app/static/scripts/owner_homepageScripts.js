@@ -288,6 +288,8 @@ function display_orders(data_lists) {
 
         request_item_condensed.append(id_div, contact_div);
 
+        // TODO: a way to link this to its inventory item,
+        // without too much work. lol
         let product_id = document.createElement('div');
         product_id.className = 'product_id';
         product_id.innerText = 'Product ID#: ' + request_item.product_id;
@@ -754,6 +756,10 @@ function display_inventory_contents(loaded_json) {
         product_description.className = 'product_description';
         product_description.innerText = product.description;
 
+        let inventory_product_id = document.createElement('div');
+        inventory_product_id.className = 'inventory_product_id';
+        inventory_product_id.innerText = '#' + product.id;
+
         let edit_product = document.createElement('div');
         edit_product.className = 'edit_product';
         let edit_pencil = document.createElement('img');
@@ -762,7 +768,7 @@ function display_inventory_contents(loaded_json) {
         edit_product.appendChild(edit_pencil);
         edit_product.addEventListener('click', edit_product_inputs);
 
-        showing_row.append(toggle_product, product_description, edit_product);
+        showing_row.append(toggle_product, product_description, edit_product, inventory_product_id);
         
         let expanded_view = document.createElement('div');
         expanded_view.className = 'expanded_view';

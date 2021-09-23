@@ -440,7 +440,13 @@ background-color: #b15555;
 .showing_row {
 display: flex;
 }   
-
+.inventory_product_id {
+font-family: monospace;
+    position: absolute;
+    font-size: 9px;
+    top: 0;
+    left: 4px;
+}
 .toggle_product {
     width: 20px;
     margin-right: 5px;

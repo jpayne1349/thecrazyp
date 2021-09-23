@@ -1,4 +1,5 @@
-// does a listdir of photos folder on server, allow for easy removal/addition of photos?
+
+// does a listdir of photos folder on server, gets the filenames essentially
 fetch('/carousel_photos', { method: 'POST' })
     .then(response => response.json())
     .then(json_files_object => populate_carousel(json_files_object))
@@ -53,7 +54,6 @@ function populate_carousel(json_files_object) {
 
 }
 
-
 // controls animation. starts in auto, changes to manual after first click event
 function carousel_animation(carousel_object) {
     
@@ -82,37 +82,41 @@ function carousel_animation(carousel_object) {
 
         }
     }
+    if(screen.width > 1000) {
+        let desktop_click_move = slide_show_container.addEventListener('click', (event) => {
+            
+            // bool used so this clearInterval is only done once
+            if(auto_bool == true) {
+                window.clearInterval(auto_scroll); 
+                auto_bool = false;
+                // on initial setinto manual, index has already been incremented for next auto loop
+                active_index -= 1;
+            }
 
-    let manual_move = slide_show_container.addEventListener('click', (event) => {
+            if(event.clientX < (container_middle)) {
+                // left side
+                active_index -= 1;
+                active_index = limit(active_index, array_size);
+                update_animation(carousel_object, active_index);
+
+            } else {
+                // right side
+                active_index += 1;
+                active_index = limit(active_index, array_size);
+                update_animation(carousel_object, active_index);
+            }
+
+        });
+    } else {
+        let mobile_swipe_move = slide_show_container.addEventListener('', (event) => {
+            console.log(event);
+        });
         
-        // bool used so this clearInterval is only done once
-        if(auto_bool == true) {
-            window.clearInterval(auto_scroll); 
-            auto_bool = false;
-            // on initial setinto manual, index has already been incremented for next auto loop
-            active_index -= 1;
-        }
-
-        if(event.clientX < (container_middle)) {
-            // left side
-            active_index -= 1;
-            active_index = limit(active_index, array_size);
-            update_animation(carousel_object, active_index);
-
-        } else {
-            // right side
-            active_index += 1;
-            active_index = limit(active_index, array_size);
-            update_animation(carousel_object, active_index);
-        }
-
-    });
-    
-
+    }
 }
 
 // convert out of bounds number to within range 0 - length
-function  limit(value, length) {
+function limit(value, length) {
     if( value > length - 1 ) {
         value = value - length;
     }
@@ -172,3 +176,4 @@ function update_animation(carousel_object, active_index) {
 
 
 }
+
