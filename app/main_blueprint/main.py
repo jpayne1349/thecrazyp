@@ -7,6 +7,9 @@ from app.models import Carousel, Product, SpecialOrder, ProductRequest
 from app.email import email_special_order, email_product_order
 
 
+# TODO: add the shimmer loaders to the homepage carousel photos
+# TODO: add mobile swiping feature for the carousel homepage
+
 main_blueprint = Blueprint('main_blueprint', __name__) 
 
 
