@@ -163,11 +163,12 @@ function carousel_animation(carousel_object) {
         }
     }
 
+    // TODO: write this function of listeners
     function swipe_moving() {
 
     }
 
-    // setup button listeners
+    // button listeners to start and stop the window interval
     function button_listeners() {
         global_pause_button.addEventListener('click', function(event) {
             event.stopPropagation();
