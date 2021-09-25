@@ -1,11 +1,15 @@
 
 var images_are_loaded_global = false;
+var global_play_button = document.getElementById('playing_button');
+var global_pause_button = document.getElementById('paused_button');
+var global_auto_interval;
 
 // does a listdir of photos folder on server, gets the filenames essentially
 fetch('/carousel_photos', { method: 'POST' })
     .then(response => response.json())
     .then(json_files_object => populate_carousel(json_files_object))
     .catch( error => console.log('ERROR', error));
+
 
 // creating images and indicators, calls animation function on completion
 function populate_carousel(json_files_object) {
@@ -98,13 +102,20 @@ function carousel_animation(carousel_object) {
 
     // this starts the auto scroll, or sets a reoccuring check to see if the images are loaded
     if(images_are_loaded_global) {
-        let auto_scroll = window.setInterval(auto_scroll_next, interval_time);
-        
+        global_auto_interval = window.setInterval(auto_scroll_next, interval_time);
+        switch_active_button();
+        button_listeners();
+        click_moving();
+        swipe_moving();
     } else {
         let images_waiting = window.setInterval(function() {
             if(check_global()) {
                 clearInterval(images_waiting);
-                let auto_scroll = window.setInterval(auto_scroll_next, interval_time);
+                global_auto_interval = window.setInterval(auto_scroll_next, interval_time);
+                switch_active_button();
+                button_listeners();
+                click_moving();
+                swipe_moving();
             }
         }, 1000);
     }
@@ -122,37 +133,65 @@ function carousel_animation(carousel_object) {
         }
     }
 
-    if(screen.width > 1000) {
-        let desktop_click_move = slide_show_container.addEventListener('click', (event) => {
+    function click_moving() {
+        if(screen.width > 1000) {
+            let desktop_click_move = slide_show_container.addEventListener('click', (event) => {
             
-            // bool used so this clearInterval is only done once
-            if(auto_bool == true) {
-                clearInterval(auto_scroll_next); 
-                auto_bool = false;
-                // on initial setinto manual, index has already been incremented for next auto loop
-                active_index -= 1;
-            }
+                // bool used so this clearInterval is only done once
+                if(auto_bool == true) {
+                    clearInterval(global_auto_interval); 
+                    switch_active_button();
+                    auto_bool = false;
+                    // on initial setinto manual, index has already been incremented for next auto loop
+                    active_index -= 1;
+                }
 
-            if(event.clientX < (container_middle)) {
-                // left side
-                active_index -= 1;
-                active_index = limit(active_index, array_size);
-                update_animation(carousel_object, active_index);
+                if(event.clientX < (container_middle)) {
+                    // left side
+                    active_index -= 1;
+                    active_index = limit(active_index, array_size);
+                    update_animation(carousel_object, active_index);
 
-            } else {
-                // right side
-                active_index += 1;
-                active_index = limit(active_index, array_size);
-                update_animation(carousel_object, active_index);
-            }
+                } else {
+                    // right side
+                    active_index += 1;
+                    active_index = limit(active_index, array_size);
+                    update_animation(carousel_object, active_index);
+                }
 
-        });
-    } else {
-        let mobile_swipe_move = slide_show_container.addEventListener('', (event) => {
-            console.log(event);
-        });
-        
+            });
+        }
     }
+
+    function swipe_moving() {
+
+    }
+
+    // setup button listeners
+    function button_listeners() {
+        global_pause_button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            if(this.classList.contains('active')) {
+                return;
+            }
+            // basically just remove the window interval
+            clearInterval(global_auto_interval); 
+            switch_active_button();
+
+        });
+        global_play_button.addEventListener('click', function(event) {
+            event.stopPropagation();
+            console.log(this);
+            if(this.classList.contains('active')) {
+                return;
+            }
+            global_auto_interval = window.setInterval(auto_scroll_next, 4000);
+            switch_active_button();
+
+        });
+
+    }
+
 }
 
 // checking to see if the images have loaded and returning
@@ -226,3 +265,7 @@ function update_animation(carousel_object, active_index) {
 
 }
 
+function switch_active_button() {
+    global_pause_button.classList.toggle('active');
+    global_play_button.classList.toggle('active');
+}
