@@ -34,7 +34,7 @@
 }
 .img_loading_placeholder.shimmer {
    animation : shimmer 3s ease infinite;
-   background: linear-gradient(to right, #eff1f3 4%, #fafafa 25%, #eff1f3 36%);
+   background: linear-gradient(to right, #eeeeee 4%, #fafafa 25%, #eeeeee 36%);
    background-size: 500px 100%;
 }
 
