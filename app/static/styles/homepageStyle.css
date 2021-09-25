@@ -25,11 +25,40 @@
 
 }
 
+.img_loading_placeholder {
+    height: 268.5px;
+    width: inherit;
+    background-color: gainsboro;
+    border-radius: 5px;
+    transition: opacity 1s ease-out;
+}
+.img_loading_placeholder.shimmer {
+   animation : shimmer 3s ease infinite;
+   background: linear-gradient(to right, #eff1f3 4%, #fafafa 25%, #eff1f3 36%);
+   background-size: 500px 100%;
+}
 
+@keyframes shimmer {
+  0% {
+    background-position: -250px 0;
+  }
+  100% {
+    background-position: 250px 0;
+  }
+}
+.img_loading_placeholder.loaded {   
+    opacity: 0;
+
+}
 .ss_picture {
     border-radius: 10px;
     height: inherit;
     width: inherit;
+    opacity: 0;
+    transition: opacity 1s;
+}
+.ss_picture.loaded {
+    opacity: 1;
 }
 
 .active {

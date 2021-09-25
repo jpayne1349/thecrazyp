@@ -1,4 +1,6 @@
 
+var images_are_loaded_global = false;
+
 // does a listdir of photos folder on server, gets the filenames essentially
 fetch('/carousel_photos', { method: 'POST' })
     .then(response => response.json())
@@ -18,19 +20,44 @@ function populate_carousel(json_files_object) {
     let indicator_container = document.getElementById('carousel_indicator');
     let file_string = 'static/carousel_photos/';
 
+    let image_loaded_counter = 0;
+
     for (const [id, file_name] of Object.entries(json_files_object)) {
-        
+
         let file_path = file_string + file_name + '?id=' + id;
 
 
         let image_container = document.createElement('div');
         image_container.className = 'image_container';
 
+        let img_loading_placeholder = document.createElement('div');
+        img_loading_placeholder.className = 'img_loading_placeholder shimmer';
+        img_loading_placeholder.style.height = (carousel_container.scrollWidth * 0.75) + 'px';
+
         let new_carousel_img = document.createElement('img');
         new_carousel_img.className = 'ss_picture';
+
+
+        // before adding source, need to setup the onload function
+        new_carousel_img.onload = function() {
+            img_loading_placeholder.classList.add('loaded');
+            setTimeout(()=>{
+                new_carousel_img.classList.add('loaded');
+                img_loading_placeholder.remove();
+            },1000);
+
+            image_loaded_counter += 1;
+            // when this gets to key.length, update the global that the animation is waiting for
+            if(image_loaded_counter == Object.keys(json_files_object).length) {
+                images_are_loaded_global = true;
+                console.log('all images have been loaded');
+                
+            }
+        };
+
         new_carousel_img.src = file_path;
 
-        image_container.append(new_carousel_img);
+        image_container.append(img_loading_placeholder, new_carousel_img);
         
         carousel_container.append(image_container);
 
@@ -45,14 +72,14 @@ function populate_carousel(json_files_object) {
         indicator_container.append(new_indicator);
     }
 
-    // this makes the container a square, which matches the photos, and allows for centering easily
+    // this makes the container a rect? , which matches the photos, and allows for centering easily
     carousel_container.style.height = (carousel_container.scrollWidth * 0.75) + 'px';
-    
+
     carousel_animation(index_tracking);
-
-    //manual_carousel_move(index_tracking);
-
+    
 }
+
+// TODO: don't start the carousel animation until the images have loaded...
 
 // controls animation. starts in auto, changes to manual after first click event
 function carousel_animation(carousel_object) {
@@ -69,9 +96,21 @@ function carousel_animation(carousel_object) {
     // start tracking int at one
     let active_index = 1;
 
-    let auto_scroll = window.setInterval(auto_scroll_next, interval_time);
+    // this starts the auto scroll, or sets a reoccuring check to see if the images are loaded
+    if(images_are_loaded_global) {
+        let auto_scroll = window.setInterval(auto_scroll_next, interval_time);
+        
+    } else {
+        let images_waiting = window.setInterval(function() {
+            if(check_global()) {
+                clearInterval(images_waiting);
+                let auto_scroll = window.setInterval(auto_scroll_next, interval_time);
+            }
+        }, 1000);
+    }
 
     function auto_scroll_next() {
+
         update_animation(carousel_object, active_index);
 
         if( active_index == carousel_object.pictures.length - 1) {
@@ -82,12 +121,13 @@ function carousel_animation(carousel_object) {
 
         }
     }
+
     if(screen.width > 1000) {
         let desktop_click_move = slide_show_container.addEventListener('click', (event) => {
             
             // bool used so this clearInterval is only done once
             if(auto_bool == true) {
-                window.clearInterval(auto_scroll); 
+                clearInterval(auto_scroll_next); 
                 auto_bool = false;
                 // on initial setinto manual, index has already been incremented for next auto loop
                 active_index -= 1;
@@ -112,6 +152,15 @@ function carousel_animation(carousel_object) {
             console.log(event);
         });
         
+    }
+}
+
+// checking to see if the images have loaded and returning
+function check_global() {
+    if(images_are_loaded_global == true) {
+        return true;
+    } else {
+        return false;
     }
 }
 
