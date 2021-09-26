@@ -290,7 +290,7 @@ font-size: 33px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+    max-width: 100vw;
 }
 .review_wrapper {
     margin: 20px;

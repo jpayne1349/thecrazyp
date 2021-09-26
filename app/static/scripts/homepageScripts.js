@@ -83,7 +83,6 @@ function populate_carousel(json_files_object) {
     
 }
 
-// TODO: don't start the carousel animation until the images have loaded...
 
 // controls animation. starts in auto, changes to manual after first click event
 function carousel_animation(carousel_object) {
