@@ -140,7 +140,7 @@ function carousel_animation(carousel_object) {
                 // bool used so this clearInterval is only done once
                 if(auto_bool == true) {
                     clearInterval(global_auto_interval); 
-                    switch_active_button();
+                    pause_button_active();
                     auto_bool = false;
                     // on initial setinto manual, index has already been incremented for next auto loop
                     active_index -= 1;
@@ -163,9 +163,78 @@ function carousel_animation(carousel_object) {
         }
     }
 
-    // TODO: write this function of listeners
+    
     function swipe_moving() {
+        if(screen.width < 1000) {
+            let first_swipe_bool = true;
 
+            slide_show_container.addEventListener('touchstart', handleTouchStart, false);        
+            slide_show_container.addEventListener('touchmove', handleTouchMove, false);
+
+            var xDown = null;                                                        
+            var yDown = null;
+
+            function getTouches(evt) {
+                return evt.touches // browser API
+            }                                                     
+                                                                                    
+            function handleTouchStart(evt) {
+                clearInterval(global_auto_interval); 
+                pause_button_active();
+
+                const firstTouch = getTouches(evt)[0];                                      
+                xDown = firstTouch.clientX;                                      
+                yDown = firstTouch.clientY;                   
+            };                                                
+                                                                                    
+            function handleTouchMove(evt) {
+                if ( ! xDown || ! yDown ) {
+                    return;
+                }
+
+                var xUp = evt.touches[0].clientX;                                    
+                var yUp = evt.touches[0].clientY;
+
+                var xDiff = xDown - xUp;
+                var yDiff = yDown - yUp;
+                                                    
+                if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+                    if ( xDiff > 0 ) {
+                        /* right swipe */ 
+                        // console.log('right swipe');
+                        console.log('original index', active_index);
+                        if(first_swipe_bool == true) {
+                            active_index -= 1;
+                            first_swipe_bool = false;
+                        };
+                        active_index += 1;
+                        active_index = limit(active_index, array_size);
+                        update_animation(carousel_object, active_index);
+                    } else {
+                        /* left swipe */
+                        // console.log('left swipe');
+                        if(first_swipe_bool == true) {
+                            active_index -= 1;
+                            first_swipe_bool = false;
+                        };
+                        active_index -= 1;
+                        active_index = limit(active_index, array_size);
+                        update_animation(carousel_object, active_index);
+                    }                       
+                } else {
+                    if ( yDiff > 0 ) {
+                        /* down swipe */ 
+                        
+                    } else { 
+                        /* up swipe */
+                        
+                    }                                                                 
+                }
+                /* reset values */
+                xDown = null;
+                yDown = null;                                             
+            };
+        }
     }
 
     // button listeners to start and stop the window interval
@@ -182,7 +251,7 @@ function carousel_animation(carousel_object) {
         });
         global_play_button.addEventListener('click', function(event) {
             event.stopPropagation();
-            console.log(this);
+            
             if(this.classList.contains('active')) {
                 return;
             }
@@ -269,4 +338,11 @@ function update_animation(carousel_object, active_index) {
 function switch_active_button() {
     global_pause_button.classList.toggle('active');
     global_play_button.classList.toggle('active');
+}
+
+function pause_button_active() {
+    if(global_play_button.classList.contains('active')) {
+        global_pause_button.classList.add('active');
+        global_play_button.classList.remove('active');
+    }
 }
