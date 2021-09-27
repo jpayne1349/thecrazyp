@@ -1,0 +1,38 @@
+{% extends "header_footer.html" %}
+
+{% block head %}
+
+{{super()}}
+
+<link rel="stylesheet" type="text/css" href="/static/styles/closed_special_orderStyle.css?v=05">
+
+{% endblock %}
+
+{% block content %}
+
+<div class='page_content'>
+
+    <div class='message' >
+        Thank you for your interest in a custom Crazy P lid.
+        Customs are currently closed, but will be opening again soon!
+    </div>
+    <div class='date_div'>
+        <div class='date_label'>
+            We hope to be taking more orders by:
+        </div>
+        <div class='date' id='date_string'>
+            {{ date_string }}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+
+<!-- <script src="/static/scripts/homepageScripts.js?v=05"></script> -->
+
+{%- endblock scripts %}

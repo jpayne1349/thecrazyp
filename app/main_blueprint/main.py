@@ -1,14 +1,15 @@
-
+month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 from flask import Blueprint, render_template, flash, request
 from flask import current_app as app
 import os, json
 from app import db
-from app.models import Carousel, Product, SpecialOrder, ProductRequest
+from app.models import Carousel, Product, SpecialOrder, ProductRequest, SoAvailable
 from app.email import email_special_order, email_product_order
 
 
 # TODO: add a image compression feature to allow quicker load up times
 # load the full res images in the background and then swap them out..?
+
 
 main_blueprint = Blueprint('main_blueprint', __name__) 
 
@@ -103,8 +104,25 @@ def returnStatus(product_object):
 
 @main_blueprint.route('/special_order')
 def special_order():
+
+    so_status = SoAvailable.query.all()
+
+    if(so_status[0].status == 'open'):
+        return render_template('special_order.html')
     
-    return render_template('special_order.html')
+    # format the stupid date
+    new_date = so_status[0].date_string
+    date_items_list = new_date.split('-')
+
+    year = date_items_list[0]
+    month = date_items_list[1]
+    day = date_items_list[2]
+
+    string_month = month_names[int(month) - 1]
+    
+    new_date_string = string_month + ' ' + day + ', ' + year
+
+    return render_template('closed_special_order.html', date_string=new_date_string)
 
 @main_blueprint.route('/special_order_formObject', methods=['POST'])
 def order_form():
@@ -157,3 +175,4 @@ def track_visitor(request):
     # or we could just do like the date and increment a counter for the day.
     # like site visits
     print("VISITOR IP ", request.remote_addr)
+
