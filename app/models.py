@@ -39,8 +39,11 @@ class ProductRequest(db.Model):
     # 0 = processing, 1 = fulfilled, 2 = canceled
     order_status = db.Column(db.Integer, index=True)
 
-# TODO: do these orders need a status? that the owner configures..
-# processing, fulfilled, canceled
+class SoAvailable(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    status = db.Column(db.String(12), index=True) 
+    date_string = db.Column(db.String(12), index=True) #'YYYY-MM-DD'
+
 
 @login_manager.user_loader
 def load_user(id):

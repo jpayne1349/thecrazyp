@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask import current_app as app
 import os, json, shutil
-from app.models import Product, User, Carousel, SpecialOrder, ProductRequest
+from app.models import Product, User, Carousel, SpecialOrder, ProductRequest, SoAvailable
 from app.forms import LoginForm, RegisterForm
 from app import db
 from werkzeug.utils import secure_filename
@@ -363,3 +363,65 @@ def delete_product_request():
 
     return 'order deleted'
 
+
+@owner_blueprint.route('/special_order_availibility', methods=['POST'])
+@login_required
+def special_order_availibility():
+
+    status = 0
+    date_string = ''
+
+    so_status = SoAvailable.query.all()
+
+    if not so_status:
+        obj = {'status': 0, 'date_string': ''}
+        js_obj = json.dumps(obj)
+        return js_obj
+
+
+    object_to_send = {'status': so_status[0].status, 'date_string':so_status[0].date_string }
+    js_obj = json.dumps(object_to_send)
+
+    return js_obj
+
+
+@owner_blueprint.route('/update_so_status', methods=['POST'])
+@login_required
+def update_so_status():
+
+    data = request.json
+    new_status = data['status']
+    
+    so_status = SoAvailable.query.all()
+
+    if not so_status:
+        new_so_status = SoAvailable(status=new_status, date_string='')
+        db.session.add(new_so_status)
+        db.session.commit()
+        return 'updated'
+
+    so_status[0].status = new_status
+    db.session.commit()
+
+    return 'updated'
+
+
+@owner_blueprint.route('/update_so_date', methods=['POST'])
+@login_required
+def update_so_date():
+
+    data = request.json
+    new_date = data['date_string']
+
+    so_status = SoAvailable.query.all()
+
+    if not so_status:
+        new_so_status = SoAvailable(status=1, date_string=new_date)
+        db.session.add(new_so_status)
+        db.session.commit()
+        return 'updated'
+
+    so_status[0].date_string = new_date
+    db.session.commit()
+
+    return 'updated'

@@ -12,7 +12,16 @@ let edit_inventory_button = document.getElementById('toggle_inventory_edit');
 let orders_div = document.getElementById('orders_div');
 let edit_carousel_div = document.getElementById('edit_carousel_div');
 let edit_inventory_div = document.getElementById('edit_inventory_div');
+let soa_slider_button = document.getElementById('soa_slider_button');
 
+// toggle classes only, does not handle server contacting
+soa_slider_button.addEventListener('click', ()=> {
+    soa_slider_button.classList.toggle('closed');
+    let slider_div = soa_slider_button.parentElement;
+    slider_div.classList.toggle('closed');
+    let soa_date_div = slider_div.nextElementSibling;
+    soa_date_div.classList.toggle('closed');
+});
 orders_button.addEventListener('click', ()=> {
     console.log('button pressed');
     orders_div.classList.toggle('show');
@@ -1287,5 +1296,72 @@ function delete_product_func(event) {
                 inventory_fetch();
             })
             .catch((fail) => console.log(fail));
+
+}
+
+soa_fetch();
+
+// fetch soa and start element listeners, format is YYYY-MM-DD
+function soa_fetch() {
+    let slider_button = document.getElementById('soa_slider_button');
+    let date_input = document.getElementById('soa_date_input');
+
+    // fetch data 
+    fetch('/special_order_availibility', { method: 'POST' })
+    .then(response => response.json())
+    .then(json_object => {
+        console.log(json_object);
+        if(json_object.status == 'closed') {
+            slider_button.click();
+        }
+        if(json_object.date_string != '') {
+            date_input.value = json_object.date_string
+        }
+    })
+    .catch( error => console.log('ERROR', error)); 
+    
+    
+
+    slider_button.addEventListener('click', function() {
+        let obj_to_send = {};
+        if(slider_button.classList.contains('closed')) {
+            obj_to_send = {'status':'closed'}
+        } else {
+            obj_to_send = {'status':'open'}
+        }
+        
+        let json_data = JSON.stringify(obj_to_send);
+
+        fetch('/update_so_status', {
+            method: 'POST',
+            body: json_data,
+            headers: {
+                "Content-Type": 'application/json'
+            }
+            })
+        .then((success) => {
+            // status updated
+        })
+        .catch((fail) => console.log(fail));
+
+    });
+
+    date_input.addEventListener('change', function() {
+        let obj_to_send = {'date_string': this.value};
+        let json_data = JSON.stringify(obj_to_send)
+
+        fetch('/update_so_date', {
+            method: 'POST',
+            body: json_data,
+            headers: {
+                "Content-Type": 'application/json'
+            }
+            })
+        .then((success) => {
+            // date updated
+        })
+        .catch((fail) => console.log(fail));
+
+    });
 
 }
