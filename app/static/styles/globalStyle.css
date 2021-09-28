@@ -81,7 +81,7 @@ a:link, a:visited, a:hover, a:active {
     user-select: none;
 }
 #profile_photo {
-    width: 166px;
+    width: 140px;
     border-radius: 50%;
     border: #dfdfdf 2px solid;
     padding: 3px;

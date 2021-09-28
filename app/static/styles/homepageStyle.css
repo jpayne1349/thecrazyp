@@ -6,7 +6,7 @@
     display: flex;
     overflow: hidden;
     flex-direction: column;
-    flex-grow: 1;
+    
 }
 
 #picture_carousel {
@@ -166,7 +166,7 @@ justify-content: center;
 @media only screen and (max-width: 600px) {
 
     #slide_show_container {
-        padding: 40px 40px;
+        padding: 15px 40px;
     }
 
     .prev2 {
