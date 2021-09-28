@@ -301,7 +301,7 @@
     display: block;
 }
 .request_examples {
-    font-size: 22px;
+    font-size: 27px;
     display: none;
 }
 .request_examples.show {
@@ -310,7 +310,7 @@
 .request_contact_input {
     margin-top: 5px;
     display: none;
-    font-size: 16px;
+    font-size: 19px;
     height: 60px;
     background-color: #d6ead6;
     outline: none;
@@ -346,7 +346,7 @@
     background-color: #ffe8e2;
 }
 .request_descript {
-    font-size: 20px;
+    font-size: 25px;
     text-align: center;
     margin-top: 5px;
     display: none;
@@ -430,4 +430,5 @@
         margin-right: 0;
 
     }
+
 }

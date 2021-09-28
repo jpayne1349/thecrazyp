@@ -87,7 +87,7 @@ function populate_carousel(json_files_object) {
 // controls animation. starts in auto, changes to manual after first click event
 function carousel_animation(carousel_object) {
     
-    let interval_time = 8000;
+    let interval_time = 4000;
     // tracks whether out of auto or not yet
     let auto_bool = true;
     let slide_show_container = document.getElementById('slide_show_container');
