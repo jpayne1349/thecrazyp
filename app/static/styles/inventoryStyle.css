@@ -281,6 +281,7 @@
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     flex-direction: column;
+    z-index: 3;
 }
 .request_div.show {
     display: flex;
@@ -312,8 +313,25 @@
     font-size: 16px;
     height: 60px;
     background-color: #d6ead6;
+    outline: none;
+}
+.request_contact_input::placeholder {
+    font-size: 18px;
+    text-align: center;
+    color: black;
+    font-family: summer_garden;
 }
 .request_contact_input.show {
+    display: block;
+}
+.request_address_input {
+    margin-top: 5px;
+    display: none;
+    font-size: 16px;
+    height: 60px;
+    background-color: #d6ead6;
+}
+.request_address_input.show {
     display: block;
 }
 .request_contact_input.required {
@@ -341,8 +359,9 @@
     display: none;
     flex-grow: 1;
     width: 100%;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-around;
+    margin-bottom: 20px;
 }
 .request_buttons.show {
     display: flex;

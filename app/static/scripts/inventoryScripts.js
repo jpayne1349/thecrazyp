@@ -218,6 +218,7 @@ function load_iventory(inventory_products) {
 
         let request_contact_input = document.createElement('textarea');
         request_contact_input.className = 'request_contact_input';
+        request_contact_input.placeholder = 'Include an address for a shipping quote!'
 
         let request_descript = document.createElement('div');
         request_descript.className = 'request_descript';
@@ -247,8 +248,9 @@ function load_iventory(inventory_products) {
     }
 
 }
+
 // we also want to expand this card for more info..
- // or maybe more photos of that product..???
+// or maybe more photos of that product..???
 function toggle_selected_card(card_element) {
     
     card_element.classList.remove('selected');
@@ -325,6 +327,7 @@ function requestItemForm() {
 
     // product details
     let product_details = lower_section.previousSibling;
+    let photos_div = product_details.previousSibling;
     let target_y = product_details.offsetTop;
 
     if( request_button.classList.contains('pend')) {
@@ -334,6 +337,8 @@ function requestItemForm() {
         request_title.innerText = 'We can make more!';
         let request_descript = request_div_children[3];
         request_descript.innerHTML = 'Drop your contact info above and we will contact you about making a hat similar to this one!';
+        let request_address = request_div_children[5];
+        
 
     } else if (request_button.classList.contains('sold')) {
         request_div.classList.add('sold');

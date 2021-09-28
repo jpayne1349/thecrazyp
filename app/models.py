@@ -34,7 +34,7 @@ class SpecialOrder(db.Model):
 class ProductRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     product_id = db.Column(db.Integer, index=True)
-    contact_info = db.Column(db.String(48), index=True)
+    contact_info = db.Column(db.String(240), index=True)
     date_created = db.Column(db.String(24), index=True)
     # 0 = processing, 1 = fulfilled, 2 = canceled
     order_status = db.Column(db.Integer, index=True)
