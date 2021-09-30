@@ -50,12 +50,46 @@
     opacity: 0;
 
 }
+.hr_loader {
+    opacity: 1;
+    transition: opacity 1s;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 6px;
+    top: 220px;
+    border-radius: 50%;
+    border-bottom: 2px solid transparent !important;
+    border-left: 2px solid transparent !important;
+    border-right: 2px solid transparent !important;
+    border: 2px solid white;
+    animation-name: spin;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.37, 0.27, 0.64, 0.79);
+    z-index: 3;
+}
+.hr_loader.hide {
+    opacity: 0;
+}
+@keyframes spin {
+    0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .ss_picture {
     border-radius: 10px;
     height: inherit;
     width: inherit;
     opacity: 0;
     transition: opacity 1s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
 }
 .ss_picture.loaded {
     opacity: 1;

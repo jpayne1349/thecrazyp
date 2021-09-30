@@ -9,6 +9,7 @@ from app import db
 from werkzeug.utils import secure_filename
 from config import allowed_file
 from flask_login import current_user, login_user, logout_user, login_required
+from app import imageProcessor
 
 owner_blueprint = Blueprint('owner_blueprint', __name__) 
 
@@ -135,11 +136,11 @@ def owner_logout(username):
 @owner_blueprint.route('/new_carousel_photo', methods=['POST'])
 @login_required
 def new_carousel_photo():
-    print(request.files)
+    
     file = request.files['carousel_file_input']
     
     if file.filename == '':
-        # need to add flash section to this html file
+        # TODO: need to add flash section to this html file
         flash('No selected file')
         return redirect(request.url)
 
@@ -164,9 +165,14 @@ def new_carousel_photo():
         db.session.add(new_carousel)
         db.session.commit()
 
+        # run image processing function to populate LowRes folder
+        imageProcessor.process()
+        
         resp_dict = {'response': 'fulfilled'} 
         resp_dict = json.dumps(resp_dict)
         return resp_dict
+
+    
 
     # failure response
     resp_dict = {'response': 'rejected'} 
@@ -180,18 +186,22 @@ def remove_carousel_photo():
     file_dict = request.json
     filename = file_dict["filename"]
 
-    #lookup file and rm
+    #lookup both HighRes and LowRes copies and remove them from storage
     static = 'static'
-    photos = 'carousel_photos'
+    hr_photos = 'carousel_photos/HighRes'
+    lr_photos = 'carousel_photos/LowRes'
 
     blueprint_dir = os.path.dirname(__file__)
     app_dir = os.path.dirname(blueprint_dir)
-    photos_dir = os.path.join(app_dir, static, photos)
+    hr_photos_dir = os.path.join(app_dir, static, hr_photos)
+    lr_photos_dir = os.path.join(app_dir, static, lr_photos)
     
-    photo_to_remove = os.path.join(photos_dir, filename)
-    os.remove(photo_to_remove)
+    hr_photo_to_remove = os.path.join(hr_photos_dir, filename)
+    lr_photo_to_remove = os.path.join(lr_photos_dir, filename)
+    os.remove(hr_photo_to_remove)
+    os.remove(lr_photo_to_remove)
 
-    # remove from database to track id.
+    # remove from database
     photo_in_db = Carousel.query.filter_by(filename = filename).first()
     db.session.delete(photo_in_db)
     db.session.commit()

@@ -14,6 +14,8 @@ fetch('/carousel_photos', { method: 'POST' })
 // creating images and indicators, calls animation function on completion
 function populate_carousel(json_files_object) {
 
+    console.log(json_files_object);
+
     let index_tracking = {
         pictures: [],
         indicators: []
@@ -22,14 +24,17 @@ function populate_carousel(json_files_object) {
     let carousel_container = document.getElementById('picture_carousel');
     
     let indicator_container = document.getElementById('carousel_indicator');
-    let file_string = 'static/carousel_photos/';
+    
+    let lr_file_string = 'static/carousel_photos/LowRes/';
+    let hr_file_string = 'static/carousel_photos/HighRes/';
 
     let image_loaded_counter = 0;
 
+    // this loop makes each individual carousel photo element
     for (const [id, file_name] of Object.entries(json_files_object)) {
 
-        let file_path = file_string + file_name + '?id=' + id;
-
+        let lr_file_path = lr_file_string + file_name + '?id=' + id;
+        let hr_file_path = hr_file_string + file_name + '?id=' + id;
 
         let image_container = document.createElement('div');
         image_container.className = 'image_container';
@@ -38,15 +43,14 @@ function populate_carousel(json_files_object) {
         img_loading_placeholder.className = 'img_loading_placeholder shimmer';
         img_loading_placeholder.style.height = (carousel_container.scrollWidth * 0.75) + 'px';
 
-        let new_carousel_img = document.createElement('img');
-        new_carousel_img.className = 'ss_picture';
-
+        let lr_carousel_img = document.createElement('img');
+        lr_carousel_img.className = 'ss_picture lr';
 
         // before adding source, need to setup the onload function
-        new_carousel_img.onload = function() {
+        lr_carousel_img.onload = function() {
             img_loading_placeholder.classList.add('loaded');
             setTimeout(()=>{
-                new_carousel_img.classList.add('loaded');
+                lr_carousel_img.classList.add('loaded');
                 img_loading_placeholder.remove();
             },1000);
 
@@ -59,9 +63,29 @@ function populate_carousel(json_files_object) {
             }
         };
 
-        new_carousel_img.src = file_path;
+        lr_carousel_img.src = lr_file_path;
 
-        image_container.append(img_loading_placeholder, new_carousel_img);
+        let hr_loader = document.createElement('div');
+        hr_loader.className = 'hr_loader';
+
+        // TODO: load the HighRes copy and get it in the background
+        let hr_carousel_img = document.createElement('img');
+        hr_carousel_img.className = 'ss_picture hr';
+        hr_carousel_img.onload = function() {
+            hr_loader.classList.add('hide');
+            // TODO: need a HD loader thingy
+            // and a seamless transition of the hr_img ontop before deletion of lr
+            image_container.append(hr_carousel_img);
+            hr_carousel_img.classList.add('loaded');
+            setTimeout(()=>{
+                lr_carousel_img.remove();
+                hr_loader.remove();
+            },1000);
+        }
+
+        hr_carousel_img.src = hr_file_path;
+                
+        image_container.append(img_loading_placeholder, lr_carousel_img, hr_loader);
         
         carousel_container.append(image_container);
 

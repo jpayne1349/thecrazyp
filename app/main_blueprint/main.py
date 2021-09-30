@@ -9,6 +9,8 @@ from app.email import email_special_order, email_product_order
 
 # TODO: add a image compression feature to allow quicker load up times
 # load the full res images in the background and then swap them out..?
+# current max image resolution is 403.5 x 538 , in desktop view.
+
 
 
 main_blueprint = Blueprint('main_blueprint', __name__) 
@@ -31,6 +33,7 @@ def carousel_photos():
     photos_dir = os.path.join(app_dir, static, photos)
     
     list_of_photos = os.listdir(photos_dir)
+    # ^^ this is not even used???
     
     carousel_objects = Carousel.query.all()
 

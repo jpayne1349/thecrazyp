@@ -494,7 +494,7 @@ function display_carousel_contents(file_list_object) {
 
         let product_img = document.createElement('img');
         product_img.className = 'product_img';
-        let file_string = '/static/carousel_photos/';
+        let file_string = '/static/carousel_photos/HighRes/';
         // append database id # as a .jpg?id=4
         product_img.src = file_string + name + '?id=' + id;
         img_div.append(product_img);
