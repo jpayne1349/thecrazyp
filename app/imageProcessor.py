@@ -10,7 +10,7 @@ app_dir = os.path.dirname(__file__)
 # static directories that do not change location
 high_res_dir = os.path.join(app_dir, 'static/carousel_photos/HighRes')
 low_res_dir = os.path.join(app_dir, 'static/carousel_photos/LowRes')
-
+carousel_dir = os.path.join(app_dir, 'static/carousel_photos');
 
 
 # for each high res, look for an already made low res...
@@ -32,7 +32,21 @@ def process():
         high_res_photo.save(lr_photo_filepath,optimize=True, quality=5)
 
 
+def move_files():
+    for file in files(carousel_dir):
+        if(file == '.DS_Store'):
+            continue
+        current_file_path = os.path.join(carousel_dir, file)
+        new_file_path = os.path.join(carousel_dir, 'HighRes',file)
+        os.rename(current_file_path, new_file_path)
 
-       
+    return
+
+def files(path):
+    for file in os.listdir(path):
+        if os.path.isfile(os.path.join(path, file)):
+            yield file
+
+
 if __name__ == '__main__':
-    process()
+    move_files()
