@@ -648,9 +648,12 @@ margin: 10px 40px 40px;
 
 .special_order_available_div {
     width: 100%;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
+}
+.special_order_available_div.showing {
+    display: flex;
 }
 .soa_title {
     font-size: 40px;

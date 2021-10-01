@@ -13,6 +13,8 @@ let orders_div = document.getElementById('orders_div');
 let edit_carousel_div = document.getElementById('edit_carousel_div');
 let edit_inventory_div = document.getElementById('edit_inventory_div');
 let soa_slider_button = document.getElementById('soa_slider_button');
+let custom_order_div = document.getElementById('custom_order_div');
+let custom_order_button = document.getElementById('custom_order_edit');
 
 // toggle classes only, does not handle server contacting
 soa_slider_button.addEventListener('click', ()=> {
@@ -49,6 +51,9 @@ hidden_request_header.addEventListener('click', function() {
     line1.classList.toggle('showing');
     line2.classList.toggle('showing');
     hidden_request_div.classList.toggle('show');
+});
+custom_order_button.addEventListener('click', ()=> {
+    custom_order_div.classList.toggle('showing');
 });
 
 orders_fetch();
@@ -785,7 +790,7 @@ function display_inventory_contents(loaded_json) {
         let product_photos = document.createElement('div');
         product_photos.className = 'product_photos';
 
-        // adding existing photos
+        // retrieving existing photos
         for( let photo_file of product.photos_list ) {
             let product_photo = document.createElement('div');
             product_photo.className = 'product_photo';
@@ -793,7 +798,7 @@ function display_inventory_contents(loaded_json) {
 
             let product_img = document.createElement('img');
             product_img.className = 'product_img';
-            product_img.src = '/static/product_inventory/' + product.id + '/' + photo_file;
+            product_img.src = '/static/product_inventory/' + product.id + '/HighRes/' + photo_file;
 
             let remove_icon = document.createElement('div');
             remove_icon.className = 'remove_icon';
