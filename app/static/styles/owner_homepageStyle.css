@@ -61,7 +61,7 @@
     background-color: #dfdfdf;
     min-width: 130px;
 }
-#toggle_orders.active, #toggle_carousel_edit.active, #toggle_inventory_edit.active {
+#toggle_orders.active, #toggle_carousel_edit.active, #toggle_inventory_edit.active, #custom_order_edit.active {
     background-color: rgb(107, 216, 107);
 }
 

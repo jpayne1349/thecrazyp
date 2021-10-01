@@ -1,4 +1,5 @@
 
+// TODO: automate the creation of a custom order category
 // TODO: add img elements into all the options, and reference stored location
 
 // form object to be updated and accessed by functions

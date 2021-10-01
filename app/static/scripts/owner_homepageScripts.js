@@ -54,6 +54,7 @@ hidden_request_header.addEventListener('click', function() {
 });
 custom_order_button.addEventListener('click', ()=> {
     custom_order_div.classList.toggle('showing');
+    custom_order_button.classList.toggle('active');
 });
 
 orders_fetch();
