@@ -1,6 +1,4 @@
 
-// TODO: load a lower quality image first, to cut down on loading time?
-
 
 // does a listdir of photos folder on server, allow for easy removal/addition of photos?
 fetch('/load_inventory', { method: 'POST' })

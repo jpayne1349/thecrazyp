@@ -57,7 +57,7 @@
     width: 20px;
     height: 20px;
     right: 6px;
-    top: 220px;
+    top: 240px;
     border-radius: 50%;
     border-bottom: 2px solid transparent !important;
     border-left: 2px solid transparent !important;
@@ -200,7 +200,7 @@ justify-content: center;
 @media only screen and (max-width: 600px) {
 
     #slide_show_container {
-        padding: 15px 40px;
+        padding: 15px 10px;
     }
 
     .prev2 {
@@ -208,12 +208,12 @@ justify-content: center;
     }
 
     .prev {
-        transform: translate(-85vw);
+        transform: translate(-100vw);
 
     }
     
     .next {
-        transform: translate(85vw);
+        transform: translate(100vw);
 
     }
 
