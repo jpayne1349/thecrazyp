@@ -20,13 +20,15 @@ function load_iventory(inventory_products) {
 
         let product_card = document.createElement('div');
         product_card.className = 'product_card';
-        product_card.addEventListener('click', open_card); 
+        //product_card.addEventListener('click', open_card); 
         
         let placeholder = document.createElement('div');
         placeholder.className = 'product_card placeholder';
 
         // event listener on product card has to be removed, in order to add one to the close button
         function open_card() {
+            // card should not open until final hd photo has loaded?
+            
 
             // we need to quickly make a placeholder for this card,
             // and send this one into absolute positioning.
@@ -54,6 +56,7 @@ function load_iventory(inventory_products) {
             product_details.classList.add('show');
             product_price.classList.add('show');
             purchase_button.classList.add('show');
+            
 
             setTimeout( () => {
                 product_details.style.opacity = '1';
@@ -87,31 +90,60 @@ function load_iventory(inventory_products) {
         
         let first_photo = true;
         for( let photo_src of product.photos_list ) {
-            let inv_product_photo = document.createElement('img');
-            inv_product_photo.className = 'inv_product_photo';
+            let lr_inv_product_photo = document.createElement('img');
+            lr_inv_product_photo.className = 'inv_product_photo lr';
 
             let img_loading_placeholder = document.createElement('div');
             img_loading_placeholder.className = 'img_loading_placeholder shimmer';
 
             // before adding src, need to setup onload function for each
-            inv_product_photo.onload = function() {
+            lr_inv_product_photo.onload = function() {
                 img_loading_placeholder.classList.add('loaded');
                 setTimeout(()=>{
-                    inv_product_photo.classList.add('loaded');
+                    lr_inv_product_photo.classList.add('loaded');
                     img_loading_placeholder.remove();
                 },1000);
                 
-                
             };
 
-            inv_product_photo.src = '/static/product_inventory/' + product.id + '/' + photo_src;
+            lr_inv_product_photo.src = '/static/product_inventory/' + product.id + '/LowRes/' + photo_src;
             // set first looped photo to active on load..
             if(first_photo == true) {
-                inv_product_photo.classList.add('active');
+                lr_inv_product_photo.classList.add('active');
                 first_photo = false;
             }
 
-            photo_stack.append(img_loading_placeholder, inv_product_photo);
+            let loader = document.createElement('div');
+            loader.className = 'loader show';
+
+
+            let hr_inv_product_photo = document.createElement('img');
+            hr_inv_product_photo.className = 'inv_product_photo hr';
+
+            hr_inv_product_photo.onload = function() {
+                // allow card to be opened
+                product_card.addEventListener('click', open_card);
+                product_card.classList.add('loaded');
+                // remove loader
+                lr_inv_product_photo.classList.remove('loaded');
+                hr_inv_product_photo.classList.add('loaded');
+                loader.classList.add('hide');
+                if(lr_inv_product_photo.classList.contains('active')){
+                    lr_inv_product_photo.classList.remove('active');
+                    hr_inv_product_photo.classList.add('active');
+                }
+                photo_stack.append(hr_inv_product_photo);
+                setTimeout(()=>{
+                    lr_inv_product_photo.remove();
+                    loader.remove();
+                },1000);
+
+                
+            };
+
+            hr_inv_product_photo.src = '/static/product_inventory/' + product.id + '/HighRes/' + photo_src;
+            
+            photo_stack.append(img_loading_placeholder, lr_inv_product_photo, loader);
         }
 
         let next_photo_button = document.createElement('div');

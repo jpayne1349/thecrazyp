@@ -23,17 +23,6 @@ def homepage():
 
 @main_blueprint.route('/carousel_photos', methods=['POST'])
 def carousel_photos():
-
-    static = 'static'
-    photos = 'carousel_photos'
-
-    blueprint_dir = os.path.dirname(__file__)
-    app_dir = os.path.dirname(blueprint_dir)
-    
-    photos_dir = os.path.join(app_dir, static, photos)
-    
-    list_of_photos = os.listdir(photos_dir)
-    # ^^ this is not even used???
     
     carousel_objects = Carousel.query.all()
 
@@ -57,8 +46,6 @@ def faq():
 @main_blueprint.route('/load_inventory', methods=['POST'])
 def load_inventory():
 
-    # maybe need seperate folders for each item
-    # to provide multiple photos
 
     static = 'static'
     photos = 'product_inventory'
@@ -71,7 +58,7 @@ def load_inventory():
     # folder labeled by id
     # storage of all other info done in database
     product_photos_folders = os.listdir(inventory_dir)
-
+    
     product_list = []
 
     db_products = Product.query.all()
@@ -88,8 +75,8 @@ def load_inventory():
             if(photo_folder == '.DS_Store'):
                 continue
             if int(photo_folder) == product.id:
-                folder_path = os.path.join(inventory_dir, photo_folder)
-                photos_list = os.listdir(folder_path)   
+                lr_folder_path = os.path.join(inventory_dir, photo_folder, 'LowRes')
+                photos_list = os.listdir(lr_folder_path)
                 product_object['photos_list'] = photos_list
 
         product_list.append(product_object)
