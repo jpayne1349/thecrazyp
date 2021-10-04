@@ -10,59 +10,49 @@
 
 {% block content %}
 
-<div class='page_content'>
-
-<div id='login_content'>
-
-    <h1 class='sign_in_title'>Owner Login</h1>
+<div class="page_content">
+<div id="login_content">
+<h1 class="sign_in_title">Owner Login</h1>
 
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <div class='flashes_div'>
+        <div class="flashes_div">
             {% for message in messages %}
-            <div class='flashed_message'>{{ message }}</div>
+            <div class="flashed_message">{{ message }}</div>
             {% endfor %}
         </div>
         {% endif %}
     {% endwith %}
 
-    <div class='form_outline'>
-        <form action="" method="post" novalidate onsubmit='return validateLoginForm();'>
+    <div class="form_outline">
+<form action="" method="post" novalidate="" onsubmit="return validateLoginForm();">
             {{ form.hidden_tag() }}
 
-            <div class='label_div'> {{ form.username.label(class='username_label') }}
+            <div class="label_div"> {{ form.username.label(class='username_label') }}
 
                 {% for error in form.username.errors %}
-                <span class='validation_message'> - required </span>
+                <span class="validation_message"> - required </span>
                 {% endfor %}
 
             </div>
-
-            <div class='input_div'> {{ form.username(size=32, class='username_input', autofocus=true) }} </div>
-
-            <div class='label_div'> {{ form.password.label(class='password_label') }}
+<div class="input_div"> {{ form.username(size=32, class='username_input', autofocus=true) }} </div>
+<div class="label_div"> {{ form.password.label(class='password_label') }}
 
                 {% for error in form.password.errors %}
-                <span class='validation_message'> - required </span>
+                <span class="validation_message"> - required </span>
                 {% endfor %}
 
             </div>
-
-            <div class='input_div'> {{ form.password(size=32 , class= 'password_input') }} </div>
-
-            <div class='submit_div' > {{ form.submit(class='submit_button') }}</div>
-
-        </form>
-    </div>
-
-    <div class='new_account_div'>
+<div class="input_div"> {{ form.password(size=32 , class= 'password_input') }} </div>
+<div class="submit_div"> {{ form.submit(class='submit_button') }}</div>
+</form>
+</div>
+<div class="new_account_div">
         First time logging in? Set up your account
-        <a class='new_account_link' href='/owner_register'> here </a>
+        <a class="new_account_link" href="/owner_register"> here </a>
         .
     </div>
-
 </div>
-
 </div>
 
 {% endblock %}

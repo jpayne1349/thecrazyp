@@ -12,204 +12,193 @@
 
 {% block content %}
 
-<div class='page_content'>
-
-    <div id='order_form' >
-
-        <div class='dropdown_wrapper' >
-        <div class='label_holder'>
-            <div id='style_label' class='label' >Style</div>
-            <div class='selected_option_display' sel_type='style'></div>
-            <div class='arrow' id='style_arrow'></div>
-        </div>
-        <div id='style_selection' sel_type='style' class='selection'>
-            <div class='option' id='style1'>
-                <img alt='img_placeholder'>
-            </div>
-            <div class='option' id='style2'>
-                <img alt='img_placeholder'>
-            </div>
-            <div class='option' id='style3'>
-                <img alt='img_placeholder'>
-            </div>
-            <div class='option other' id='other_style'>
-                <div class='other_close' ></div>
-                <div class='other_label'> Other </div>
-                <input class='other_input' type='text'>
-            </div>
-        </div>
-        </div>
-        <div class='dropdown_wrapper'>
-            <div class='label_holder'>
-                <div id='color_label' class='label'>Color</div>
-                <div class='selected_option_display' sel_type='color'></div>
-                <div class='arrow' id='color_arrow'></div>
-            </div>
-            <div id='color_selection' sel_type='color' class='selection'>
-                <div class='option' id='color1'>
-                    <img alt='img_placeholder'>
-                </div>
-                <div class='option' id='color2'>
-                    <img alt='img_placeholder'>
-                </div>
-                <div class='option' id='color3'>
-                    <img alt='img_placeholder'>
-                </div>
-                <div class='option other' id='other_color'>
-                    <div class='other_close'></div>
-                    <div class='other_label'> Other </div>
-                    <input class='other_input' type='text'>
-                </div>
-            </div>
-        </div>
-    
-        <div class='dropdown_wrapper'>
-            <div class='label_holder'>
-                <div id='band_label' class='label'>Band Type</div>
-                <div class='selected_option_display' sel_type='band'></div>
-                <div class='arrow' id='band_arrow'></div>
-            </div>
-            <div id='band_selection' sel_type='band' class='selection'>
-                <div class='option' id='band1'>
-                    <img alt='img_placeholder'>
-                </div>
-                <div class='option' id='band2'>
-                    <img alt='img_placeholder'>
-                </div>
-                <div class='option' id='band3'>
-                    <img alt='img_placeholder'>
-                </div>
-                <div class='option other' id='other_band'>
-                    <div class='other_close'></div>
-                    <div class='other_label'> Other </div>
-                    <input class='other_input' type='text'>
-                </div>
-            </div>
-        </div>
-
-        <div class='dropdown_wrapper'>
-            <div class='label_holder'>
-                <div id='design_label' class='label'>Design</div>
-                <div class='selected_option_display' sel_type='design'></div>
-                <div class='arrow' id='design_arrow'></div>
-            </div>
-            <div id='design_selection' sel_type='design' class='selection'>
-                <div class='option' id='design1'>
-                    <img alt='img_placeholder'>
-                </div>
-                <div class='option' id='design2'>
-                    <img alt='img_placeholder'>
-                </div>
-                <div class='option' id='design3'>
-                    <img alt='img_placeholder'>
-                </div>
-                <div class='option other' id='other_design'>
-                    <div class='other_close'></div>
-                    <div class='other_label'> Other </div>
-                    <input class='other_input' type='text'>
-                </div>
-            </div>
-        </div>
-
-        <div class='dropdown_wrapper'>
-            <div class='label_holder'>
-                <div id='contact_label' class='label'>Contact Method</div>
-                <div class='selected_option_display' sel_type='contact'></div>
-                <div class='arrow' id='style_arrow'></div>
-            </div>
-            <div id='contact_selection' sel_type='contact' class='selection'>
-                <div class='option' id='phone_option'>
-                    <div class='other_close'></div>
-                    <label id='phone_label' class='contact_label'> Text </label>
-                    <input class='contact_input' type='tel' id='phone_input'>
-                </div>
-                <div class='option' id='email_option'>
-                    <div class='other_close'></div>
-                    <label id='email_label' class='contact_label'> Email </label>
-                    <input class='contact_input' type='email' id='email_input'>
-                </div>
-                <div class='option other' id='other_contact'>
-                    <div class='other_close'></div>
-                    <div class='other_label'> Other </div>
-                    <input class='other_input' type='text'>
-                </div>
-            </div>
-        </div>
-
-        <div class='dropdown_wrapper'>
-            <div class='label_holder notes'>
-                <div id='notes_label' class='label'> Additional Notes</div>
-                <div class='selected_option_display' sel_type='notes'></div>
-                <div class='arrow' id='notes_arrow'></div>
-            </div>
-            <div id='notes_selection' sel_type='notes' class='selection'>
-                <div class='notes_option' id='notes'>
-                    Anything we need to know?
-                    <textarea class='notes_input' type='text'></textarea>
-                </div>
-            </div>
-        </div>
-
-        <div class='review_wrapper' id='review_wrapper'>
-            <div class='review_button' id='review'> Review </div>
-        </div>
-
-    </div>
-
+<div class="page_content">
+<div id="order_form">
+<div class="dropdown_wrapper">
+<div class="label_holder">
+<div class="label" id="style_label">Style</div>
+<div class="selected_option_display" sel_type="style"></div>
+<div class="arrow" id="style_arrow"></div>
 </div>
-
-<div id='click_blocker' > </div>
-<div id='review_container' class='fullscreen_container'>
-    <div id='review_header' class='review_header'> Review your selections! </div>
-    <div id='review_form_contents' class='review_contents'>
-        <div class='review_option' id='review_style'>
-            <div class='review_option_title'> Style </div>
-            <div class='review_option_content'>
-                <img class='content_image'>
-                <div class='content_label'></div>
-            </div>
-        </div>
-        <div class='review_option' id='review_color'>
-            <div class='review_option_title'> Color </div>
-            <div class='review_option_content'>
-                <img class='content_image'>
-                <div class='content_label'></div>
-            </div>
-        </div>
-        <div class='review_option' id='review_band'>
-            <div class='review_option_title'> Band Type</div>
-            <div class='review_option_content'>
-                <img class='content_image'>
-                <div class='content_label'></div>
-            </div>
-        </div>
-        <div class='review_option' id='review_design'>
-            <div class='review_option_title'> Design </div>
-            <div class='review_option_content'>
-                <img class='content_image'>
-                <div class='content_label'></div>
-            </div>
-        </div>
-        <div class='review_option' id='review_notes'>
-            <div class='review_option_title'> Notes </div>
-            <div class='review_option_content'>
-                <img class='content_image'>
-                <div class='content_label'></div>
-            </div>
-        </div>
-        <div class='review_option' id='review_contact'>
-            <div class='review_option_title'> Contact Info</div>
-            <div class='review_option_content'>
-                <img class='content_image'>
-                <div class='content_label'></div>
-            </div>
-        </div>
-    </div>
-
-    <div id='button_container'>
-        <div id='back_button'> Back </div>
-        <div id='send_button'> Send </div>
-    </div>
+<div class="selection" id="style_selection" sel_type="style">
+<div class="option" id="style1">
+<img alt="img_placeholder"/>
+</div>
+<div class="option" id="style2">
+<img alt="img_placeholder"/>
+</div>
+<div class="option" id="style3">
+<img alt="img_placeholder"/>
+</div>
+<div class="option other" id="other_style">
+<div class="other_close"></div>
+<div class="other_label"> Other </div>
+<input class="other_input" type="text"/>
+</div>
+</div>
+</div>
+<div class="dropdown_wrapper">
+<div class="label_holder">
+<div class="label" id="color_label">Color</div>
+<div class="selected_option_display" sel_type="color"></div>
+<div class="arrow" id="color_arrow"></div>
+</div>
+<div class="selection" id="color_selection" sel_type="color">
+<div class="option" id="color1">
+<img alt="img_placeholder"/>
+</div>
+<div class="option" id="color2">
+<img alt="img_placeholder"/>
+</div>
+<div class="option" id="color3">
+<img alt="img_placeholder"/>
+</div>
+<div class="option other" id="other_color">
+<div class="other_close"></div>
+<div class="other_label"> Other </div>
+<input class="other_input" type="text"/>
+</div>
+</div>
+</div>
+<div class="dropdown_wrapper">
+<div class="label_holder">
+<div class="label" id="band_label">Band Type</div>
+<div class="selected_option_display" sel_type="band"></div>
+<div class="arrow" id="band_arrow"></div>
+</div>
+<div class="selection" id="band_selection" sel_type="band">
+<div class="option" id="band1">
+<img alt="img_placeholder"/>
+</div>
+<div class="option" id="band2">
+<img alt="img_placeholder"/>
+</div>
+<div class="option" id="band3">
+<img alt="img_placeholder"/>
+</div>
+<div class="option other" id="other_band">
+<div class="other_close"></div>
+<div class="other_label"> Other </div>
+<input class="other_input" type="text"/>
+</div>
+</div>
+</div>
+<div class="dropdown_wrapper">
+<div class="label_holder">
+<div class="label" id="design_label">Design</div>
+<div class="selected_option_display" sel_type="design"></div>
+<div class="arrow" id="design_arrow"></div>
+</div>
+<div class="selection" id="design_selection" sel_type="design">
+<div class="option" id="design1">
+<img alt="img_placeholder"/>
+</div>
+<div class="option" id="design2">
+<img alt="img_placeholder"/>
+</div>
+<div class="option" id="design3">
+<img alt="img_placeholder"/>
+</div>
+<div class="option other" id="other_design">
+<div class="other_close"></div>
+<div class="other_label"> Other </div>
+<input class="other_input" type="text"/>
+</div>
+</div>
+</div>
+<div class="dropdown_wrapper">
+<div class="label_holder">
+<div class="label" id="contact_label">Contact Method</div>
+<div class="selected_option_display" sel_type="contact"></div>
+<div class="arrow" id="style_arrow"></div>
+</div>
+<div class="selection" id="contact_selection" sel_type="contact">
+<div class="option" id="phone_option">
+<div class="other_close"></div>
+<label class="contact_label" id="phone_label"> Text </label>
+<input class="contact_input" id="phone_input" type="tel"/>
+</div>
+<div class="option" id="email_option">
+<div class="other_close"></div>
+<label class="contact_label" id="email_label"> Email </label>
+<input class="contact_input" id="email_input" type="email"/>
+</div>
+<div class="option other" id="other_contact">
+<div class="other_close"></div>
+<div class="other_label"> Other </div>
+<input class="other_input" type="text"/>
+</div>
+</div>
+</div>
+<div class="dropdown_wrapper">
+<div class="label_holder notes">
+<div class="label" id="notes_label"> Additional Notes</div>
+<div class="selected_option_display" sel_type="notes"></div>
+<div class="arrow" id="notes_arrow"></div>
+</div>
+<div class="selection" id="notes_selection" sel_type="notes">
+<div class="notes_option" id="notes">
+                    Anything we need to know?
+                    <textarea class="notes_input" type="text"></textarea>
+</div>
+</div>
+</div>
+<div class="review_wrapper" id="review_wrapper">
+<div class="review_button" id="review"> Review </div>
+</div>
+</div>
+</div>
+<div id="click_blocker"> </div>
+<div class="fullscreen_container" id="review_container">
+<div class="review_header" id="review_header"> Review your selections! </div>
+<div class="review_contents" id="review_form_contents">
+<div class="review_option" id="review_style">
+<div class="review_option_title"> Style </div>
+<div class="review_option_content">
+<img class="content_image"/>
+<div class="content_label"></div>
+</div>
+</div>
+<div class="review_option" id="review_color">
+<div class="review_option_title"> Color </div>
+<div class="review_option_content">
+<img class="content_image"/>
+<div class="content_label"></div>
+</div>
+</div>
+<div class="review_option" id="review_band">
+<div class="review_option_title"> Band Type</div>
+<div class="review_option_content">
+<img class="content_image"/>
+<div class="content_label"></div>
+</div>
+</div>
+<div class="review_option" id="review_design">
+<div class="review_option_title"> Design </div>
+<div class="review_option_content">
+<img class="content_image"/>
+<div class="content_label"></div>
+</div>
+</div>
+<div class="review_option" id="review_notes">
+<div class="review_option_title"> Notes </div>
+<div class="review_option_content">
+<img class="content_image"/>
+<div class="content_label"></div>
+</div>
+</div>
+<div class="review_option" id="review_contact">
+<div class="review_option_title"> Contact Info</div>
+<div class="review_option_content">
+<img class="content_image"/>
+<div class="content_label"></div>
+</div>
+</div>
+</div>
+<div id="button_container">
+<div id="back_button"> Back </div>
+<div id="send_button"> Send </div>
+</div>
 </div>
 
 {% endblock %}

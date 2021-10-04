@@ -1,8 +1,7 @@
 <html>
-
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <style>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<style>
         
         .wrapper {
             display: block;
@@ -49,41 +48,39 @@
 
     </style>
 </head>
-
 <body>
-    <div class='wrapper'>
-        <div class='header'> New Product Request </div>
-        <div class='subheader'> from ThecrazyP.com </div>
-        <div class='contents'>
-            <div class='product_description label'> Product Description:</div>
-            <div class='info'>{{ dict['description'] }}</div>
-            <div class='product_details label'> Product Details: </div>
-            <div class='info'>{{ dict['details'] }}</div>
-            <div class='product_price label'> Product Price:</div>
-            <div class='info'>{{ dict['price'] }}</div>
-            <div class='customer_info label'> Customers Provided Contact Info: </div>
-            <div class='info'>{{ dict['contact_info'] }}</div>
-        </div>
-        <!-- This status update will be based on a dict variable orig_status -->
+<div class="wrapper">
+<div class="header"> New Product Request </div>
+<div class="subheader"> from ThecrazyP.com </div>
+<div class="contents">
+<div class="product_description label"> Product Description:</div>
+<div class="info">{{ dict['description'] }}</div>
+<div class="product_details label"> Product Details: </div>
+<div class="info">{{ dict['details'] }}</div>
+<div class="product_price label"> Product Price:</div>
+<div class="info">{{ dict['price'] }}</div>
+<div class="customer_info label"> Customers Provided Contact Info: </div>
+<div class="info">{{ dict['contact_info'] }}</div>
+</div>
+<!-- This status update will be based on a dict variable orig_status -->
         {% if dict['orig_status'] == 0 %}
-            <div class='status_update'> 
-                This item's status has automatically been updated to Pending. <br>
-                Please <a href='http://143.244.171.13/owner_login'>login </a> to update as necessary.
+            <div class="status_update"> 
+                This item's status has automatically been updated to Pending. <br/>
+                Please <a href="http://143.244.171.13/owner_login">login </a> to update as necessary.
             </div>
         {% else %}
-            <div class='status_update not_available'>
-                This item was requested while Pending or Sold. <br>
+            <div class="status_update not_available">
+                This item was requested while Pending or Sold. <br/>
                 Status of existing product not changed.
             </div>
 
         {% endif %}
 
-        <div class='disclaimer'>
+        <div class="disclaimer">
             This email is being sent automatically. This is a send/receive mailing system.
-            <br>
+            <br/>
             Please reply to this email if you have questions or concerns. - STS
         </div>
-    </div>
+</div>
 </body>
-
 </html>

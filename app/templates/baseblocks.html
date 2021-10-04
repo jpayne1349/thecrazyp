@@ -2,22 +2,22 @@
 
 {% block doc -%}
 <!DOCTYPE html>
-<html {% block html_attribs %}{% endblock html_attribs %}>
+
+<html %}="" %}{%="" block="" endblock="" html_attribs="" {%="">
 {%- block html %}
   <head>
     {%- block head %}
     <title>{% block title %}{{title|default}}{% endblock title %}</title>
 
     {%- block metas %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     {%- endblock metas %}
 
     {%- block styles %}
     {%- endblock styles %}
     {%- endblock head %}
   </head>
-
-  <body {% block body_attribs %}{% endblock body_attribs %}>
+<body %}="" %}{%="" block="" body_attribs="" endblock="" {%="">
     {% block body -%}
     {% block navbar %}
     {%- endblock navbar %}

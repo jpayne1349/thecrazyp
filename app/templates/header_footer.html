@@ -11,7 +11,8 @@
 
 {{super()}} 
 
-<link rel="icon" type="image/x-icon" href="{{ url_for('static' , filename='ic.ico') }}">
+
+<link href="{{ url_for('static' , filename='ic.ico') }}" rel="icon" type="image/x-icon"/>
 
 <link rel= "stylesheet" type= "text/css" href= "/static/styles/globalStyle.css?v=06">
 
@@ -22,24 +23,19 @@
 {% block navbar %}
 
 <!-- TODO: add the logo here? -->
-<div id='header_and_logo'>
-   <a href='/'> <img class='logo_img' src='/static/crazyp_logo.png'> </a>
+<div id="header_and_logo">
+<a href="/"> <img class="logo_img" src="/static/crazyp_logo.png"/> </a>
 </div>
-
-<div id='mobile_navbar_hamburger'>
-    <div id='burger1'></div>
-    <div id='burger2'></div>
-    <div id='burger3'></div>
+<div id="mobile_navbar_hamburger">
+<div id="burger1"></div>
+<div id="burger2"></div>
+<div id="burger3"></div>
 </div>
-
-
-<div id='navbar'>
-    
-    <a class='navbar_link' href='/' > Home </a>
-    <a class='navbar_link' href='/inventory' > Inventory </a>
-    <a class='navbar_link' href='/special_order' > Custom Order </a>
-    <a class='navbar_link last' href='/faq' > FAQ </a>
-
+<div id="navbar">
+<a class="navbar_link" href="/"> Home </a>
+<a class="navbar_link" href="/inventory"> Inventory </a>
+<a class="navbar_link" href="/special_order"> Custom Order </a>
+<a class="navbar_link last" href="/faq"> FAQ </a>
 </div>
 
 {% endblock navbar %}
@@ -51,28 +47,26 @@
 
 {% block footer %}
 
-<div id='social_container'>
-    
-    <img id='profile_photo' src='/static/profile_picture.jpeg'>
-    <div id='logo_container' >
-        <a id='ig_link' href='https://www.instagram.com/thecrazyp_/'>
-            <img id='ig_logo' src='/static/instagram_icon.svg' > 
-        </a>
-        <a id='fb_link' href='https://www.facebook.com/TheCrazyP/' >
-            <img id='fb_logo' src='/static/facebook_icon.svg'>
-        </a>
-    </div>
+<div id="social_container">
+<img id="profile_photo" src="/static/profile_picture.jpeg"/>
+<div id="logo_container">
+<a href="https://www.instagram.com/thecrazyp_/" id="ig_link">
+<img id="ig_logo" src="/static/instagram_icon.svg"/>
+</a>
+<a href="https://www.facebook.com/TheCrazyP/" id="fb_link">
+<img id="fb_logo" src="/static/facebook_icon.svg"/>
+</a>
 </div>
-
-<div id='footer'>
-    &copy; thecrazyp
+</div>
+<div id="footer">
+    � thecrazyp
 
     
     
     {% if owner() %}
-    <div id='owner_link'>
-        <a href='/owner_login'> Owner Editor </a>
-    </div>
+    <div id="owner_link">
+<a href="/owner_login"> Owner Editor </a>
+</div>
     {% endif %}
     
 
