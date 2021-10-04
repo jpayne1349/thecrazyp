@@ -1,0 +1,73 @@
+
+
+{% extends "header_footer.html" %}
+
+{% block head %}
+
+{{super()}}
+
+<link rel="stylesheet" type="text/css" href="/static/styles/owner_registerStyle.css?v=05">
+
+{% endblock %}
+
+{% block content %}
+
+<div class='page_content'>
+
+    <div id='register_content'>
+    
+        <h1 class='registration_title'>Register as an owner of this site</h1>
+    
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class='flashes_div' >
+            {% for message in messages %}
+            <div class='flashed_message'>{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+    
+    </div>
+    
+    <div class='form_outline'>
+        <form action="" method="post" novalidate onsubmit='return validateRegisterForm();'>
+            {{ form.hidden_tag() }}
+    
+            <div class='label_div'> {{ form.email.label(class='label') }}</div>
+    
+            <div class='input_div'> {{ form.email(size=32, class='input', autofocus=true) }} </div>
+    
+            <div class='label_div'> {{ form.username.label(class='label') }}</div>
+    
+            <div class='input_div'> {{ form.username(size=32, class='input') }} </div>
+    
+            <div class='label_div'> {{ form.password.label(class='label') }}</div>
+    
+            <div class='input_div'> {{ form.password(size=32, class='input') }} </div>
+
+            <div class='label_div'> {{ form.dev_key.label(class='label') }}</div>
+            
+            <div class='input_div'> {{ form.dev_key(size=32, class='input') }} </div>
+    
+            <div class='submit_div'> {{ form.submit(class='submit_button') }}</div>
+    
+        </form>
+    </div>
+
+    <div class='login_page_redirect' > 
+        Already made an account? 
+        <a class='login_page_link' href='/owner_login'> Login</a>
+    </div>
+
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+
+<script src="/static/scripts/owner_registerScripts.js?v=05"></script>
+
+{%- endblock scripts %}

@@ -1,0 +1,106 @@
+
+#register_content, .form_outline, .login_page_redirect {
+
+    align-self: center;
+    
+}
+
+.form_outline {
+
+    min-height: 30vh;
+
+}
+
+.login_page_redirect {
+    min-height: 20vh;
+}
+
+
+#register_content {
+    font-size: 30px;
+    text-align: center;
+}
+.flashes_div {
+    background-color: #ffd8d8;
+    border-radius: 5px;
+    box-shadow: black 0px 5px 6px -7px;
+    margin-bottom: 15px;
+}
+.label_div {
+font-size: 40px;
+
+}
+
+.input {
+
+font-size: 25px;
+margin-bottom: 15px;
+border-radius: 5px;
+border-width: 1px;
+}
+
+.input::placeholder {
+
+    color: rgb(231, 166, 166);
+    font-size: 25px;
+    font-family: 'summer_garden';
+
+}
+
+.submit_button { 
+     background-color: #2eb22e;
+    box-shadow: none;
+    border: none;
+    width: 100px;
+    height: 25px;
+    border-radius: 12px;
+    color: whitesmoke;
+    font-family: 'summer_garden';
+    font-size: 21px;
+    cursor: pointer;
+    user-select: none;
+}
+.submit_button:hover {
+    background-color: #2aa02a;
+}
+
+.login_page_redirect {
+text-align: center;
+    margin-top: 40px;
+    font-size: 22px;
+}
+
+.login_page_redirect .login_page_link{
+text-decoration: underline;
+    color: #4646ff;
+    text-decoration-thickness: 1px;
+
+}
+
+@media only screen and (max-width: 600px) {
+
+    .input {
+        font-size: 18px;
+    }
+    .input::placeholder {
+        font-size: 20px;
+    }
+
+    .submit_button { 
+    background: rgb(2, 124, 2);
+    color: white;
+    box-sizing: none;
+    text-decoration: none;
+    
+    width: 100%;
+    height: 35px;
+    font-size: 30px;
+    margin-top: 25px;
+
+    }
+    .submit_button:hover {
+        background: rgb(4, 104, 4);
+    }
+
+
+}

@@ -3,7 +3,7 @@
 {% extends "baseblocks.html" %}
 
 
-{% block title %}thecrazyp{% endblock title %} <!-- title is usually in head? -->
+{% block title %}The Crazy P{% endblock title %} <!-- title is usually in head? -->
 
 
 {% block head %}
@@ -13,7 +13,7 @@
 
 <link rel="icon" type="image/x-icon" href="{{ url_for('static' , filename='ic.ico') }}">
 
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/globalStyle.css') }}">
+<link rel= "stylesheet" type= "text/css" href= "/static/styles/globalStyle.css?v=05">
 
 
 {% endblock %}
@@ -21,19 +21,24 @@
 
 {% block navbar %}
 
+<!-- TODO: add the logo here? -->
 <div id='header_and_logo'>
-    thecrazyp
+   <a href='/'> <img class='logo_img' src='/static/crazyp_logo.png'> </a>
 </div>
+
+<div id='mobile_navbar_hamburger'>
+    <div id='burger1'></div>
+    <div id='burger2'></div>
+    <div id='burger3'></div>
+</div>
+
 
 <div id='navbar'>
     
     <a class='navbar_link' href='/' > Home </a>
     <a class='navbar_link' href='/inventory' > Inventory </a>
-    <a class='navbar_link' > Special Order </a>
-    <a class='navbar_link'> Contact </a>
-    <div id='navbar_link_holder'>
-        Menu
-    </div>
+    <a class='navbar_link' href='/special_order' > Custom Order </a>
+    <a class='navbar_link last' href='/faq' > FAQ </a>
 
 </div>
 
@@ -46,16 +51,34 @@
 
 {% block footer %}
 
-<div id='instagram_container'>
-    <a id='ig_link' href='https://www.instagram.com/thecrazyp_/'>
-    <img id='ig_profile' src='/static/profile_picture.jpeg'>
-    <img id='ig_logo' src='/static/ig_logo.svg' > 
-    </a>
+<div id='social_container'>
+    
+    <img id='profile_photo' src='/static/profile_picture.jpeg'>
+    <div id='logo_container' >
+        <a id='ig_link' href='https://www.instagram.com/thecrazyp_/'>
+            <img id='ig_logo' src='/static/instagram_icon.svg' > 
+        </a>
+        <a id='fb_link' href='https://www.facebook.com/TheCrazyP/' >
+            <img id='fb_logo' src='/static/facebook_icon.svg'>
+        </a>
+    </div>
 </div>
 
 <div id='footer'>
     &copy; thecrazyp
+
+    
+    
+    {% if owner() %}
+    <div id='owner_link'>
+        <a href='/owner_login'> Owner Editor </a>
+    </div>
+    {% endif %}
+    
+
 </div>
+
+
 
 {% endblock %}
 

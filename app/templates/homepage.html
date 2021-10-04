@@ -6,7 +6,7 @@
 
     {{super()}} 
 
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/homepageStyle.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "/static/styles/homepageStyle.css?v=051">
 
 {% endblock %}
 
@@ -21,6 +21,10 @@
     <div id='carousel_indicator'>
 
     </div>
+    <div id='play_pause_div'>
+        <div id='paused_button' class='active'></div>
+        <div id='playing_button'></div>
+    </div>
 </div>
 
 
@@ -33,7 +37,7 @@
 {% block scripts %}
     {{super()}} 
 
-    <script src="/static/scripts/homepageScripts.js"></script>
+    <script src="/static/scripts/homepageScripts.js?v=051"></script>
 
 {%- endblock scripts %}
 

@@ -8,7 +8,7 @@
 
     {{super()}} 
 
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/inventoryStyle.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "/static/styles/inventoryStyle.css?v=05">
 
 {% endblock %}
 
@@ -16,6 +16,9 @@
 
 <div class='page_content'>
 
+    <div id='inventory_title'>
+        Current Inventory
+    </div>
     <div id='inventory_div'>
 
     </div>
@@ -28,6 +31,6 @@
 {% block scripts %}
     {{super()}} 
 
-    <script src="/static/scripts/inventoryScripts.js"></script>
+    <script src="/static/scripts/inventoryScripts.js?v=05"></script>
 
 {%- endblock scripts %}
