@@ -84,6 +84,8 @@ body {
     max-height: 50px;
     overflow: scroll;
     align-self: center;
+    user-select: none;
+    overflow: hidden;
 }
 .arrow {
     width: 30px;
