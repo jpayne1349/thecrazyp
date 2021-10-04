@@ -97,25 +97,37 @@ def special_order():
 
     so_status = SoAvailable.query.all()
 
+    # could also use try / catch here...
+    # this stop the function if no so_status has been edited before
     if not so_status:
         return render_template('special_order.html')
 
+    # this returns if the status is open, don't even bother with the date
     if(so_status[0].status == 'open'):
         return render_template('special_order.html')
     
-    # format the stupid date
-    new_date = so_status[0].date_string
-    date_items_list = new_date.split('-')
+    # small check here to see if it was closed and no date was entered
+    if(so_status[0].date_string == ''):
+        # empty date_string, just set a placeholder string
+        unknown_date_string = 'To Be Decided Soon!'
+        return render_template('closed_special_order.html', date_string=unknown_date_string)
+    else:
+        # format the chosen date
+        new_date = so_status[0].date_string
+        date_items_list = new_date.split('-')
 
-    year = date_items_list[0]
-    month = date_items_list[1]
-    day = date_items_list[2]
+        year = date_items_list[0]
+        month = date_items_list[1]
+        day = date_items_list[2]
 
-    string_month = month_names[int(month) - 1]
+        string_month = month_names[int(month) - 1]
+        
+        new_date_string = string_month + ' ' + day + ', ' + year
+
+        return render_template('closed_special_order.html', date_string=new_date_string)
     
-    new_date_string = string_month + ' ' + day + ', ' + year
-
-    return render_template('closed_special_order.html', date_string=new_date_string)
+    # fallback just show the order form TODO: this should just show a 404 or something and send the dev an email
+    return render_template('special_order.html')
 
 @main_blueprint.route('/special_order_formObject', methods=['POST'])
 def order_form():
