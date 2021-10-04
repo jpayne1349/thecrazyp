@@ -97,7 +97,11 @@ def special_order():
 
     so_status = SoAvailable.query.all()
 
+<<<<<<< HEAD
     # if there is no entry for the so_status
+=======
+    # if SO status has not been set, list above will be empty
+>>>>>>> 36346e59a02e43818b7d91f1469bb8d9daf25dca
     if not so_status:
         return render_template('special_order.html')
 
