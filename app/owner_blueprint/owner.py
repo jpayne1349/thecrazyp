@@ -166,7 +166,7 @@ def new_carousel_photo():
         db.session.commit()
 
         # run image processing function to populate LowRes folder
-        imageProcessor.process()
+        imageProcessor.process_carousel()
         
         resp_dict = {'response': 'fulfilled'} 
         resp_dict = json.dumps(resp_dict)
@@ -224,10 +224,14 @@ def new_product_photo():
         return 'rejected', 400
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        product_folder = os.path.join(app.config['INVENTORY_FOLDER'] ,product_id)
+        product_folder = os.path.join(app.config['INVENTORY_FOLDER'] ,product_id, 'HighRes')
+        # save HighRes image
         file.save(os.path.join(product_folder, filename))
-
-
+        
+        # process this items photos
+        imageProcessor.process_inventory(os.path.join(
+            app.config['INVENTORY_FOLDER'], product_id))
+            
         resp_dict = {'response': 'fulfilled'} 
         resp_dict = json.dumps(resp_dict)
         return resp_dict
@@ -293,8 +297,14 @@ def new_product():
 
     new_folder = os.path.join(app.config['INVENTORY_FOLDER'] , str(new_product_id))
     os.mkdir(new_folder)
+
+    # make HR and LR folders within
+    hr_folder = os.path.join(new_folder, 'HighRes')
+    os.mkdir(hr_folder)
+    lr_folder = os.path.join(new_folder, 'LowRes')
+    os.mkdir(lr_folder)
     
-    
+
     return 'fulfilled', 200
 
 
