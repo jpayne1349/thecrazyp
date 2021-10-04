@@ -250,8 +250,10 @@ def remove_product_photo():
     # catch file not found errors?
     try:
         product_folder = os.path.join(app.config['INVENTORY_FOLDER'] , product_id)
-        photo_to_remove = os.path.join(product_folder, photo_filename)
-        os.remove(photo_to_remove)
+        hr_photo_to_remove = os.path.join(product_folder, 'HighRes', photo_filename)
+        os.remove(hr_photo_to_remove)
+        lr_photo_to_remove = os.path.join(product_folder, 'LowRes', photo_filename)
+        os.remove(lr_photo_to_remove)
     except:
         return 'file not found', 404
 

@@ -97,6 +97,8 @@ def special_order():
 
     so_status = SoAvailable.query.all()
 
+    if not so_status:
+        return render_template('special_order.html')
 
     if(so_status[0].status == 'open'):
         return render_template('special_order.html')
