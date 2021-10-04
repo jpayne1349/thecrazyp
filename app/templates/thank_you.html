@@ -4,24 +4,21 @@
 
 {{super()}}
 
-<link rel="stylesheet" type="text/css" href="/static/styles/thank_youStyle.css?v=05">
+<link href="/static/styles/thank_youStyle.css?v=06" rel="stylesheet" type="text/css"/>
 
 {% endblock %}
 
 {% block content %}
 
-<div id='page_content' >
-    <div class='header'>Thank you!</div>
-
-    <div class='image_holder'>
-        <img class='ty_image' alt='thank you image'>
-    </div>
-
-    <div class='lower_content'>
-        <div class='paragraph'> We will reach out to you as soon as possible.</div>
-        <div class='paragraph'>Close this page or continue browsing from the <span id='menu_linker' >menu!</span></div>
-    </div>
-
+<div id="page_content">
+<div class="header">Thank you!</div>
+<div class="image_holder">
+<img alt="thank you image" class="ty_image"/>
+</div>
+<div class="lower_content">
+<div class="paragraph"> We will reach out to you as soon as possible.</div>
+<div class="paragraph">Close this page or continue browsing from the <span id="menu_linker">menu!</span></div>
+</div>
 </div>
 
 {% endblock %}
@@ -30,6 +27,6 @@
 {% block scripts %}
 {{super()}}
 
-<script src="/static/scripts/thank_youScripts.js?v=05"></script>
+<script src="/static/scripts/thank_youScripts.js?v=06"></script>
 
 {%- endblock scripts %}
