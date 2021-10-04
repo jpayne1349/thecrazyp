@@ -3,7 +3,7 @@
 {% block doc -%}
 <!DOCTYPE html>
 
-<html %}="" %}{%="" block="" endblock="" html_attribs="" {%="">
+<html {% block html_attribs %}{% endblock html_attribs %}>
 {%- block html %}
   <head>
     {%- block head %}
@@ -17,7 +17,7 @@
     {%- endblock styles %}
     {%- endblock head %}
   </head>
-<body %}="" %}{%="" block="" body_attribs="" endblock="" {%="">
+  <body {% block body_attribs %}{% endblock body_attribs %}>
     {% block body -%}
     {% block navbar %}
     {%- endblock navbar %}
