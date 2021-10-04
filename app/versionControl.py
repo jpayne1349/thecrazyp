@@ -8,6 +8,7 @@
 import re
 import os
 from bs4 import BeautifulSoup # this is beautifulSoup for easy file manip of html
+import codecs
 
 regex_for_v = "\?v=(\d+)"
 
@@ -25,31 +26,51 @@ def updateVersion():
 
     for template in templates_file_list:
         templ_filepath = os.path.join(templates_dir, template)
-        with open(templ_filepath) as current_file:
-            
-            soup = BeautifulSoup(current_file, 'html.parser')
-            
-            link = soup.link
-            if link:
-                print('OLD', link['href'])
-                # check here for a version in this href
-                old_href = link['href']
-                new_href = re.sub(regex_for_v, str(new_version), old_href)
-                if new_href: 
-                    print('NEW',new_href)
-                    soup.link['href'] = new_href
-
-            script = soup.script
-            if script:
-                print('OLD', script['src'])
-                old_src = script['src']
-                new_src = re.sub(regex_for_v, str(new_version), old_src)
-                if new_src:
-                    print('NEW', new_src)
-                    soup.script['src'] = new_src
+        html_file = open(templ_filepath, 'r')
         
-        with open(templ_filepath, "w") as new_file:
-            new_file.write(str(soup))
+        file_text = html_file.read()
+
+        new_file_text = re.sub(regex_for_v, new_version, file_text)
+
+        if not new_file_text:
+            new_file_text = file_text
+
+        edited_file = open(templ_filepath, 'w')
+        edited_file.write(new_file_text)
+        edited_file.close()
+
+        break
+
+
+
+
+
+        # with open(templ_filepath) as current_file:
+        #     print(current_file)
+
+            # soup = BeautifulSoup(current_file, 'html.parser')
+            
+            # link = soup.link
+            # if link:
+            #     print('OLD', link['href'])
+            #     # check here for a version in this href
+            #     old_href = link['href']
+            #     new_href = re.sub(regex_for_v, str(new_version), old_href)
+            #     if new_href: 
+            #         print('NEW',new_href)
+            #         soup.link['href'] = new_href
+
+            # script = soup.script
+            # if script:
+            #     print('OLD', script['src'])
+            #     old_src = script['src']
+            #     new_src = re.sub(regex_for_v, str(new_version), old_src)
+            #     if new_src:
+            #         print('NEW', new_src)
+            #         soup.script['src'] = new_src
+        
+        # with open(templ_filepath, "w") as new_file:
+        #     new_file.write(str(soup))
             
     
     return 
