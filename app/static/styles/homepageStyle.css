@@ -1,5 +1,9 @@
 
-
+body {
+    position: relative;
+    /* overflow: hidden; */
+    
+}
 
 #slide_show_container {
     padding: 50px 29vw;

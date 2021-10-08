@@ -67,6 +67,7 @@ a:link, a:visited, a:hover, a:active {
 
 .page_content {
     flex-grow: 2;
+    margin-bottom: 50px;
     display: flex;
     flex-direction: column;
 }
@@ -112,6 +113,7 @@ a:link, a:visited, a:hover, a:active {
     width: 100%;
     justify-content: center;
     position: relative;
+    margin-top: auto;
 }
 #owner_link {
     padding: 5px;
@@ -128,7 +130,12 @@ background-color: #a5e5a5;
 
 /* less than 600px */
 @media only screen and (max-width: 600px) {
-
+body {
+    min-height: 0;
+}
+.page_content {
+    flex-grow:0;
+}
 #header_and_logo {
     min-height: 125px;
     align-items: center;
