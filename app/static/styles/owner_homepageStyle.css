@@ -76,9 +76,19 @@
 .orders_div.show {
     display: flex;
 }
+#special_orders_title, #product_requests_title {
+    font-size: 30px;
+    margin-top: 10px;
+}
 #special_orders, #product_requests {
     display: flex;
     flex-direction: column;
+    min-height: 40px;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: rgb(0 0 0 / 24%) 0px 2px 2px;
+
 }
 .hidden_header {
     position: relative;
@@ -120,7 +130,11 @@
 #hidden_special_orders, #hidden_product_requests {
     display: none;
     flex-direction: column;
-    width: 85vw;
+    min-height: 40px;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: rgb(0 0 0 / 24%) 0px 2px 2px;
 }
 #hidden_special_orders.show, #hidden_product_requests.show {
     display: flex;
