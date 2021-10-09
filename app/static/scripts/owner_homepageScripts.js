@@ -57,6 +57,764 @@ custom_order_button.addEventListener('click', ()=> {
     custom_order_button.classList.toggle('active');
 });
 
+
+custom_order_builder();
+
+function custom_order_builder() {
+    custom_order_button.click();
+    // will return json of all categories, and options within those categories
+    // fetch current design / categories and photos
+    fetch('/custom_order_design', { method: 'POST' })
+        .then(response => response.json())
+        .then(json_list => display_loaded_categories(json_list))
+        .catch( error => console.log('ERROR', error));
+
+
+    let custom_order_builder = document.getElementById('custom_order_builder');
+    
+    // display this design
+    function display_loaded_categories(json_list) {
+        let current_divs = document.getElementsByClassName('category_div');
+
+        let loaded_cat_objects = [];
+        for( let cat_object of json_list ) {
+            loaded_cat_objects.push(cat_object)
+        }
+
+        let new_cat_objects = [];
+
+        let pass_bool = false;
+        for( let current_cat of current_divs ) {
+            pass_bool = false;
+            for ( let loaded_cat of loaded_cat_objects ) {
+                if( current_cat.id == loaded_cat['category'] ) {
+                    // current found in loaded, just pass
+                    pass_bool = true;
+                    break;
+                }
+            }
+            if(pass_bool) {
+                continue;
+            } else {
+                // no loaded cat matches this current one, delete it
+                current_cat.remove();
+            }
+        }
+
+        for( let loaded_cat of loaded_cat_objects ) {
+            pass_bool = false;
+            for ( let current_cat of current_divs ) {
+                if ( loaded_cat['category'] == current_cat.id ) {
+                    // loaded found in current
+                    // check the current for option updates
+                    console.log('category already displayed as', current_cat);
+                    let cat_condensed = current_cat.firstElementChild;
+                    let cat_expanded = cat_condensed.nextElementSibling;
+
+                    display_loaded_options(loaded_cat, cat_expanded);
+
+                    pass_bool = true;
+                    break;
+                }
+            }
+            if(pass_bool) {
+                continue;
+            } else {
+                new_cat_objects.push(loaded_cat);
+            }
+        }
+        
+        for(let category of new_cat_objects) {
+
+            console.log('creating loaded category:', category['category']);
+
+            // create new category div
+            let category_div = document.createElement('div');
+            category_div.className = 'category_div';
+            category_div.id =  category['category'];
+            
+            let category_condensed = document.createElement('div');
+            category_condensed.className = 'category_condensed';
+            category_condensed.addEventListener('click', function() {
+                // show category_expanded
+                
+                let expanded_div = this.nextElementSibling;
+                let toggle_arrow = this.firstElementChild;
+
+                expanded_div.classList.toggle('show');
+                toggle_arrow.classList.toggle('showing');
+            });
+
+            let toggle_category = document.createElement('div');
+            toggle_category.className = 'toggle_category';
+            
+            let category_title = document.createElement('div');
+            category_title.className = 'category_title';
+            category_title.innerText = category['category'];
+
+            category_condensed.append(toggle_category, category_title);
+            category_div.append(category_condensed);
+
+            let category_expanded = document.createElement('div');
+            category_expanded.className = 'category_expanded';
+
+            category_div.append(category_expanded);
+            
+            display_loaded_options(category, category_expanded);
+
+            // CREATE option section
+
+            let create_option_div = document.createElement('div');
+            create_option_div.className = 'create_option_div';
+
+            let create_option_icon = document.createElement('div');
+            create_option_icon.className = 'create_option plus_icon small';
+            create_option_icon.setAttribute('cat', category['category']);
+            create_option_icon.addEventListener('click', create_option_func);
+
+            let create_option_input = document.createElement('input');
+            create_option_input.className = 'create_option_input';
+
+            let cancel_create_option = document.createElement('div');
+            cancel_create_option.className = 'cancel_create_option';
+            cancel_create_option.innerText = 'Cancel';
+
+            create_option_div.append(create_option_icon, create_option_input, cancel_create_option);
+            
+            category_expanded.append(create_option_div);
+            
+
+            // REMOVE / EDIT category buttons
+
+            let category_buttons = document.createElement('div');
+            category_buttons.className = 'category_buttons';
+
+            let remove_category = document.createElement('div');
+            remove_category.className = 'remove_category';
+            remove_category.innerText = 'Remove Category';
+            remove_category.setAttribute('cat', category['category']);
+            remove_category.addEventListener('click', confirm_remove_category);
+
+            let edit_category = document.createElement('div');
+            edit_category.className = 'edit_category';
+            edit_category.innerText = 'Edit Category';
+
+            category_buttons.append(remove_category, edit_category);
+            category_expanded.append(category_buttons);
+
+
+            custom_order_builder.append(category_div);
+
+            console.log(category);
+            
+        }
+    }
+
+    let create_category = document.getElementById('create_category');
+    create_category.addEventListener('click', create_category_func);
+    
+
+    // category processing functions
+    function create_category_func() {
+
+        let category_name_input = this.nextElementSibling;
+        let cancel_create_category = category_name_input.nextElementSibling;
+        category_name_input.classList.add('show');
+        cancel_create_category.classList.add('show');
+        this.classList.add('showing');
+
+        this.removeEventListener('click', create_category_func);
+        this.addEventListener('click', submit_category_creation);
+
+        cancel_create_category.addEventListener('click', hide_create_category);
+
+    }
+
+    function submit_category_creation() {
+        let category_name_input = this.nextElementSibling;
+        let cancel_create_category = category_name_input.nextElementSibling;
+        let new_category_name = category_name_input.value;
+        let icon = this;
+
+        if(new_category_name == '') {
+            category_name_input.classList.add('empty');
+            return;
+        }
+
+        icon.classList.add('sending');
+
+        let json_packet = {
+            'contents': 'new_category',
+            'category':new_category_name
+        };
+        json_packet = JSON.stringify(json_packet);
+
+        // ajax submission
+        fetch('/custom_order_update', {
+                method: 'POST',
+                body: json_packet,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then((response) => (response.json())
+            .then(function(json_list) {
+                // reset the creation div
+                icon.classList.remove('sending');
+                icon.classList.remove('showing');
+                category_name_input.classList.remove('show');
+                category_name_input.value = '';
+                cancel_create_category.classList.remove('show');
+
+                console.log('updated list structure', json_list);
+                display_loaded_categories(json_list);
+
+                icon.addEventListener('click', create_category_func);
+
+            }))
+            .catch((fail) => console.log(fail));
+
+    }
+
+    function hide_create_category() {
+        let category_name_input = this.previousElementSibling;
+        let icon = category_name_input.previousElementSibling;
+
+        this.classList.remove('show');
+        icon.classList.remove('showing');
+        category_name_input.classList.remove('show');
+        category_name_input.value = '';
+
+        this.removeEventListener('click', hide_create_category);
+        icon.removeEventListener('click', submit_category_creation);
+        icon.addEventListener('click', create_category_func);
+    }
+    
+    function confirm_remove_category() {
+        let button = this;
+        button.classList.add('confirm');
+        button.innerText = 'Confirm';
+        
+        button.removeEventListener('click', confirm_remove_category);
+        button.addEventListener('click', submit_category_removal);
+
+    }
+
+    function submit_category_removal() {
+        let button = this;
+        let category_name = button.getAttribute('cat');
+
+        let json_packet = {
+            'contents': 'delete_category',
+            'category':category_name
+        };
+        json_packet = JSON.stringify(json_packet);
+
+        // ajax submission
+        fetch('/custom_order_update', {
+                method: 'POST',
+                body: json_packet,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then((response) => (response.json())
+            .then(function(json_list) {
+
+
+                console.log('updated list structure', json_list);
+                display_loaded_categories(json_list);
+
+            }))
+            .catch((fail) => console.log(fail));
+
+    }
+
+
+    // option modification functions
+    function display_loaded_options(cat_object, cat_expanded) {
+        // will pass in either a newly created cat_expanded, or an existing one.
+
+        // check for current children in the div
+        let current_children = cat_expanded.children;
+        let current_options = [];
+        let loaded_options = cat_object['options'];
+
+        // build current options list, if any are found
+        for(let child of current_children) {
+            if(child.classList.contains('category_option_div')) {
+                current_options.push(child);
+            }
+        }
+
+        // create a new ' to create ' options list
+        let to_create_options = [];
+
+        // LOGIC:
+        // if you find a current option with no loaded match, delete one
+        // if you find a loaded option with no current match, make one
+
+        // compare all current to all loaded
+        let pass_bool = false;
+        for( let current_opt of current_options ) {
+            // reset bool
+            pass_bool = false;
+            for( let loaded_opt of loaded_options ) {
+                if( current_opt.getAttribute('opt') == loaded_opt ) {
+                    // do nothing
+                    pass_bool = true;
+                    break;
+                }
+            }
+            
+            if(pass_bool) {
+                // found a match for that current option, check the next
+                continue;
+            } else {
+                current_opt.remove();
+            }
+            
+        }
+        // compare all loaded to all current
+        for (let loaded_opt of loaded_options ) {
+            // reset bool
+            pass_bool = false;
+            for( let current_opt of current_options ) {
+                if(loaded_opt == current_opt.getAttribute('opt')) {
+                    // match was found, do nothing
+                    pass_bool = true;
+                    break;
+                }
+            }
+
+            if(pass_bool) {
+                continue;
+            } else {
+                // found a loaded option that is not in the current options list
+                to_create_options.push(loaded_opt);
+            }
+        }
+
+        // OPTION ELEMENT CREATION
+        for( let option of to_create_options) {
+            
+            let category_option_div = document.createElement('div');
+            category_option_div.className = 'category_option_div';
+            category_option_div.setAttribute('opt', option);
+
+            let option_condensed = document.createElement('div');
+            option_condensed.className = 'option_condensed';
+            option_condensed.addEventListener('click', function () {
+                let expanded_view = this.nextElementSibling;
+                let arrow = this.firstElementChild;
+
+                expanded_view.classList.toggle('show');
+                arrow.classList.toggle('showing');
+            });
+
+            let toggle_option = document.createElement('div');
+            toggle_option.className = 'toggle_category option';
+
+            let option_title = document.createElement('div');
+            option_title.className = 'option_title';
+            option_title.innerText = option;
+            
+            option_condensed.append(toggle_option, option_title);
+
+            let option_expanded = document.createElement('div');
+            option_expanded.className = 'option_expanded';
+
+            let option_image_div = document.createElement('div');
+            option_image_div.className = 'option_image_div';
+            option_image_div.setAttribute('cat', cat_object['category']);
+            option_image_div.setAttribute('opt', option);
+
+            // if no image added, cat_object[option] will = undefined
+            console.log('option img src', cat_object[option]);
+
+            if(cat_object[option] == undefined) {
+                option_image_plus(option_image_div);
+            } else {
+                let option_img = document.createElement('img');
+                option_img.className = 'option_img';
+                //option_img.src = cat_object[option];
+                let img_filename = cat_object[option]['hr_photo']
+                let img_filepath = '/static/custom_order_design/' + cat_object['category'] + '/' + option + '/HighRes/' + img_filename;
+                
+                option_img.src = img_filepath;
+
+                option_image_div.append(option_img);
+
+                // Add delete image func
+                option_image_minus(option_image_div);
+            }
+
+            
+
+            let remove_option_button = document.createElement('div');
+            remove_option_button.className = 'remove_option_button';
+            remove_option_button.setAttribute('opt', option);
+            remove_option_button.setAttribute('cat', cat_object['category']);
+            remove_option_button.innerText = 'Remove Option';
+            remove_option_button.addEventListener('click', remove_option_func);
+
+            option_expanded.append(option_image_div, remove_option_button);
+
+
+            category_option_div.append(option_condensed, option_expanded);
+
+            cat_expanded.prepend(category_option_div);
+
+        }
+
+    }
+
+    function create_option_func() {
+        let input_div = this.nextElementSibling;
+        input_div.classList.add('show');
+        let icon = this;
+        icon.classList.add('showing');
+        let cancel_button = input_div.nextElementSibling;
+        cancel_button.classList.add('show');
+
+
+        icon.removeEventListener('click', create_option_func);
+        icon.addEventListener('click', submit_option_creation);
+
+        cancel_button.addEventListener('click', hide_create_option);
+
+    }
+
+    function submit_option_creation() {
+        let input = this.nextElementSibling;
+        let icon = this;
+        let cancel_create = input.nextElementSibling;
+        let create_option_div = this.parentElement;
+        let category_expanded = create_option_div.parentElement;
+        let category_div = category_expanded.parentElement;
+        let category = category_div.getAttribute('id');
+
+        let new_option_value = input.value;
+
+        if(new_option_value == '') {
+            input.classList.add('empty');
+            return
+        }
+
+        icon.classList.add('sending');
+
+        let json_packet = {
+            'contents': 'new_option',
+            'category': category,
+            'option':input.value
+        };
+        json_packet = JSON.stringify(json_packet);
+
+        // ajax submission
+        fetch('/custom_order_update', {
+                method: 'POST',
+                body: json_packet,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then((response) => (response.json())
+            .then(function(json_list) {
+                // reset the creation div
+                icon.classList.remove('sending');
+                icon.classList.remove('showing');
+                input.classList.remove('show');
+                input.value = '';
+                cancel_create.classList.remove('show');
+
+                console.log('updated list structure', json_list);
+                display_loaded_categories(json_list);
+
+                icon.addEventListener('click', create_category_func);
+
+            }))
+            .catch((fail) => console.log(fail));
+
+    }
+
+    function hide_create_option() {
+        let button = this;
+        let input = button.previousElementSibling;
+        let icon = input.previousElementSibling;
+
+        button.classList.remove('show');
+        input.classList.remove('show');
+        icon.classList.remove('showing');
+
+        icon.removeEventListener('click', submit_option_creation);
+        icon.addEventListener('click', create_option_func);
+
+        button.removeEventListener('click', hide_create_option);
+
+    }
+
+    function remove_option_func() {
+        let button = this;
+        let option = button.getAttribute('opt');
+        let category = button.getAttribute('cat');
+
+        let json_packet = {
+            'contents': 'delete_option',
+            'category': category,
+            'option':option
+        };
+        json_packet = JSON.stringify(json_packet);
+
+        // ajax submission
+        fetch('/custom_order_update', {
+                method: 'POST',
+                body: json_packet,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then((response) => (response.json())
+            .then(function(json_list) {
+                
+
+                console.log('updated list structure', json_list);
+                display_loaded_categories(json_list);
+
+                
+
+            }))
+            .catch((fail) => console.log(fail));
+
+    }
+
+
+    // option image functions
+    function option_image_plus(parent_div) {
+        // create the button for adding an option image
+        let unique_id = parent_div.getAttribute('opt');
+        unique_id = unique_id.replace(' ', '_');
+
+        let option_image_file_name = document.createElement('div');
+        option_image_file_name.className = 'option_image_file_name';
+
+        let option_image_plus_icon = document.createElement('label');
+        option_image_plus_icon.className = 'plus_icon small option_image';        
+        option_image_plus_icon.setAttribute('for', unique_id);
+
+        let option_image_confirm_upload = document.createElement('div');
+        option_image_confirm_upload.className = 'option_image_confirm_upload';
+
+        let option_image_deny_upload = document.createElement('div');
+        option_image_deny_upload.className = 'option_image_deny_upload';
+        
+        let hidden_form = document.createElement('form');
+        hidden_form.className = 'hidden_form';
+
+        let hidden_file_input = document.createElement('input');
+        hidden_file_input.id = unique_id;
+        hidden_file_input.name = unique_id;
+        hidden_file_input.type = 'file';
+        hidden_file_input.addEventListener('input', confirm_option_image);
+        // setup listener on file input
+
+        hidden_form.append(hidden_file_input);
+        option_image_plus_icon.append(hidden_form);
+
+        parent_div.append(option_image_file_name, option_image_plus_icon, option_image_confirm_upload, option_image_deny_upload);
+
+    }
+
+    function confirm_option_image() {
+        // grab file info, display confirm or deny buttons
+        
+        let file_input = this;
+        let form = file_input.parentElement;
+        let plus_icon = form.parentElement;
+        let file_name_div = plus_icon.previousElementSibling;
+        let confirm_icon = plus_icon.nextElementSibling;
+        let deny_icon = confirm_icon.nextElementSibling;
+        let option_image_div = plus_icon.parentElement;
+
+        let category = option_image_div.getAttribute('cat');
+        let option = option_image_div.getAttribute('opt');
+
+        confirm_icon.setAttribute('cat', category);
+        confirm_icon.setAttribute('opt', option);
+
+        let file_selected_name = file_input.files[0].name;
+        file_name_div.innerText = file_selected_name;
+
+        plus_icon.classList.add('hide');
+        file_name_div.classList.add('show');
+        confirm_icon.classList.add('show');
+        deny_icon.classList.add('show');
+
+        // add listeners to these buttons
+        confirm_icon.addEventListener('click', submit_option_image_upload);
+        deny_icon.addEventListener('click', cancel_option_image_upload);
+
+    }
+    
+    function submit_option_image_upload() {
+
+        let confirm_icon = this;
+        let plus_icon = confirm_icon.previousElementSibling;
+        let form = plus_icon.firstElementChild;
+        let option_image_file_input = form.firstElementChild;
+        
+        let category = confirm_icon.getAttribute('cat');
+        let option = confirm_icon.getAttribute('opt');
+
+        let json_packet = {
+            'contents': 'new_image',
+            'category': category,
+            'option' : option
+        };
+
+        json_packet = JSON.stringify(json_packet)
+
+        let form_data = new FormData();
+            form_data.append('option_image_file', option_image_file_input.files[0]);
+            form_data.append('resource', json_packet);
+
+            fetch('/custom_order_option_image', {
+                method: 'POST',
+                body: form_data
+                })
+            .then((response) => (response.json())
+            .then((json_info) => {
+
+                display_uploaded_option_image(json_info, plus_icon);
+
+            }))
+            .catch((fail) => console.log(fail));
+        
+
+    }
+
+    function cancel_option_image_upload() {
+        let deny_icon = this;
+        let confirm_icon = deny_icon.previousElementSibling;
+        let plus_icon = confirm_icon.previousElementSibling;
+        let form = plus_icon.firstElementChild;
+        let image_file_name = plus_icon.previousElementSibling;
+
+        confirm_icon.classList.remove('show');
+        deny_icon.classList.remove('show');
+        image_file_name.classList.remove('show');
+        image_file_name.innerText = '';
+        plus_icon.classList.remove('hide');
+
+        form.reset();
+
+    }
+    
+    function display_uploaded_option_image(src_object, plus_icon) {
+        // create_element and add to div
+        let option_image_div = plus_icon.parentElement;
+        removeAllChildNodes(option_image_div);
+
+        let option_img = document.createElement('img');
+        option_img.className = 'option_img';
+        option_img.src = '/' + src_object['new_option_image_src']
+
+        option_image_div.append(option_img);
+
+        option_image_minus(option_image_div);
+
+    }
+
+    function option_image_minus(parent_div) {
+        // setup listeners for deleting the current image
+        parent_div.addEventListener('click', option_image_confirm_delete);
+
+    }
+
+    function option_image_confirm_delete() {
+
+        let option_img = this.firstElementChild;
+        option_img.classList.add('dim');
+
+        let delete_option_image_div = document.createElement('div');
+        delete_option_image_div.className = 'delete_option_image_div remove_icon show';
+
+        let trash_can = document.createElement('img');
+        trash_can.className = 'trash_can';
+        trash_can.src = '/static/trash_can.svg';
+
+        delete_option_image_div.append(trash_can);
+
+        let click_catcher = document.createElement('div');
+        click_catcher.id = 'click_catcher';
+        document.body.appendChild(click_catcher);
+
+        this.removeEventListener('click', option_image_confirm_delete);
+
+        delete_option_image_div.addEventListener('click', submit_option_image_delete);
+        
+        click_catcher.addEventListener('click', cancel_option_image_delete);
+
+
+        this.append(delete_option_image_div);
+
+
+    }   
+
+    function submit_option_image_delete() {
+
+        let option_image_div = this.parentElement;
+        let option_img = option_image_div.firstElementChild;
+
+        let category = option_image_div.getAttribute('cat');
+        let option = option_image_div.getAttribute('opt');
+
+        let json_packet = {
+            'contents': 'delete_image',
+            'category': category,
+            'option' : option
+        };
+
+        json_packet = JSON.stringify(json_packet)
+
+        let form_data = new FormData();
+            form_data.append('resource', json_packet);
+
+            fetch('/custom_order_option_image', {
+                method: 'POST',
+                body: form_data
+                })
+            .then((response) => (response.json())
+            .then((json_info) => {
+                removeAllChildNodes(option_image_div);
+                option_img.classList.remove('dim');
+                option_image_plus(option_image_div);   
+                let click_catcher = document.getElementById('click_catcher');
+                click_catcher.remove();             
+            }))
+            .catch((fail) => console.log(fail));
+
+    }
+
+    function cancel_option_image_delete() {
+        let click_catcher = document.getElementById('click_catcher');
+        let delete_option_image_divs = document.getElementsByClassName('delete_option_image_div');
+
+        for(let delete_button of delete_option_image_divs) {
+            if(delete_button.classList.contains('show')) {
+                
+                let image_div = delete_button.parentElement;
+                image_div.addEventListener('click', option_image_confirm_delete);
+                let option_img = image_div.firstElementChild;
+                option_img.classList.remove('dim');
+               
+                delete_button.remove();
+                click_catcher.remove();
+            }
+        }
+
+    }
+}
+
 orders_fetch();
 
 // post request to get json data
@@ -1316,7 +2074,7 @@ function soa_fetch() {
     fetch('/special_order_availibility', { method: 'POST' })
     .then(response => response.json())
     .then(json_object => {
-        console.log(json_object);
+        
         if(json_object.status == 'closed') {
             slider_button.click();
         }

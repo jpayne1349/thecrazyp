@@ -1,6 +1,6 @@
 
 
-from flask import Blueprint, render_template, flash, redirect, url_for, request
+from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from flask import current_app as app
 import os, json, shutil
 from app.models import Product, User, Carousel, SpecialOrder, ProductRequest, SoAvailable
@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 from config import allowed_file
 from flask_login import current_user, login_user, logout_user, login_required
 from app import imageProcessor
+from app import customOrders
 
 owner_blueprint = Blueprint('owner_blueprint', __name__) 
 
@@ -447,3 +448,112 @@ def update_so_date():
     db.session.commit()
 
     return 'updated'
+
+
+@owner_blueprint.route('/custom_order_design', methods=['POST'])
+@login_required
+def custom_order_design():
+    try:
+        design_tree = customOrders.get_design()
+    except Exception as e:
+        customOrders.build()
+
+        try:
+            design_tree = customOrders.get_design()
+        except:
+            return abort(500, description='custom_order_error')
+
+    design_tree = json.dumps(design_tree)
+
+    return design_tree
+
+@owner_blueprint.route('/custom_order_update', methods=['POST'])
+@login_required
+def custom_order_update():
+
+    data = request.json
+    print(data)
+    # check the contents, to decide what to do
+    customOrders.process_request(data)
+
+    newest_design_tree = customOrders.get_design()
+
+    json_list = json.dumps(newest_design_tree)
+
+    return json_list
+
+
+@owner_blueprint.route('/custom_order_option_image', methods=['POST'])
+@login_required
+def custom_order_option_image():
+    
+    if request.files:
+        image_file = request.files['option_image_file']
+    resource_data = request.form['resource']
+
+    resource_data = json.loads(resource_data)
+    print(resource_data)
+    
+    contents = resource_data["contents"]
+    category_name = resource_data["category"]
+    option_name = resource_data["option"]
+
+    if contents == 'new_image':
+        if image_file.filename == '':
+            # need to add flash section to this html file
+            flash('No selected file')
+            return 'rejected', 400
+
+        if image_file and allowed_file(image_file.filename):
+
+            filename = secure_filename(image_file.filename)
+
+            # build filepath
+            new_hr_photo_filepath = customOrders.get_photo_hr_path(category_name, option_name, filename)
+            
+            # save HighRes image
+            image_file.save(os.path.join(new_hr_photo_filepath))
+            
+            # process/create LowRes image
+            option_file_path = customOrders.get_option_path(category_name, option_name)
+            imageProcessor.process_option_image(option_file_path)
+
+            new_hr_src = customOrders.get_photo_hr_src(category_name, option_name, filename)
+
+            resp_dict = {'new_option_image_src': new_hr_src} 
+            resp_dict = json.dumps(resp_dict)
+            return resp_dict
+
+    if contents == 'delete_image':
+        # use info to delete hr and lr photos
+        try:
+            option_path = customOrders.get_option_path(category_name, option_name)
+            hr_path = os.path.join(option_path, 'HighRes')
+            lr_path = os.path.join(option_path, 'LowRes')
+
+            hr_photos = os.listdir(hr_path)
+            for photo in hr_photos:
+                photo_path = os.path.join(hr_path, photo)
+                os.remove(photo_path)
+
+            lr_photos = os.listdir(lr_path)
+            for photo in lr_photos:
+                photo_path = os.path.join(lr_path, photo)
+                os.remove(photo_path)
+
+            resp_dict = {'response': 'fulfilled'} 
+            resp_dict = json.dumps(resp_dict)
+            return resp_dict
+
+        except:
+
+            resp_dict = {'response': 'file not found'} 
+            resp_dict = json.dumps(resp_dict)
+            return resp_dict, 404
+
+    # failure response
+    resp_dict = {'response': 'rejected'} 
+    resp_dict = json.dumps(resp_dict)
+    return resp_dict, 503
+
+
