@@ -379,11 +379,17 @@ function requestItemForm() {
         request_descript.innerHTML = 'Drop your contact info above and we will contact you about making a hat similar to this one!';
     }
 
+    // focus the request_contact_input... has to be done in the timeout below, after it's been displayed to the page
+    let request_contact_input = request_div_children[2];
+    
+
     request_div.classList.add('show');
     setTimeout(()=>{
         for( let element of request_div_children ) {
             element.classList.add('show');   
         }
+        // cursor focus
+        request_contact_input.focus();
     },800);
 
     // TODO: make this show/hide work with opacity fading.
