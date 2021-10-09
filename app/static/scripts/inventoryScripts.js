@@ -446,7 +446,7 @@ function sendInventoryRequest() {
     } else {
         // TODO: make this sending class look better on mobile
         send_button.classList.add('sending');
-
+        send_button.removeEventListener('click', sendInventoryRequest);
         // TODO: check the request_div for a pend/sold class
         // modify the object to send based on this, to keep track of this
 
@@ -486,7 +486,8 @@ function sendInventoryRequest() {
             .then((success) => {
                 console.log(success)
                 // redirect to thank you page.
-                setTimeout(()=>window.location.replace('/thank_you'), 2000);
+                window.location.replace('/thank_you')
+                // setTimeout(()=>, 2000);
 
             })
             .catch((fail) => {
