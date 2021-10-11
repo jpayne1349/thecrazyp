@@ -754,6 +754,54 @@ margin: 10px 40px 40px;
     font-size: 30px;
     user-select:none;
 }
+.category_title.hide {
+    display: none;
+}
+.edit_category_title_input {
+    font-size: 30px;
+    font-family: 'summer_garden';
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+}
+.save_category_edit_button {
+    background-color: #b5d5b5;
+}
+.save_category_edit_button.sending::before {
+    content: '';
+    height: 2px;
+    border-radius: 10px;
+    bottom: 0;
+    left: 10px;
+    opacity: 0.5;
+    position: absolute;
+    background-color: darkgreen;
+    animation-name: sending_fill;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
+}
+@keyframes sending_fill {
+    
+    0% {width:0px;}
+    100% {width: 40px;}
+
+}
+.cancel_category_edit_button {
+    background-color: #e6bfbc;
+}
+.save_category_edit_button, .cancel_category_edit_button {
+    width: 60px;
+    text-align: center;
+    border-radius: 10px;
+    padding: 2px;
+    align-self: center;
+    margin: 0px 5px;
+    box-shadow: lightgrey 0px 1px 3px;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+}
 .category_option_div {
     margin-left: 50px;
     padding: 5px 0px;
@@ -1024,6 +1072,8 @@ margin: 10px 40px 40px;
     color: #e0e0e0;
     line-height: 22px;
     transition: all 0.5s;
+    user-select: none;
+    cursor: pointer;
 }
 .edit_category {
     padding: 4px 15px;
@@ -1034,6 +1084,8 @@ margin: 10px 40px 40px;
     text-align: center;
     color: #e0e0e0;
     line-height: 22px;
+    user-select: none;
+    cursor: pointer;
 }
 
 /* less than 600px */

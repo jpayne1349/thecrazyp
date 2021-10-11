@@ -135,15 +135,8 @@ function custom_order_builder() {
             
             let category_condensed = document.createElement('div');
             category_condensed.className = 'category_condensed';
-            category_condensed.addEventListener('click', function() {
-                // show category_expanded
+            category_condensed.addEventListener('click', toggle_category_function);
                 
-                let expanded_div = this.nextElementSibling;
-                let toggle_arrow = this.firstElementChild;
-
-                expanded_div.classList.toggle('show');
-                toggle_arrow.classList.toggle('showing');
-            });
 
             let toggle_category = document.createElement('div');
             toggle_category.className = 'toggle_category';
@@ -198,6 +191,7 @@ function custom_order_builder() {
             let edit_category = document.createElement('div');
             edit_category.className = 'edit_category';
             edit_category.innerText = 'Edit Category';
+            edit_category.addEventListener('click', show_edit_category);
 
             category_buttons.append(remove_category, edit_category);
             category_expanded.append(category_buttons);
@@ -289,7 +283,103 @@ function custom_order_builder() {
         icon.removeEventListener('click', submit_category_creation);
         icon.addEventListener('click', create_category_func);
     }
-    
+
+    function toggle_category_function() {
+        // toggle category_expanded
+            
+            let expanded_div = this.nextElementSibling;
+            let toggle_arrow = this.firstElementChild;
+
+            expanded_div.classList.toggle('show');
+            toggle_arrow.classList.toggle('showing');
+
+        }
+
+    function show_edit_category() {
+        let category_buttons = this.parentElement;
+        let category_expanded= category_buttons.parentElement;
+        let category_condensed = category_expanded.previousElementSibling;
+        let toggle = category_condensed.firstElementChild;
+        let current_title_div = toggle.nextElementSibling;
+
+        let current_title_text = current_title_div.innerText;
+
+        let edit_category_title_input = document.createElement('input');
+        edit_category_title_input.className = 'edit_category_title_input';
+        edit_category_title_input.value = current_title_text;
+        // remove toggle expanded listening while this is shown
+        category_condensed.removeEventListener('click', toggle_category_function);
+
+        let save_category_edit_button = document.createElement('div');
+        save_category_edit_button.className = 'save_category_edit_button';
+        save_category_edit_button.innerText = 'Save';
+        save_category_edit_button.addEventListener('click', submit_category_edit);
+
+        let cancel_category_edit_button = document.createElement('div');
+        cancel_category_edit_button.className = 'cancel_category_edit_button';
+        cancel_category_edit_button.innerText = 'Cancel';
+        cancel_category_edit_button.addEventListener('click', () => {
+            // undo
+            edit_category_title_input.remove();
+            save_category_edit_button.remove();
+            cancel_category_edit_button.remove();
+            current_title_div.classList.remove('hide');
+            setTimeout(() => {
+                category_condensed.addEventListener('click', toggle_category_function);    
+            }, 100);
+            
+            
+        });
+        
+        current_title_div.classList.add('hide');
+        current_title_div.after(edit_category_title_input, save_category_edit_button, cancel_category_edit_button);
+
+        // set cursor to newly shown input
+        edit_category_title_input.focus();
+
+    }
+
+    function submit_category_edit() {
+        // set sending class
+        this.classList.add('sending');
+        let cancel_button = this.nextElementSibling;
+        let input = this.previousElementSibling;
+        let title_div = input.previousElementSibling;
+
+        let old_category_name = title_div.innerText;
+        let new_category_name = input.value;
+
+        // send fetch
+        let json_packet = {
+            'contents': 'edit_category',
+            'old_name': old_category_name,
+            'new_name': new_category_name
+        };
+
+        json_packet = JSON.stringify(json_packet);
+
+        // ajax submission
+        fetch('/custom_order_update', {
+                method: 'POST',
+                body: json_packet,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then((response) => (response.json())
+            .then(function(json_list) {
+                console.log(json_list);
+
+                title_div.innerText = new_category_name;
+
+                cancel_button.click();
+
+            }))
+            .catch((fail) => console.log(fail));
+        
+
+    }
+
     function confirm_remove_category() {
         let button = this;
         button.classList.add('confirm');

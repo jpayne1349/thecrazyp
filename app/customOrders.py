@@ -63,6 +63,10 @@ def process_request(request_dict):
         delete_option(request_dict['category'], request_dict['option'])
         return
 
+    if contents == 'edit_category':
+        edit_category(request_dict['old_name'], request_dict['new_name'])
+        return
+
 
 def create_new_category(category_name):
     new_category_path = os.path.join(custom_order_directory_path, category_name)
@@ -111,7 +115,19 @@ def get_photo_lr_path(category_name, option_name, photo_name):
     return photo_path
 
 def get_photo_hr_src(category_name, option_name, photo_name):
+
     ''' photo path from static forward '''
     hr_photo_src_path = os.path.join('static', 'custom_order_design', category_name, option_name, 'HighRes', photo_name)
 
     return hr_photo_src_path
+
+def edit_category(old_category_name, new_category_name):
+    category_path = os.path.join(custom_order_directory_path, old_category_name)
+
+    new_category_path = os.path.join(custom_order_directory_path, new_category_name)
+
+    os.rename(category_path, new_category_path)
+
+    print('renamed', new_category_path)
+
+    return
