@@ -3,15 +3,9 @@ from flask import Blueprint, render_template, flash, request
 from flask import current_app as app
 import os, json
 from app import db
-from app.models import Carousel, Product, SpecialOrder, ProductRequest, SoAvailable
-from app.email import email_special_order, email_product_order
-
-
-# TODO: add a image compression feature to allow quicker load up times
-# load the full res images in the background and then swap them out..?
-# current max image resolution is 403.5 x 538 , in desktop view.
-
-
+from app.models import Carousel, Product, CustomOrder, ProductRequest, SoAvailable
+from app.email import email_custom_order, email_product_order
+from app import customOrders
 
 main_blueprint = Blueprint('main_blueprint', __name__) 
 
@@ -97,20 +91,34 @@ def special_order():
 
     so_status = SoAvailable.query.all()
 
+    # submit the current design to the template
+    custom_order_design = customOrders.get_design()
+    
+    print(custom_order_design)
+    for category in custom_order_design:
+        for option in category['options']:
+            try:
+                print(category.get(option))
+            except:
+                print('OPTION HAS NO KEY', option)
+                
+                
+
     # could also use try / catch here...
     # this stop the function if no so_status has been edited before
     if not so_status:
-        return render_template('special_order.html')
+        return render_template('special_order.html', design=custom_order_design)
 
     # this returns if the status is open, don't even bother with the date
     if(so_status[0].status == 'open'):
-        return render_template('special_order.html')
+        return render_template('special_order.html', design=custom_order_design)
     
     # small check here to see if it was closed and no date was entered
     if(so_status[0].date_string == ''):
         # empty date_string, just set a placeholder string
         unknown_date_string = 'To Be Decided Soon!'
         return render_template('closed_special_order.html', date_string=unknown_date_string)
+
     else:
         # format the chosen date
         new_date = so_status[0].date_string
@@ -127,19 +135,22 @@ def special_order():
         return render_template('closed_special_order.html', date_string=new_date_string)
     
     # fallback just show the order form TODO: this should just show a 404 or something and send the dev an email
-    return render_template('special_order.html')
+    return render_template('special_order.html', design=custom_order_design)
 
 @main_blueprint.route('/special_order_formObject', methods=['POST'])
 def order_form():
     form_dict = request.json
 
-    new_special_order = SpecialOrder(style=form_dict['style'], color=form_dict['color'], band=form_dict['band'], notes=form_dict['notes'], contact=form_dict['contact'], order_status = 0)
+    #new_special_order = SpecialOrder(style=form_dict['style'], color=form_dict['color'], band=form_dict['band'], notes=form_dict['notes'], contact=form_dict['contact'], order_status = 0)
+    # 10/21 changing to CustomOrder
+    new_custom_order = CustomOrder(json=form_dict['json'], contact=form_dict['contact'], order_status = 0)
+
     # save to db
-    db.session.add(new_special_order)
+    db.session.add(new_custom_order)
     db.session.commit()
 
     # send email to owner with flask-mail
-    email_special_order(form_dict)
+    email_custom_order(form_dict)
 
     #TODO: add in a tracker for the email failing or succeeding?
     

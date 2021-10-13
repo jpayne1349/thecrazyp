@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from flask import current_app as app
 import os, json, shutil
-from app.models import Product, User, Carousel, SpecialOrder, ProductRequest, SoAvailable
+from app.models import Product, User, Carousel, CustomOrder, ProductRequest, SoAvailable
 from app.forms import LoginForm, RegisterForm
 from app import db
 from werkzeug.utils import secure_filename
@@ -92,20 +92,24 @@ def owner_homepage(username): # pass in a argument in url_for, has to accept it 
 @login_required
 def product_requests():
 
-    special_orders = SpecialOrder.query.all()
+    custom_orders = CustomOrder.query.all()
 
-    special_orders_list = []
-    for order in special_orders:
+    custom_orders_list = []
+    for order in custom_orders:
+        custom_json = json.loads(order.json)
+
         order_dict = {}
         order_dict['id'] = order.id
-        order_dict['style'] = order.style
-        order_dict['color'] = order.color
-        order_dict['band'] = order.band
         order_dict['notes'] = order.notes
         order_dict['contact'] = order.contact
         order_dict['order_status'] = order.order_status
+        
+        # add the custom json dict into the new order dict
+        order_dict.update(custom_json)
 
-        special_orders_list.append(order_dict)    
+        # append it to the orders list
+        custom_orders_list.append(order_dict)
+
 
     product_requests = ProductRequest.query.all()
 
@@ -121,7 +125,7 @@ def product_requests():
         product_requests_list.append(request_dict)
 
     # to json, and send. process on front end
-    sending_list = [special_orders_list, product_requests_list]
+    sending_list = [custom_orders_list, product_requests_list]
 
     json_data = json.dumps(sending_list)
     
@@ -335,7 +339,7 @@ def delete_product():
 def delete_special_order():
     request_dict = request.json
 
-    this_order = SpecialOrder.query.filter_by(id=request_dict['id']).first()
+    this_order = CustomOrder.query.filter_by(id=request_dict['id']).first()
     db.session.delete(this_order)
     db.session.commit()
 
@@ -350,7 +354,7 @@ def change_special_order_status():
     id = request_dict['id']
     status = request_dict['status']
 
-    order = SpecialOrder.query.filter_by(id=id).first()
+    order = CustomOrder.query.filter_by(id=id).first()
     print(order)
     order.order_status = status
     

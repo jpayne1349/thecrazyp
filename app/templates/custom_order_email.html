@@ -89,29 +89,13 @@
         <div class="header"> New Custom Order </div>
         <div class="subheader"> from ThecrazyP.com </div>
         <div class="selections_holder">
-            <div class="option">
-                <div class="option_title"> Style</div>
-
-                <div class="option_label"> {{ dict['style'] }} </div>
-            </div>
-            <div class="option">
-                <div class="option_title"> Color </div>
-
-                <div class="option_label"> {{ dict['color'] }} </div>
-            </div>
-            <div class="option">
-                <div class="option_title"> Band </div>
- 
-                <div class="option_label"> {{ dict['band'] }} </div>
-            </div>
-            <div class="option">
-                <div class="option_title"> Contact </div>
-
-            </div>
-            <div class="option">
-                <div class="option_title"> Notes </div>
-
-            </div>
+            {% for key in dict %}
+                <div class="option">
+                    <div class="option_title"> {{ key }}</div>
+                    <div class="option_label"> {{ dict[key] }} </div>
+                </div>
+            {% endfor %}
+            
         </div>
         <div class="disclaimer">
             This email is being sent automatically. This is a send/receive mailing system.

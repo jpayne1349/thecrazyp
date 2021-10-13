@@ -186,7 +186,7 @@ background-color: #d8d8d8;
     cursor: pointer;
     right: 5px;
     top: 10px;
-    transition: all 1s;
+    transition: background-color 1s;
 }
 .delete_order_item.confirm, .delete_request_item.confirm {
     background-color: #f30808;
@@ -711,12 +711,16 @@ margin: 10px 40px 40px;
 /* custom order builder styling */
 .custom_order_builder {
     width: 90vw;
-    display: flex;
+    display: none;
     border: 1px solid #cacaca;
-   
+    display: flex;
     border-radius: 10px;
     flex-direction: column;
     max-width: 900px;
+    margin-top: 20px;
+}
+.custom_order_builder.closed {
+    display: none;
 }
 .co_builder_title {
     font-size: 40px;

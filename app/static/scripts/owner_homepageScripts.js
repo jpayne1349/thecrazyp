@@ -61,7 +61,6 @@ custom_order_button.addEventListener('click', ()=> {
 custom_order_builder();
 
 function custom_order_builder() {
-    custom_order_button.click();
     // will return json of all categories, and options within those categories
     // fetch current design / categories and photos
     fetch('/custom_order_design', { method: 'POST' })
@@ -125,8 +124,6 @@ function custom_order_builder() {
         }
         
         for(let category of new_cat_objects) {
-
-            console.log('creating loaded category:', category['category']);
 
             // create new category div
             let category_div = document.createElement('div');
@@ -199,8 +196,6 @@ function custom_order_builder() {
 
             custom_order_builder.append(category_div);
 
-            console.log(category);
-            
         }
     }
 
@@ -520,7 +515,6 @@ function custom_order_builder() {
             option_image_div.setAttribute('opt', option);
 
             // if no image added, cat_object[option] will = undefined
-            console.log('option img src', cat_object[option]);
 
             if(cat_object[option] == undefined) {
                 option_image_plus(option_image_div);
@@ -591,6 +585,9 @@ function custom_order_builder() {
             return
         }
 
+        // remove listener to prevent a double submit
+        icon.removeEventListener('click', submit_option_creation);
+
         icon.classList.add('sending');
 
         let json_packet = {
@@ -620,7 +617,10 @@ function custom_order_builder() {
                 console.log('updated list structure', json_list);
                 display_loaded_categories(json_list);
 
-                icon.addEventListener('click', create_category_func);
+        
+                icon.addEventListener('click', create_option_func);
+                
+                
 
             }))
             .catch((fail) => console.log(fail));
@@ -927,7 +927,7 @@ function display_orders(data_lists) {
     let hidden_requests_div = document.getElementById('hidden_product_requests');
     removeAllChildNodes(hidden_requests_div);
 
-    // loop through all special orders
+    // loop through all custom orders
     let orders_list = data_lists[0];
     let order_color_alternate_bool = false;
     for(let order_item of orders_list) {
@@ -949,25 +949,31 @@ function display_orders(data_lists) {
         let order_item_expanded = document.createElement('div');
         order_item_expanded.className = 'order_item_expanded';
         
-        let band_div = document.createElement('div');
-        band_div.className = 'band_div';
-        band_div.innerText = 'Band: ' + order_item.band;
+        // loop through the order_item entries and create divs for each of them
+        console.log(order_item);
+        for( let[key, value] of Object.entries(order_item)) {
 
-        let color_div = document.createElement('div');
-        color_div.className = 'color_div';
-        color_div.innerText = 'Color: ' + order_item.color;
+            if(key == 'order_status') continue;
+            if(!value) value = 'None';
 
-        let contact_div = document.createElement('div');
-        contact_div.className = 'contact_div';
-        contact_div.innerText = 'Contact: ' + order_item.contact;
+            let custom_order_option_sel_div = document.createElement('div');
+            custom_order_option_sel_div.className = 'custom_order_option_sel_div';
+            custom_order_option_sel_div.innerText = key + ': ' + value;
 
-        let id_div = document.createElement('div');
-        id_div.className = 'id_div';
-        id_div.innerText = 'ID#:' + order_item.id;
+            if(key == 'id') {
+                custom_order_option_sel_div.classList.add('id_div');
+                order_item_condensed.append(custom_order_option_sel_div);
+                continue;
+            }
+            if(key == 'contact') {
+                custom_order_option_sel_div.classList.add('contact_div');
+                order_item_condensed.append(custom_order_option_sel_div);
+                continue;
+            }
 
-        let notes_div = document.createElement('div');
-        notes_div.className = 'notes_div';
-        notes_div.innerText = 'Notes: ' + order_item.notes;
+            order_item_expanded.append(custom_order_option_sel_div);
+
+        }
 
         let order_status_div = document.createElement('div');
         order_status_div.className = 'order_status_div';
@@ -1001,10 +1007,6 @@ function display_orders(data_lists) {
         order_status_select.addEventListener('change', update_order_status);
 
 
-        let style_div = document.createElement('div');
-        style_div.className = 'style_div';
-        style_div.innerText = 'Style: ' + order_item.style;
-
         let delete_order_item = document.createElement('div');
         delete_order_item.className = 'delete_order_item';
         delete_order_item.setAttribute('var', order_item.id);
@@ -1016,8 +1018,7 @@ function display_orders(data_lists) {
 
         delete_order_item.append(order_trash_can);
 
-        order_item_condensed.append(id_div, contact_div); 
-        order_item_expanded.append(band_div, color_div, style_div, notes_div, order_status_div, delete_order_item);
+        order_item_expanded.append(order_status_div, delete_order_item);
 
         order_item_div.append(order_item_condensed, order_item_expanded);
 

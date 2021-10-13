@@ -3,13 +3,8 @@
 // TODO: add img elements into all the options, and reference stored location
 
 // form object to be updated and accessed by functions
+// needs to be dynamic based on page content or from fetch info
 var formObject = {
-
-    style:'',
-    color:'',
-    band:'',
-    notes:'',
-    contact: ''
 
 }
 
@@ -28,8 +23,25 @@ async function show_first_selection() {
     const contact_options = await init_contact_options();
     const submit_setup = await reviewButtonListener();
     const notes_listener = await init_notes_input();
+    const review_form_setup = await populate_form_object();
     //const desktop_view = await scrollInDesktopView();
     first_selection.click();
+
+}
+
+// form is dynamically populated with categories, must populate form object dynamically
+function populate_form_object() {
+
+    // we can try to get this information from the html, as it is loaded dynamically as well
+    let selection_divs = document.getElementsByClassName('selection');
+
+    for( let category of selection_divs ) {
+        let category_name = category.getAttribute('sel_type');
+
+        // add this as an empty key in the formObject
+        formObject[category_name] = '';
+
+    }
 
 }
 
@@ -442,7 +454,7 @@ function selectOneOption(option) {
     let sel_option_display = label_children[1];
     let arrow = label_children[2];
     let sel_type = selection.getAttribute('sel_type');
-    console.log(sel_type);
+    
     let all_options = selection.children;
     let wrapper = label_holder.parentElement;
     let next_wrapper = wrapper.nextElementSibling;
@@ -610,7 +622,6 @@ function toggleReviewContainer() {
     let review_container = document.getElementById('review_container');
     let click_blocker = document.getElementById('click_blocker');
     let container_top = review_container.offsetTop;
-    console.log(container_top);
 
     let back_button = document.getElementById('back_button');
     let send_button = document.getElementById('send_button');
@@ -633,30 +644,49 @@ function toggleReviewContainer() {
         let review_options = document.getElementsByClassName('review_option');
         let review_option;
         for(review_option of review_options) {
-            let option_children = review_option.children;
-            let option_content = option_children[1];
-            let content_children = option_content.children;
-            let image = content_children[0];
-            let label = content_children[1];
+            // grab some useful elements in the review option container
+            let review_option_children = review_option.children;
+            let review_option_content = review_option_children[1];
+            let content_children = review_option_content.children;
+            let review_image = content_children[0];
+            let review_label = content_children[1];
 
             let id = review_option.id;
             let split_id = id.split('_');
             let key = split_id[1];
 
-            label.innerText = formObject[key];
+            // set the label , done from the previous entry into the formObject
+            review_label.innerText = formObject[key];
+            
+            // now copy the image src from that selected option : alittle more tedious
 
-            console.log('key = ', key);
-            let selected_option = document.getElementById(formObject[key]);
-            console.log('sel option =', selected_option);
-            if(selected_option) {
-                let selected_options_image = selected_option.firstElementChild;
-                    
-                // unless it's other, then it wont have a src?
-                if(!selected_options_image.classList.contains('other_close')) {
-                    
-                    image.src = selected_options_image.src;
+            // finds the parent div for all the options in this category
+            let parent_category_div = document.querySelector('div.selection[sel_type="'+ key + '"]');
+            console.log('parent found', parent_category_div);
 
+            // notes will never have an image
+            if(key == 'notes' || key == 'contact') {
+                review_image.classList.add('hide');
+                console.log('skipping notes or contact');
+                continue;
+            }
+
+            let selected_option_in_category;
+            // loop the children and get the value added one.
+            for( let option of parent_category_div.children) {
+                if( option.classList.contains('value_added')) {
+                    console.log('selected option found ', option);
+                    selected_option_in_category = option;
                 }
+            }
+
+            if(selected_option_in_category.classList.contains('other')) {
+                // a selection of other will not have an image to display
+                // maybe we add a class here instead of remove
+                review_image.classList.add('hide');
+            } else {
+                let selected_option_image_element = selected_option_in_category.firstElementChild;
+                review_image.src = selected_option_image_element.src;
             }
 
         }
@@ -684,7 +714,28 @@ function sendSpecialOrder() {
     
     if(formObject['notes'] = '') {formObject['notes'] == 'None' };
 
-    let form_json = JSON.stringify(formObject);
+    let modified_formObject = {};
+    let dynamic_json = {};
+    // change* stringify a portion of the form object to be dynamically saved.
+    for( const[key, value] of Object.entries(formObject)) {
+        if(key == 'notes') {
+            modified_formObject[key] = value;
+            continue;
+        }
+        if(key == 'contact') {
+            modified_formObject[key] = value;
+            continue;
+        };
+
+        dynamic_json[key] = value;
+        
+    }
+    dynamic_json = JSON.stringify(dynamic_json);
+
+    modified_formObject['json'] = dynamic_json;
+    
+
+    let form_json = JSON.stringify(modified_formObject);
 
     // ajax submission
     fetch('/special_order_formObject', {
@@ -697,11 +748,11 @@ function sendSpecialOrder() {
         .then((success) => {
             console.log(success)
             // redirect to thank you page.
-            setTimeout(()=>window.location.replace('/thank_you'), 1900);
+            window.location.replace('/thank_you')
 
         })
         .catch((fail) => {
-            // TODO: display an error page or message
+            // TODO: make a link that shows an error page.. and sending to the development team
             console.log(fail)
         });
 
