@@ -1,5 +1,3 @@
-
-
 {% extends "header_footer.html" %}
 
 
@@ -10,7 +8,6 @@
 
 {{super()}}
 
-
 <link rel="stylesheet" type="text/css" href="/static/styles/owner_homepageStyle.css?v=073">
 
 {% endblock %}
@@ -19,27 +16,39 @@
 {% block content %}
 
 <div class="owner_content">
-<div class="owner_navbar">
-<div class="toggle_orders owner_navbar_button" id="toggle_orders"> Orders / Requests</div>
-<div class="toggle_carousel_edit owner_navbar_button" id="toggle_carousel_edit"> Edit Carousel </div>
-<div class="toggle_inventory_edit owner_navbar_button" id="toggle_inventory_edit"> Edit Inventory </div>
-<div class="toggle_customs_edit owner_navbar_button" id="custom_order_edit"> Edit Customs </div>
-<div class="logout_owner owner_navbar_button">
-<a class="logout_link" href="/{{username}}/owner_logout"> Log Out </a>
-</div>
-</div>
-<div class="special_order_available_div" id="custom_order_div">
-<div class="soa_title"> Custom Orders</div>
-<div class="soa_slider_div">
-<div class="slider_label"> Open </div>
-<div class="slider_button" id="soa_slider_button"></div>
-<div class="slider_label"> Closed </div>
-</div>
-<div class="soa_date_div">
-<div class="soa_date_title"> Date Next Available </div>
-<input id="soa_date_input" type="date"/>
-</div>
-</div>
+
+    <div class="owner_navbar">
+        <div class="toggle_orders owner_navbar_button" id="toggle_orders"> Orders / Requests</div>
+        <div class="toggle_carousel_edit owner_navbar_button" id="toggle_carousel_edit"> Edit Carousel </div>
+        <div class="toggle_inventory_edit owner_navbar_button" id="toggle_inventory_edit"> Edit Inventory </div>
+        <div class="toggle_customs_edit owner_navbar_button" id="custom_order_edit"> Edit Customs </div>
+        <div class="logout_owner owner_navbar_button">
+            <a class="logout_link" href="/{{username}}/owner_logout"> Log Out </a>
+        </div>
+    </div>
+    <div class="special_order_available_div" id="custom_order_div">
+        <div class="soa_title"> Custom Orders</div>
+        <div class="soa_slider_div">
+            <div class="slider_label"> Open </div>
+            <div class="slider_button" id="soa_slider_button"></div>
+            <div class="slider_label"> Closed </div>
+        </div>
+        <div class="soa_date_div">
+            <div class="soa_date_title"> Date Next Available </div>
+            <input id="soa_date_input" type="date" />
+        </div>
+        <div class='custom_order_builder' id='custom_order_builder'>
+            <div class='co_builder_title' >Custom Order Builder</div>
+            <div class='create_category_div' >
+                <div class='category_condensed'>
+                    <div class='plus_icon small' id='create_category'></div>
+                    <input class='category_name_input'>
+                    <div class='cancel_create_category'> Cancel </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div class="orders_div" id="orders_div">
 <div class="title"> Orders and Requests </div>
 <div id='special_orders_title' > Current Special Orders </div>
@@ -54,22 +63,23 @@
 </div>
 <div id="hidden_special_orders"></div>
 <div class="hidden_header" id="hidden_request_header">
+
             Product Requests - Fulfilled / Canceled
             <div class="line1"></div>
-<div class="line2"></div>
-</div>
-<div id="hidden_product_requests"></div>
-</div>
-<div class="edit_carousel_div" id="edit_carousel_div">
-<div class="title"> Edit Carousel Photos </div>
-<div id="carousel_objects"></div>
-</div>
-<div class="edit_inventory_div" id="edit_inventory_div">
-<div class="title"> Edit Inventory Items </div>
-<div id="inventory_objects"></div>
-</div>
-<div class="special_orders_div">
-</div>
+            <div class="line2"></div>
+        </div>
+        <div id="hidden_product_requests"></div>
+    </div>
+    <div class="edit_carousel_div" id="edit_carousel_div">
+        <div class="title"> Edit Carousel Photos </div>
+        <div id="carousel_objects"></div>
+    </div>
+    <div class="edit_inventory_div" id="edit_inventory_div">
+        <div class="title"> Edit Inventory Items </div>
+        <div id="inventory_objects"></div>
+    </div>
+    <div class="special_orders_div">
+    </div>
 </div>
 
 {% endblock %}
@@ -78,5 +88,6 @@
 {{super()}}
 
 <script src="/static/scripts/owner_homepageScripts.js?v=073"></script>
+
 
 {%- endblock scripts %}

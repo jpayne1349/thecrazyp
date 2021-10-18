@@ -125,6 +125,41 @@ def process_inventory(product_filepath):
         lr_photo_filepath = os.path.join(lr_folder, hr_photo)
         high_res_photo.save(lr_photo_filepath, optimize=True, quality=5)
 
+def process_option_image(option_filepath):
+
+    hr_folder = os.path.join(option_filepath, 'HighRes')
+    lr_folder = os.path.join(option_filepath, 'LowRes')
+
+    hr_option_image = os.listdir(hr_folder)
+    lr_option_image = os.listdir(lr_folder)
+
+    pass_bool = False
+
+    for hr_photo in hr_option_image:
+        if hr_photo == '.DS_Store':
+            continue
+        # reset a prev modified pass bool
+        if pass_bool:
+            pass_bool = False
+
+        # check this file against all the low res files
+        for lr_photo in lr_option_image:
+            if hr_photo == lr_photo:
+                # copy already made
+                pass_bool = True
+                break
+        
+        # a copy was found, no need to make another
+        if pass_bool:
+            continue
+
+        # a copy was not found, make one
+        photo_filepath = os.path.join(hr_folder, hr_photo)
+        high_res_photo = Image.open(photo_filepath)
+        high_res_photo.resize((538, 404), Image.ANTIALIAS)
+        lr_photo_filepath = os.path.join(lr_folder, hr_photo)
+        high_res_photo.save(lr_photo_filepath, optimize=True, quality=5)
+
 
 
 if __name__ == '__main__':

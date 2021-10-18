@@ -31,6 +31,16 @@ class SpecialOrder(db.Model):
     # 0 = processing, 1 = fulfilled, 2 = canceled
     order_status = db.Column(db.Integer, index=True)
 
+# json so any category and selection can be saved
+class CustomOrder(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    json = db.Column(db.Text, index=True)
+    # json to contain a list = [{'category':'color', 'option':'red'}, {etc}] 
+    notes = db.Column(db.Text, index=True)
+    contact = db.Column(db.Text, index=True)
+    # 0 = processing, 1 = fulfilled, 2 = canceled
+    order_status = db.Column(db.Integer, index=True)
+
 class ProductRequest(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     product_id = db.Column(db.Integer, index=True)

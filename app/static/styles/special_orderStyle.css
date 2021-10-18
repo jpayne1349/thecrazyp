@@ -166,8 +166,8 @@ transform: translate(19px, 20px) rotate(
 
 }
 .option {
-    height: 30vw;
-    width: 30vw;
+    height: 34vw;
+    width: 40vw;
     margin: 5px 20px;
     border-radius: 10px;
     box-shadow: black 0px 4px 19px -11px;
@@ -177,7 +177,7 @@ transform: translate(19px, 20px) rotate(
     align-items: center;
     position: relative;
     max-width: 250px;
-    max-height: 250px;
+    max-height: 220px;
     cursor: pointer;
     transition: box-shadow 0.5s;
 }
@@ -193,6 +193,14 @@ transform: translate(19px, 20px) rotate(
     height: 60vw;
     background-color: rgb(250 250 250);;
     font-size: 50px;
+}
+.option_image {
+    width: 35vw;
+    border-radius: 10px;
+    max-width: 210px;
+}
+.option_label {
+    transform: translate(0px, 6px);
 }
 .notes_option {
     height: 60vw;
@@ -282,6 +290,12 @@ font-size: 33px;
 }
 .contact_input {
     width: 80%;
+    display: block;
+    outline: none;
+    border: none;
+    margin-top: 10px;
+    border-bottom: 1px solid grey;
+    font-size: 25px;
     display: none;
 }
 .contact_input.show {
@@ -449,16 +463,40 @@ font-size: 33px;
 
 .content_label {
     font-family: monospace;
+    font-size: 17px;
+    text-align: center;
+    overflow: scroll;
+}
+.content_lable.notes {
+
+}
+.content_image {
+    border-radius: 10px;
+    width: 26vw;
+}
+.content_image.hide {
+    display: none;
 }
 
+/* desktop styling */
 @media only screen and (min-width: 600px) {
-    
+    .content_label {
+        font-size: 20px;
+    }
+    .content_image {
+        width: 14vw;
+    }
+
     .label_holder {
-        width: 600px;
+        width: 800px;
+    }
+    .label_holder.option_selected::before {
+        max-width: 800px;
+        animation-duration: 2s;
     }
     .selection {
-        min-width: 600px;
-        max-width: 600px;
+        min-width: 800px;
+        max-width: 800px;
     }
     .fullscreen_container {
         height: 90vh;
@@ -466,9 +504,7 @@ font-size: 33px;
         width: 65vw;
         left: 17.5vw;
     }
-    .review_option {
 
-    }
     .review_option_content {
        width: 20vh;
     height: 20vh;
@@ -476,5 +512,22 @@ font-size: 33px;
     }
     #click_blocker {
         height: 200vh;
+    }
+
+    .option {
+        max-width: 350px;
+        max-height: 320px;
+    }
+    .option_image {
+        max-width: 310px;
+    }
+    .option_label {
+        transform: translate(0px, 17px);
+        font-size: 30px;
+        margin-top: -12px;
+    }
+
+    .notes_option {
+        height: 40vw;
     }
 }   
