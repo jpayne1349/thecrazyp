@@ -379,11 +379,17 @@ function requestItemForm() {
         request_descript.innerHTML = 'Drop your contact info above and we will contact you about making a hat similar to this one!';
     }
 
+    // focus the request_contact_input... has to be done in the timeout below, after it's been displayed to the page
+    let request_contact_input = request_div_children[2];
+    
+
     request_div.classList.add('show');
     setTimeout(()=>{
         for( let element of request_div_children ) {
             element.classList.add('show');   
         }
+        // cursor focus
+        request_contact_input.focus();
     },800);
 
     // TODO: make this show/hide work with opacity fading.
@@ -440,7 +446,7 @@ function sendInventoryRequest() {
     } else {
         // TODO: make this sending class look better on mobile
         send_button.classList.add('sending');
-
+        send_button.removeEventListener('click', sendInventoryRequest);
         // TODO: check the request_div for a pend/sold class
         // modify the object to send based on this, to keep track of this
 
@@ -480,7 +486,8 @@ function sendInventoryRequest() {
             .then((success) => {
                 console.log(success)
                 // redirect to thank you page.
-                setTimeout(()=>window.location.replace('/thank_you'), 2000);
+                window.location.replace('/thank_you')
+                // setTimeout(()=>, 2000);
 
             })
             .catch((fail) => {

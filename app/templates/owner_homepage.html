@@ -8,8 +8,7 @@
 
 {{super()}}
 
-
-<link rel="stylesheet" type="text/css" href="/static/styles/owner_homepageStyle.css?v=062">
+<link rel="stylesheet" type="text/css" href="/static/styles/owner_homepageStyle.css?v=073">
 
 {% endblock %}
 
@@ -17,6 +16,7 @@
 {% block content %}
 
 <div class="owner_content">
+
     <div class="owner_navbar">
         <div class="toggle_orders owner_navbar_button" id="toggle_orders"> Orders / Requests</div>
         <div class="toggle_carousel_edit owner_navbar_button" id="toggle_carousel_edit"> Edit Carousel </div>
@@ -48,18 +48,22 @@
             </div>
         </div>
     </div>
-    
-    <div class="orders_div" id="orders_div">
-        <div class="title"> Orders and Requests </div>
-        <div id="special_orders"></div>
-        <div class="hidden_header" id="hidden_order_header">
-            Custom Orders - Fulfilled / Canceled
+
+<div class="orders_div" id="orders_div">
+<div class="title"> Orders and Requests </div>
+<div id='special_orders_title' > Current Special Orders </div>
+<div id="special_orders"></div>
+<div id='product_requests_title' > Current Product Requests </div>
+<div id="product_requests">
+</div>
+<div class="hidden_header" id="hidden_order_header">
+            Special Orders - Fulfilled / Canceled
             <div class="line1"></div>
-            <div class="line2"></div>
-        </div>
-        <div id="hidden_special_orders"></div>
-        <div id="product_requests"></div>
-        <div class="hidden_header" id="hidden_request_header">
+<div class="line2"></div>
+</div>
+<div id="hidden_special_orders"></div>
+<div class="hidden_header" id="hidden_request_header">
+
             Product Requests - Fulfilled / Canceled
             <div class="line1"></div>
             <div class="line2"></div>
@@ -83,6 +87,7 @@
 {% block scripts %}
 {{super()}}
 
-<script src="/static/scripts/owner_homepageScripts.js?v=062"></script>
+<script src="/static/scripts/owner_homepageScripts.js?v=073"></script>
+
 
 {%- endblock scripts %}

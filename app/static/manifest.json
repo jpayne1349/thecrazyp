@@ -1,0 +1,11 @@
+{
+    "name": "The Crazy P",
+    "short_name": "TheCrazyP",
+    "icons": [{
+        "src": "/static/p_icon512.png",
+        "sizes": "512x512"
+    }],
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "display": "fullscreen"
+}

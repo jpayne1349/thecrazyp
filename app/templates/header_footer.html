@@ -3,7 +3,7 @@
 {% extends "baseblocks.html" %}
 
 
-{% block title %}The Crazy P{% endblock title %} <!-- title is usually in head? -->
+{% block title %}The Crazy P{% endblock title %}
 
 
 {% block head %}
@@ -12,17 +12,23 @@
 {{super()}} 
 
 
-<link href="{{ url_for('static' , filename='ic.ico') }}" rel="icon" type="image/x-icon"/>
+<link href="/static/p_icon.svg" rel="icon"/>
 
-<link rel= "stylesheet" type= "text/css" href= "/static/styles/globalStyle.css?v=062">
+<link href="/static/p_icon.svg" rel="mask-icon" color="#000"/>
 
+<link href="/static/apple-touch-icon.png" rel="apple-touch-icon"/>
+
+
+<link rel= "stylesheet" type= "text/css" href= "/static/styles/globalStyle.css?v=073">
+
+<link rel="manifest" href="/static/manifest.json">
 
 {% endblock %}
 
 
 {% block navbar %}
 
-<!-- TODO: add the logo here? -->
+
 <div id="header_and_logo">
 <a href="/"> <img class="logo_img" src="/static/crazyp_logo.png"/> </a>
 </div>
