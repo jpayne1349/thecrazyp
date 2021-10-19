@@ -71,6 +71,7 @@
 .form_input::placeholder {
     font-family: 'summer_garden';
     font-size: 20px;
+    color: black;
 }
 
 #send_button {
@@ -82,6 +83,9 @@
     flex-grow: 1;
     flex-basis: 36px;
     box-shadow: #a9a9a9 0px 1px 3px;
+    user-select: none;
+    cursor: pointer;
+
 }
 
 .mail_icon {
@@ -117,4 +121,40 @@
     border-radius: 5px;
     background: rgb(74,144,85);
     background: linear-gradient(90deg, rgba(74,144,85,1) 0%, rgba(77,153,89,1) 27%, rgba(135,190,144,1) 100%);
+}
+
+/* greater than 600px */
+@media only screen and (min-width: 600px) {
+
+    .wrong {
+        font-size: 80px;
+    }
+
+    .sad_cow {
+        max-width: 400px;
+    }
+
+    .sorry {
+        font-size: 50px;
+    }
+
+    .form_div {
+        max-width: 700px;
+    }
+
+    .form_title {
+        font-size: 45px;
+    }
+    .form_subtitle {
+        font-size: 32px;
+    }
+    .input_row {
+        max-width: 500px;
+        margin: auto;
+    }
+
+    #send_button {
+        margin: 1px 0px 1px 4px;
+        flex-grow: 0;
+    }
 }
