@@ -2,9 +2,10 @@
 
 // does a listdir of photos folder on server, allow for easy removal/addition of photos?
 fetch('/load_inventory', { method: 'POST' })
+    .then(handle_error)
     .then(response => response.json())
     .then(inventory_products => load_iventory(inventory_products))
-    .catch( error => console.log('ERROR', error));
+    .catch( error => console.log(error));
 
 
 
@@ -483,6 +484,7 @@ function sendInventoryRequest() {
                     "Content-Type": 'application/json'
                 }
                 })
+            .then(handle_error)
             .then((success) => {
                 console.log(success)
                 // redirect to thank you page.
@@ -490,11 +492,45 @@ function sendInventoryRequest() {
                 // setTimeout(()=>, 2000);
 
             })
-            .catch((fail) => {
-                // TODO: display an error page or message
-                console.log(fail)
-            });
+            .catch( error => console.log(error));
 
     }
 
+}
+
+
+// generic function to be used in all script files
+function handle_error(response) {
+
+    if(!response.ok) {
+
+        // try to process the response text before sending to server
+        response.text().then((text) => {
+            
+            let error_string = 'Url: ' + response.url + '\n Status Code: ' + response.status + '\n Response Text: ' + text;
+            
+            let json_data = {
+                'error': error_string
+            };
+            
+            json_data = JSON.stringify(json_data)
+    
+            fetch('/handle_error', {
+                method: 'POST',
+                body: json_data,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then(handle_error)
+            .then((success) => {
+                // redirect to error template
+                window.location.replace("/error");
+            })
+            .catch((fail) => console.log(fail));
+
+        });
+    }
+
+    return response;
 }

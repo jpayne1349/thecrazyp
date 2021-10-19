@@ -6,9 +6,10 @@ var global_auto_interval;
 
 // does a listdir of photos folder on server, gets the filenames essentially
 fetch('/carousel_photos', { method: 'POST' })
+    .then(handle_error)
     .then(response => response.json())
     .then(json_files_object => populate_carousel(json_files_object))
-    .catch( error => console.log('ERROR', error));
+    .catch( error => console.log(error));
 
 
 // creating images and indicators, calls animation function on completion
@@ -368,4 +369,41 @@ function pause_button_active() {
         global_pause_button.classList.add('active');
         global_play_button.classList.remove('active');
     }
+}
+
+
+// generic function to be used in all script files
+function handle_error(response) {
+
+    if(!response.ok) {
+
+        // try to process the response text before sending to server
+        response.text().then((text) => {
+            
+            let error_string = 'Url: ' + response.url + '\n Status Code: ' + response.status + '\n Response Text: ' + text;
+            
+            let json_data = {
+                'error': error_string
+            };
+            
+            json_data = JSON.stringify(json_data)
+    
+            fetch('/handle_error', {
+                method: 'POST',
+                body: json_data,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then(handle_error)
+            .then((success) => {
+                // redirect to error template
+                window.location.replace("/error");
+            })
+            .catch((fail) => console.log(fail));
+
+        });
+    }
+
+    return response;
 }

@@ -3,17 +3,28 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from flask import current_app as app
 import os, json, shutil
+
+from werkzeug.exceptions import RequestedRangeNotSatisfiable
 from app.models import Product, User, Carousel, CustomOrder, ProductRequest, SoAvailable
 from app.forms import LoginForm, RegisterForm
-from app import db
+from app import db, imageProcessor, customOrders, email
 from werkzeug.utils import secure_filename
 from config import allowed_file
 from flask_login import current_user, login_user, logout_user, login_required
-from app import imageProcessor
-from app import customOrders
+
 
 owner_blueprint = Blueprint('owner_blueprint', __name__) 
 
+
+@owner_blueprint.route('/handle_error', methods=['POST'])
+def handle_error():
+    ''' receives a json string containing the error message and triggers an email to be sent '''
+
+    error_dict = request.json
+    
+    email.email_error_report(error_dict)
+
+    return 'error processed'
 
 @owner_blueprint.route('/owner_login', methods=['GET','POST'])
 def owner_login():

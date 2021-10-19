@@ -64,9 +64,10 @@ function custom_order_builder() {
     // will return json of all categories, and options within those categories
     // fetch current design / categories and photos
     fetch('/custom_order_design', { method: 'POST' })
+        .then(handle_error)
         .then(response => response.json())
         .then(json_list => display_loaded_categories(json_list))
-        .catch( error => console.log('ERROR', error));
+        .catch( error => console.log(error));
 
 
     let custom_order_builder = document.getElementById('custom_order_builder');
@@ -246,6 +247,7 @@ function custom_order_builder() {
                     "Content-Type": 'application/json'
                 }
                 })
+            .then(handle_error)
             .then((response) => (response.json())
             .then(function(json_list) {
                 // reset the creation div
@@ -261,7 +263,7 @@ function custom_order_builder() {
                 icon.addEventListener('click', create_category_func);
 
             }))
-            .catch((fail) => console.log(fail));
+            .catch( error => console.log(error));
 
     }
 
@@ -361,6 +363,7 @@ function custom_order_builder() {
                     "Content-Type": 'application/json'
                 }
                 })
+            .then(handle_error)
             .then((response) => (response.json())
             .then(function(json_list) {
                 console.log(json_list);
@@ -370,7 +373,7 @@ function custom_order_builder() {
                 cancel_button.click();
 
             }))
-            .catch((fail) => console.log(fail));
+            .catch( error => console.log(error));
         
 
     }
@@ -403,6 +406,7 @@ function custom_order_builder() {
                     "Content-Type": 'application/json'
                 }
                 })
+            .then(handle_error)
             .then((response) => (response.json())
             .then(function(json_list) {
 
@@ -411,7 +415,7 @@ function custom_order_builder() {
                 display_loaded_categories(json_list);
 
             }))
-            .catch((fail) => console.log(fail));
+            .catch( error => console.log(error));
 
     }
 
@@ -605,6 +609,7 @@ function custom_order_builder() {
                     "Content-Type": 'application/json'
                 }
                 })
+            .then(handle_error)
             .then((response) => (response.json())
             .then(function(json_list) {
                 // reset the creation div
@@ -623,7 +628,7 @@ function custom_order_builder() {
                 
 
             }))
-            .catch((fail) => console.log(fail));
+            .catch( error => console.log(error));
 
     }
 
@@ -663,6 +668,7 @@ function custom_order_builder() {
                     "Content-Type": 'application/json'
                 }
                 })
+            .then(handle_error)
             .then((response) => (response.json())
             .then(function(json_list) {
                 
@@ -673,7 +679,7 @@ function custom_order_builder() {
                 
 
             }))
-            .catch((fail) => console.log(fail));
+            .catch( error => console.log(error));
 
     }
 
@@ -771,13 +777,14 @@ function custom_order_builder() {
                 method: 'POST',
                 body: form_data
                 })
+            .then(handle_error)
             .then((response) => (response.json())
             .then((json_info) => {
 
                 display_uploaded_option_image(json_info, plus_icon);
 
             }))
-            .catch((fail) => console.log(fail));
+            .catch( error => console.log(error));
         
 
     }
@@ -873,6 +880,7 @@ function custom_order_builder() {
                 method: 'POST',
                 body: form_data
                 })
+            .then(handle_error)
             .then((response) => (response.json())
             .then((json_info) => {
                 removeAllChildNodes(option_image_div);
@@ -881,7 +889,7 @@ function custom_order_builder() {
                 let click_catcher = document.getElementById('click_catcher');
                 click_catcher.remove();             
             }))
-            .catch((fail) => console.log(fail));
+            .catch( error => console.log(error));
 
     }
 
@@ -910,9 +918,10 @@ orders_fetch();
 // post request to get json data
 function orders_fetch() {
     fetch('/orders', { method: 'POST' })
+    .then(handle_error)
     .then(response => response.json())
     .then(json_object => display_orders(json_object))
-    .catch( error => console.log('ERROR', error));
+    .catch( error => console.log(error));
 
 }
 
@@ -930,6 +939,7 @@ function display_orders(data_lists) {
     // loop through all custom orders
     let orders_list = data_lists[0];
     let order_color_alternate_bool = false;
+
     for(let order_item of orders_list) {
         let order_item_div = document.createElement('div');
         order_item_div.className = 'order_item_div';
@@ -1074,10 +1084,11 @@ function display_orders(data_lists) {
                 "Content-Type": 'application/json'
             }
             })
+        .then(handle_error)
         .then((success) => {
             console.log(success);
         })
-        .catch((fail) => console.log(fail));
+        .catch( error => console.log(error));
 
     }
     function delete_special_order() {
@@ -1102,6 +1113,7 @@ function display_orders(data_lists) {
                             "Content-Type": 'application/json'
                         }
                         })
+                    .then(handle_error)
                     .then((success) => {
                         // remove this element from the page
                         let item_expanded_div = this_delete_button.parentElement;
@@ -1109,7 +1121,7 @@ function display_orders(data_lists) {
                         whole_item_div.remove();
 
                     })
-                    .catch((fail) => console.log(fail));
+                    .catch( error => console.log(error));
                 } else {
                     // change back button
                     this_delete_button.innerText = '';
@@ -1257,10 +1269,11 @@ function display_orders(data_lists) {
                 "Content-Type": 'application/json'
             }
             })
+        .then(handle_error)
         .then((success) => {
             console.log(success);
         })
-        .catch((fail) => console.log(fail));
+        .catch( error => console.log(error));
 
     }
     function delete_request_product() {
@@ -1285,6 +1298,7 @@ function display_orders(data_lists) {
                             "Content-Type": 'application/json'
                         }
                         })
+                    .then(handle_error)
                     .then((success) => {
                         // remove this element from the page
                         let item_expanded_div = this_delete_button.parentElement;
@@ -1292,7 +1306,7 @@ function display_orders(data_lists) {
                         whole_item_div.remove();
 
                     })
-                    .catch((fail) => console.log(fail));
+                    .catch( error => console.log(error));
                 } else {
                     // change back button
                     this_delete_button.innerText = '';
@@ -1312,9 +1326,10 @@ function carousel_fetch() {
 
     // same as the acutal page.
     fetch('/carousel_photos', { method: 'POST' })
+    .then(handle_error)
     .then(response => response.json())
     .then(json_object => display_carousel_contents(json_object))
-    .catch( error => console.log('ERROR', error));
+    .catch( error => console.log(error));
 
 
 }
@@ -1476,10 +1491,11 @@ function display_carousel_contents(file_list_object) {
                 method: 'POST',
                 body: form_data
                 })
+            .then(handle_error)
             .then((success) => {
                 carousel_fetch();
             })
-            .catch((fail) => console.log(fail));
+            .catch( error => console.log(error));
         
         });
 
@@ -1520,15 +1536,14 @@ function upload_carousel_file() {
             },
         body: file
         })
+        .then(handle_error)
         .then(function(response) {
             // checks for and parses json. 
             response.json().then( function(result){ 
             
             console.log(result);
         })
-        .catch(function(response){
-            console.log(response);
-        });
+        .catch( error => console.log(error));
             }
         );
     };
@@ -1554,11 +1569,12 @@ function remove_carousel_file(event) {
         },
     body: json_data
     })
+    .then(handle_error)
     .then(function(response) {
             // passing response, just call refresh.
             carousel_fetch();
         }
-    ).catch(error => console.log(error));
+    ).catch( error => console.log(error));
 
     
 }
@@ -1579,9 +1595,10 @@ function inventory_fetch() {
 
     // same as the acutal page.
     fetch('/load_inventory', { method: 'POST' })
+    .then(handle_error)
     .then(response => response.json())
     .then(json_object => display_inventory_contents(json_object))
-    .catch( error => console.log('ERROR', error));    
+    .catch( error => console.log(error));   
 
 }
 
@@ -1839,16 +1856,17 @@ function display_inventory_contents(loaded_json) {
 
         // ajax submission
         fetch('/new_product', {
-                method: 'POST',
-                body: product_json,
-                headers: {
-                    "Content-Type": 'application/json'
-                }
-                })
-            .then((success) => {
-                inventory_fetch();
-            })
-            .catch((fail) => console.log(fail));
+            method: 'POST',
+            body: product_json,
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        })
+        .then(handle_error)
+        .then((success) => {
+            inventory_fetch();
+        })
+        .catch( error => console.log(error));
 
         // refresh inventory fetch
         
@@ -1921,11 +1939,12 @@ function upload_product_photo() {
                 method: 'POST',
                 body: form_data
                 })
+            .then(handle_error)
             .then((success) => {
                 inventory_fetch();
                 console.log(success);
             })
-            .catch((fail) => console.log(fail));
+            .catch( error => console.log(error));
         
         });
 
@@ -1987,14 +2006,15 @@ function remove_product_photo_fetch() {
     fetch('/remove_product_photo', {
         method: 'POST',
         body: form_data
-        })
+    })
+    .then(handle_error)
     .then((success) => {
         // TODO: these reloads should just be done locally.
         // maybe another fetch endpoint, so the reload is much cleaner.
         inventory_fetch();
         
     })
-    .catch((fail) => console.log(fail));
+    .catch( error => console.log(error));
 
 }
 
@@ -2100,16 +2120,17 @@ function edit_product_inputs() {
 
         // ajax submission
         fetch('/edit_product', {
-                method: 'POST',
-                body: product_json,
-                headers: {
-                    "Content-Type": 'application/json'
-                }
-                })
-            .then((success) => {
-                inventory_fetch();
-            })
-            .catch((fail) => console.log(fail));
+            method: 'POST',
+            body: product_json,
+            headers: {
+                "Content-Type": 'application/json'
+            }
+        })
+        .then(handle_error)
+        .then((success) => {
+            inventory_fetch();
+        })
+        .catch( error => console.log(error));
 
         // refresh inventory fetch
         
@@ -2141,16 +2162,17 @@ function delete_product_func(event) {
     let json_data = JSON.stringify({'id':product_id});
     
     fetch('/delete_product', {
-                method: 'POST',
-                body: json_data,
-                headers: {
-                    "Content-Type": 'application/json'
-                }
-                })
-            .then((success) => {
-                inventory_fetch();
-            })
-            .catch((fail) => console.log(fail));
+        method: 'POST',
+        body: json_data,
+        headers: {
+            "Content-Type": 'application/json'
+        }
+    })
+    .then(handle_error)
+    .then((success) => {
+        inventory_fetch();
+    })
+    .catch( error => console.log(error));
 
 }
 
@@ -2163,6 +2185,7 @@ function soa_fetch() {
 
     // fetch data 
     fetch('/special_order_availibility', { method: 'POST' })
+    .then(handle_error)
     .then(response => response.json())
     .then(json_object => {
         
@@ -2173,7 +2196,7 @@ function soa_fetch() {
             date_input.value = json_object.date_string
         }
     })
-    .catch( error => console.log('ERROR', error)); 
+    .catch( error => console.log(error));
     
     
 
@@ -2193,11 +2216,12 @@ function soa_fetch() {
             headers: {
                 "Content-Type": 'application/json'
             }
-            })
+        })
+        .then(handle_error)
         .then((success) => {
             // status updated
         })
-        .catch((fail) => console.log(fail));
+        .catch( error => console.log(error));
 
     });
 
@@ -2211,12 +2235,51 @@ function soa_fetch() {
             headers: {
                 "Content-Type": 'application/json'
             }
-            })
+        })
+        .then(handle_error)
         .then((success) => {
             // date updated
         })
-        .catch((fail) => console.log(fail));
+        .catch( error => console.log(error));
 
     });
 
+}
+
+
+// generic function to be used in all script files
+function handle_error(response) {
+
+    if(!response.ok) {
+
+        // try to process the response text before sending to server
+        response.text().then((text) => {
+            
+            let error_string = 'Url: ' + response.url + '\n Status Code: ' + response.status + '\n Response Text: ' + text;
+            
+            let json_data = {
+                'error': error_string
+            };
+            
+            json_data = JSON.stringify(json_data)
+    
+            fetch('/handle_error', {
+                method: 'POST',
+                body: json_data,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then(handle_error)
+            .then((success) => {
+                // redirect to error template
+                window.location.replace("/error");
+                
+            })
+            .catch((fail) => console.log(fail));
+
+        });
+    }
+
+    return response;
 }

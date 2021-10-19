@@ -161,6 +161,11 @@ def thank_you():
 
     return render_template('thank_you.html')
 
+@main_blueprint.route('/error')
+def error():
+
+    return render_template('error.html')
+
 @main_blueprint.route('/inventoryProductRequest', methods=['POST'])
 def product_request():
 

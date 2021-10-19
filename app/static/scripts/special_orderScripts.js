@@ -1,7 +1,4 @@
 
-// TODO: automate the creation of a custom order category
-// TODO: add img elements into all the options, and reference stored location
-
 // form object to be updated and accessed by functions
 // needs to be dynamic based on page content or from fetch info
 var formObject = {
@@ -745,16 +742,14 @@ function sendSpecialOrder() {
                 "Content-Type": 'application/json'
             }
             })
+        .then(handle_error)
         .then((success) => {
             console.log(success)
             // redirect to thank you page.
             window.location.replace('/thank_you')
 
         })
-        .catch((fail) => {
-            // TODO: make a link that shows an error page.. and sending to the development team
-            console.log(fail)
-        });
+        .catch( error => console.log(error));
 
 }
 // TODO: formObject[contact] need to differentiate between email and phone? idk.. 
@@ -793,4 +788,42 @@ function doScrolling(elementY, duration) {
       window.requestAnimationFrame(step);
     }
   })
+}
+
+
+// generic function to be used in all script files
+function handle_error(response) {
+
+    if(!response.ok) {
+
+        // try to process the response text before sending to server
+        response.text().then((text) => {
+            
+            let error_string = 'Url: ' + response.url + '\n Status Code: ' + response.status + '\n Response Text: ' + text;
+            
+            let json_data = {
+                'error': error_string
+            };
+            
+            json_data = JSON.stringify(json_data)
+    
+            fetch('/handle_error', {
+                method: 'POST',
+                body: json_data,
+                headers: {
+                    "Content-Type": 'application/json'
+                }
+                })
+            .then(handle_error)
+            .then((success) => {
+                // redirect to error template
+                window.location.replace("/error");
+                
+            })
+            .catch((fail) => console.log(fail));
+
+        });
+    }
+
+    return response;
 }

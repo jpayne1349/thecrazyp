@@ -8,6 +8,23 @@ import json
 
 smtp_email = 'southtexassoftwarellc@gmail.com'
 
+def email_error_report(report_dict):
+    
+    all_users = User.query.all()
+    user_email_list = []
+    for user in all_users:
+        user_email_list.append(user.email)
+    
+    new_msg = Message('An Error Occured - TheCrazyP.com', sender=smtp_email, recipients=user_email_list)
+    
+    new_msg.html = render_template('error_report_email.html', dict=report_dict)
+
+    @copy_current_request_context
+    def send_async_email(msg):
+        mail.send(msg)
+
+    new_thread = Thread(target=send_async_email, args=(new_msg,))
+    new_thread.start()
 
 def email_custom_order(order_dict):
 
@@ -40,7 +57,7 @@ def email_custom_order(order_dict):
 
     new_thread = Thread(target=send_async_email, args=(new_msg,))
     new_thread.start()
-
+    
 # gather owner emails, and send them the special order.
 def email_special_order(order_dict):
 
@@ -49,7 +66,6 @@ def email_special_order(order_dict):
     for user in all_users:
         user_email_list.append(user.email)
 
-    # just send the data for testing. styling can be done later.
     new_msg = Message('New Special Order - TheCrazyP.com', sender=smtp_email, recipients=user_email_list)
     
     new_msg.html = render_template('special_order_email.html', dict=order_dict)
@@ -72,7 +88,6 @@ def email_product_order(product_object, contact_info, status):
     for user in all_users:
         user_email_list.append(user.email)
 
-    # just send the data for testing. styling can be done later.
     new_msg = Message('New Product Requested - TheCrazyP.com', sender=smtp_email, recipients=user_email_list)
     
     product_dict = {
