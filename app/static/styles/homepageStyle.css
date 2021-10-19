@@ -26,7 +26,7 @@ body {
     filter: blur(0.6px);
     width: 100%;
     transition: transform 0.5s ease-in, opacity 1s;
-
+    will-change: transform;
 }
 
 .img_loading_placeholder {
@@ -107,7 +107,7 @@ body {
 }
 
 .prev2 {
-    transform: translate(-100vw);
+    transform: translate(-190vw);
     opacity: 0;
     transition: transform 1s ease-in, opacity 2s;
 }
