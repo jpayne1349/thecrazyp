@@ -1,0 +1,58 @@
+<html>
+
+<head>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <style>
+        .wrapper {
+            display: block;
+            text-align: center;
+            background-color: #9b5b5b;
+            min-height: 60vh;
+        }
+
+        .header {
+            font-size: 35px;
+            font-family: monospace;
+        }
+
+        .subheader {
+            font-family: monospace;
+            margin-bottom: 20px;
+            color: #d9d9d9;
+            margin-top: -2px;
+        }
+
+        .error_text {
+            font-family: monospace;
+            min-height: 50vh;
+        }
+
+        .disclaimer {
+            color: #d9d9d9;
+            font-family: monospace;
+            font-size: 8px;
+            padding: 7px;
+        }
+
+        @media only screen and (min-width: 600px) {
+            
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="header"> Error Report </div>
+        <div class="subheader"> from ThecrazyP.com </div>
+        <div class='error_text'>
+            {{ dict['error'] }}
+        </div>
+        <div class="disclaimer">
+            This email is being sent automatically. This is a send/receive mailing system.
+            <br />
+            Please reply to this email if you have questions or concerns. - STS
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+
+.page_content {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wrong {
+    font-size: 52px;
+
+}
+
+.sad_cow {
+    width: 40vw;
+}
+
+.sorry {
+    font-size: 30px;
+    text-align: center;
+    padding: 30px;
+}
+
+.form_div {
+
+    text-align: center;
+    border-radius: 10px;
+    width: 80vw;
+
+    background: rgb(170,170,170);
+    background: linear-gradient(45deg, rgb(192, 192, 192) 0%, rgba(208,208,208,1) 27%, rgba(235,235,235,1) 100%);
+    box-shadow: #a9a9a9 0px 4px 6px;
+    
+    transform: translateY(50vh);
+
+    animation-name: bounceIn;
+    animation-delay: 1s;
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+
+}
+
+@keyframes bounceIn {
+
+    0% { transform:translateY(50vh) }
+
+    100% { transform:translateY(0) }
+
+}
+
+.form_title {
+    font-size: 30px;
+}
+
+.form_subtitle {
+    font-size: 20px;
+}
+
+.input_row {
+    display: flex;
+    padding: 15px 25px;
+    height: 70px;
+}
+.form_input {
+    flex-grow: 10;
+}
+.form_input.required {
+    border-color: #cfa8a8;
+}
+.form_input::placeholder {
+    font-family: 'summer_garden';
+    font-size: 20px;
+}
+
+#send_button {
+    border-radius: 7px;
+    background-color: #fdfdfd;
+    margin: 4px 2px;
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    flex-basis: 36px;
+    box-shadow: #a9a9a9 0px 1px 3px;
+}
+
+.mail_icon {
+    flex-basis: 20px;
+    flex-grow: initial;
+    fill: url(#test_gradient) #2a5731;
+}
+
+.mail_icon.sending {
+    animation-name: sendingBounce;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+@keyframes sendingBounce {
+
+    0% { transform: translate(0);  }
+
+    40% { transform: translate(-2px, 2px); }
+
+    60% { transform: translate(2px, -2px); }
+    
+    100% { transform: translate(0); }
+
+}
+
+.thank_you_div {
+
+    width: 100%;
+    font-size: 30px;
+    line-height: 40px;
+    border-radius: 5px;
+    background: rgb(74,144,85);
+    background: linear-gradient(90deg, rgba(74,144,85,1) 0%, rgba(77,153,89,1) 27%, rgba(135,190,144,1) 100%);
+}
