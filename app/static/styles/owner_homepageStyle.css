@@ -548,6 +548,7 @@ width: 35px;
     font-size: 25px;
     flex-grow: 2;
     align-self: center;
+    text-align: center;
 }
 .bottom_row {
     display: flex;
