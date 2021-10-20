@@ -265,6 +265,14 @@
     margin-left: 10px;
     font-size: 17px;
     text-align: center;
+    position: relative;
+    /* line-height: 14px; */
+}
+
+.product_ship_and_handle {
+    font-size: 7px;
+    transform: translateX(-1px);
+    line-height: 2px;
 }
 
 .purchase_button {

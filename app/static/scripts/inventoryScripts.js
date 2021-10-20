@@ -211,6 +211,12 @@ function load_iventory(inventory_products) {
         product_price.className = 'product_price';
         product_price.innerText = '$' + product['price'];
 
+        let product_ship_and_handle = document.createElement('div');
+        product_ship_and_handle.className = 'product_ship_and_handle';
+        product_ship_and_handle.innerText = '+ shipping & handling';
+
+        product_price.append(product_ship_and_handle);
+
         let purchase_button = document.createElement('div');
         purchase_button.className = 'purchase_button';
         if(product['status'] == '0') {
