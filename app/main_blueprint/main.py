@@ -134,7 +134,7 @@ def special_order():
 
         return render_template('closed_special_order.html', date_string=new_date_string)
     
-    # fallback just show the order form TODO: this should just show a 404 or something and send the dev an email
+    # TODO: fallback just show the order form TODO: this should just show a 404 or something and send the dev an email
     return render_template('special_order.html', design=custom_order_design)
 
 @main_blueprint.route('/special_order_formObject', methods=['POST'])
@@ -143,7 +143,7 @@ def order_form():
 
     #new_special_order = SpecialOrder(style=form_dict['style'], color=form_dict['color'], band=form_dict['band'], notes=form_dict['notes'], contact=form_dict['contact'], order_status = 0)
     # 10/21 changing to CustomOrder
-    new_custom_order = CustomOrder(json=form_dict['json'], contact=form_dict['contact'], order_status = 0)
+    new_custom_order = CustomOrder(json=form_dict['json'],notes=form_dict['notes'], contact=form_dict['contact'], order_status = 0)
 
     # save to db
     db.session.add(new_custom_order)

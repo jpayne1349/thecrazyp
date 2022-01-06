@@ -962,7 +962,7 @@ function display_orders(data_lists) {
         // loop through the order_item entries and create divs for each of them
         console.log(order_item);
         for( let[key, value] of Object.entries(order_item)) {
-
+            console.log(key, value);
             if(key == 'order_status') continue;
             if(!value) value = 'None';
 
