@@ -378,9 +378,11 @@ font-size: 33px;
     transition: opacity 1s;
     display: none;
     opacity: 0;
+    overflow-y: scroll;
+    flex-direction: column;
 }
 .fullscreen_container.block{
-    display: block;
+    display: flex;
 }
 .fullscreen_container.visible {
     opacity: 1;
@@ -394,6 +396,8 @@ font-size: 33px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    position: relative;
+    flex-grow: 5;
 }
 .review_option {
     display: flex;
@@ -418,19 +422,20 @@ font-size: 33px;
     align-items: center;
     position: relative;
 }
-
+#button_container {
+    flex-grow: 1;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
 #back_button, #send_button {
-    position: absolute;
-
     padding: 15px 40px;
-    bottom: 0px;
-    
     font-size: 25px;
+    margin-top: auto;
 }
 #back_button {
-
-    left: 0px;
-    background-color: #f5aaaa;
+     background-color: #f5aaaa;
     border-bottom-left-radius: 20px;
     border-top-right-radius: 20px;
     user-select: none;
@@ -441,13 +446,11 @@ font-size: 33px;
     background-color: #f59e9e;
 }
 #send_button {
-
-    right: 0px;
     background-color: #b0f5aa;
     border-bottom-right-radius: 20px;
     border-top-left-radius: 20px;
     user-select: none;
-    cursor: pointer;
+        cursor: pointer;
 
 }
 #send_button:hover {

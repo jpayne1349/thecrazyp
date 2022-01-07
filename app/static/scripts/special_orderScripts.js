@@ -78,7 +78,8 @@ function init_label_holders() {
 
             } else {
 
-                doScrolling(top_of_wrapper - 50, 2000);
+                // removal 1/7/22
+                //doScrolling(top_of_wrapper - 50, 2000);
 
                 label_holders[i].classList.add('focus');
                 selection_below.classList.add('show');
