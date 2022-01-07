@@ -224,6 +224,9 @@ function init_other_options() {
     }
 }
 
+// TODO: change the label holder to display 'Name' - ### 
+// TODO: package the name and contact info together for back end saving.
+
 // set up contact option listeners
 // TODO: close on filled out option should erase any possible entries in the others.
 function init_contact_options() {
@@ -231,7 +234,8 @@ function init_contact_options() {
     let phone_option = document.getElementById('phone_option');
     let phone_close = phone_option.firstElementChild;
     let phone_label = phone_close.nextElementSibling;
-    let phone_input = phone_label.nextElementSibling;
+    let phone_name_input = phone_label.nextElementSibling;
+    let phone_input = phone_name_input.nextElementSibling;
 
     let selection_div = phone_option.parentElement;
     let sel_type = selection_div.getAttribute('sel_type');
@@ -244,7 +248,8 @@ function init_contact_options() {
     let email_option = document.getElementById('email_option');
     let email_close = email_option.firstElementChild;
     let email_label = email_close.nextElementSibling;
-    let email_input = email_label.nextElementSibling;
+    let email_name_input = email_label.nextElementSibling;
+    let email_input = email_name_input.nextElementSibling;
 
     let other_option = email_option.nextElementSibling;
 
@@ -253,11 +258,13 @@ function init_contact_options() {
         email_option.classList.add('hide');
         other_option.classList.add('hide');
         phone_close.classList.add('show');
+        phone_name_input.classList.add('show');
         phone_input.classList.add('show');
 
         setTimeout(() => {
-                phone_input.focus();
-                phone_input.select();
+                // doesn't really like this having two inputs
+                //phone_input.focus();
+                //phone_input.select();
             }, 100);
 
         phone_input.addEventListener('input', () => {
@@ -293,12 +300,14 @@ function init_contact_options() {
                 email_option.classList.remove('hide');
                 other_option.classList.remove('hide');
                 phone_close.classList.remove('show');
+                phone_name_input.classList.remove('show');
                 phone_input.classList.remove('show');
     
                 if( phone_close.classList.contains('accept_input')) {
                     // populate the label holder 
-                    formObject[sel_type] = phone_input.value;
-                    selected_option_display.innerText = 'Text -' + phone_input.value;
+                    let contact_info = 'Name: ' + '\n' + phone_name_input.value + '\n' + 'Phone: ' + '\n' + phone_input.value;
+                    formObject[sel_type] = contact_info;
+                    selected_option_display.innerText = phone_name_input.value + ' -' + phone_input.value;
                     label_holder.classList.add('option_selected');
                     arrow.classList.add('option_selected');
 
@@ -328,11 +337,12 @@ function init_contact_options() {
         phone_option.classList.add('hide');
         other_option.classList.add('hide');
         email_close.classList.add('show');
+        email_name_input.classList.add('show');
         email_input.classList.add('show');
 
         setTimeout(() => {
-                email_input.focus();
-                email_input.select();
+                //email_input.focus();
+                //email_input.select();
             }, 100);
 
         email_input.addEventListener('input', () => {
@@ -368,12 +378,14 @@ function init_contact_options() {
                 phone_option.classList.remove('hide');
                 other_option.classList.remove('hide');
                 email_close.classList.remove('show');
+                email_name_input.classList.remove('show');
                 email_input.classList.remove('show');
     
                 if( email_close.classList.contains('accept_input')) {
-                    // populate the label holder 
-                    formObject[sel_type] = email_input.value;
-                    selected_option_display.innerText = ' Email -' + email_input.value;
+                    // populate the label holder
+                    let contact_info = 'Name: ' + '\n' + email_name_input.value + '\n' + 'Email: ' + '\n'+ email_input.value;
+                    formObject[sel_type] = contact_info;
+                    selected_option_display.innerText = email_name_input.value + ' -' + email_input.value;
                     label_holder.classList.add('option_selected');
                     arrow.classList.add('option_selected');
 

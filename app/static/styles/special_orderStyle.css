@@ -272,8 +272,12 @@ font-size: 33px;
     outline: none;
     border: none;
     margin-top: 10px;
-    border-bottom: 1px solid grey;
-    font-size: 30px;
+    box-shadow: #d0d0d0 0px 1px 1px;
+    border: 1px solid #d0d0d0;
+    font-size: 20px;
+    background-color: transparent;
+    border-radius: 10px;
+    padding-left: 10px;
     font-family: 'summer_garden';
 }
 .notes_input {
@@ -285,8 +289,9 @@ font-size: 33px;
     outline: none;
 }
 .contact_label {
-    font-size: 22px;
+    font-size: 25px;
     font-family: monospace;
+    text-align: center;
 }
 .contact_input {
     width: 80%;
@@ -294,12 +299,19 @@ font-size: 33px;
     outline: none;
     border: none;
     margin-top: 10px;
-    border-bottom: 1px solid grey;
-    font-size: 25px;
+    box-shadow: #d0d0d0 0px 1px 1px;
+    border: 1px solid #d0d0d0;
+    font-size: 20px;
+    background-color: transparent;
+    border-radius: 10px;
+    padding-left: 10px;
     display: none;
 }
 .contact_input.show {
     display: block;
+}
+.contact_input::placeholder {
+    font-size: 15px;
 }
 #order_form {
     min-height: 80vh;

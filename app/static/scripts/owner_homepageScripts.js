@@ -977,6 +977,7 @@ function display_orders(data_lists) {
             }
             if(key == 'contact') {
                 custom_order_option_sel_div.classList.add('contact_div');
+                custom_order_option_sel_div.innerText = value;
                 order_item_condensed.append(custom_order_option_sel_div);
                 continue;
             }
@@ -1160,7 +1161,7 @@ function display_orders(data_lists) {
 
         let contact_div = document.createElement('div');
         contact_div.className = 'contact_div';
-        contact_div.innerText = 'Contact: ' + request_item.contact_info;
+        contact_div.innerText = request_item.contact_info;
 
         request_item_condensed.append(id_div, contact_div);
 
