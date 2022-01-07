@@ -18,6 +18,9 @@ def updateVersion():
 
     for template in templates_file_list:
         templ_filepath = os.path.join(templates_dir, template)
+        # skip this non template file
+        if template == '.DS_Store': continue
+        print('Modifying File: ', template)
 
         # original file to be read
         html_file = open(templ_filepath, 'r')
