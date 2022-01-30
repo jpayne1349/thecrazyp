@@ -16,10 +16,10 @@ body {
 }
 }
 #mobile_navbar_hamburger {
-    z-index: 28;
+    z-index: 101;
 }
 #navbar {
-    z-index: 26;
+    z-index: 99;
     background-color: rgb(250 250 250);;
     width: 95%;
 }
