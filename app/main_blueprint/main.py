@@ -189,6 +189,9 @@ def product_request():
     # send email out to owner
     email_product_order(product, info_dict['contact_info'], info_dict['status'])
 
+    #return good response to client
+    return 'order processed'
+
 
 # TODO: add something to the db for this. then add to owner homepage
 def track_visitor(request):
